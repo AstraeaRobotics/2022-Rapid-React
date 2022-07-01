@@ -1,0 +1,36 @@
+{
+  "NTProvider": {
+    "types": {
+      "/FMSInfo": "FMSInfo",
+      "/LiveWindow/DriveSubsystem": "Subsystem",
+      "/LiveWindow/Ungrouped/DifferentialDrive[1]": "DifferentialDrive",
+      "/LiveWindow/Ungrouped/PIDController[1]": "PIDController",
+      "/LiveWindow/Ungrouped/PIDController[2]": "PIDController",
+      "/LiveWindow/Ungrouped/PIDController[3]": "PIDController",
+      "/LiveWindow/Ungrouped/PIDController[4]": "PIDController",
+      "/LiveWindow/Ungrouped/Scheduler": "Scheduler",
+      "/LiveWindow/Ungrouped/navX-Sensor[4]": "Gyro",
+      "/Shuffleboard/Dashboard/Field View": "Field2d",
+      "/Shuffleboard/Dashboard/Gyro": "Gyro"
+    },
+    "windows": {
+      "/Shuffleboard/Dashboard/Field View": {
+        "image": "/Users/siddharthlohani/Downloads/2022-field.png",
+        "window": {
+          "visible": true
+        }
+      }
+    }
+  },
+  "NetworkTables": {
+    "Shuffleboard": {
+      "Dashboard": {
+        "open": true
+      },
+      "open": true
+    },
+    "status": {
+      "open": true
+    }
+  }
+}

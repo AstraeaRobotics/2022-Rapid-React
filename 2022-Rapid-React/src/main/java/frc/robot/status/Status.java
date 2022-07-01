@@ -18,7 +18,7 @@ public class Status {
         table.getEntry(system).setString(status);
     }
 
-    public static String getStatus(String system) {
+    public static String check(String system) {
         NetworkTable table = NetworkTableInstance.getDefault().getTable("status");
         String status = table.getEntry(system).getString("");
         return status;
