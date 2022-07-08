@@ -18,13 +18,5 @@ public class SparkMax {
             return new CANSparkMax(canID, MotorType.kBrushed);
         }
     }
-
-    public static void runSparkMax(CANSparkMax sparkMax, double speed) {
-        sparkMax.set(speed);
-    }
-
-    public static void stopSparkMax(CANSparkMax sparkMax) {
-        sparkMax.set(0);
-    }
     
 }
