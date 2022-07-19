@@ -48,4 +48,10 @@ public final class Constants {
         public static final double kD = 0.0;
         public static final double DEADZONE = 0;
     }
+
+    public static final class TurretConstants {
+        public static final int TurretCANid = 13;
+        
+        public static final double maxSpeed = 0.1;
+    }
 }
