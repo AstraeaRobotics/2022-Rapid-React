@@ -14,11 +14,18 @@ public class LightEmittingDiode extends SubsystemBase {
   /** Creates a new LightEmittingDiode. */
   public LightEmittingDiode() {
     AddressableLED LightEmittingDiode = new AddressableLED(3); //this port cannot be changed
+
+    AddressableLEDBuffer LightEmittingDiodeBuffer = new AddressableLEDBuffer(9); //arbirtary length
+
+    LightEmittingDiode.setLength(LightEmittingDiodeBuffer.getLength());
+    LightEmittingDiode.setData(LightEmittingDiodeBuffer);
     
+    LightEmittingDiode.start();
   }
 
   @Override
   public void periodic() {
+  
     // This method will be called once per scheduler run
   }
 }
