@@ -48,4 +48,11 @@ public final class Constants {
         public static final double kD = 0.0;
         public static final double DEADZONE = 0;
     }
+
+    public static final class VisionSubsystem {
+        public static final double kLimeLightMountAngleDegrees = 25.0;
+        public static final double kLimelightLensHeightInches = 20.0;
+        public static final double kGoalHeightInches = 60.0;
+
+    }
 }

@@ -8,6 +8,8 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.Constants;
 
 //INIT or Global Vars
 
@@ -28,17 +30,40 @@ public class VisionSubsystem extends SubsystemBase {
   }
 
 
-  public void getXoffset() {
-    //Reads values periodically
-    double x = tx.getDouble(0.0);
+  public double getXoffset() {
+    return tx.getDouble(0.0);
   }
 
-  public void getYOffset() {
-    //Reads values
-    double y = ty.getDouble(0.0);
+  public double getYOffset() {
+    return ty.getDouble(0.0);
   }
   
-  public void getTargetArea() {
-    double area = ta.getDouble(0.0);
+  public double getTargetArea() {
+    return ta.getDouble(0.0);
+  }
+
+  public boolean getTargetStatus() {
+    double value = table.getEntry("tv").getDouble(0);
+    if (value == 0) {
+        return false;
+    } else if (value == 1) {
+        return true;
+    }
+    SmartDashboard.putString("LIMELIGHT:", "ERROR: Target not found. Check Limelight connection.");
+    return false;
+  }
+
+  public void setLED(boolean on) {
+    table.getEntry("ledMode").setNumber(on ? 3 : 1);
+  }
+
+  public double getDistanceToTarget() {
+    double yOffset = getYOffset();
+
+    double angleToGoalDegrees = Constants.VisionSubsystem.kLimeLightMountAngleDegrees + yOffset;
+    double angleToGoalRadians = angleToGoalDegrees * (Math.PI / 180.0);
+
+    //calculate distance
+    return (Constants.VisionSubsystem.kGoalHeightInches - Constants.VisionSubsystem.kLimelightLensHeightInches)/Math.tan(angleToGoalRadians);
   }
 }
