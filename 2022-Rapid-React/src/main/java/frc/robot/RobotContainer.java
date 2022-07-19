@@ -35,7 +35,6 @@ public class RobotContainer {
 
   // Right
   private final JoystickButton circleButton = new JoystickButton(driverGamepad, 3);
-  // Left
   private final JoystickButton squareButton = new JoystickButton(driverGamepad, 1);
 
   public static final DriveSubsystem m_driveSubsystem = new DriveSubsystem();
@@ -51,10 +50,8 @@ public class RobotContainer {
   }
 
   private void configureButtonBindings() {
-    squareButton.whenPressed(new TurretCommand(m_turretSubsystem, 0.05));
-    circleButton.whenPressed(new TurretCommand(m_turretSubsystem, -0.05));
-    circleButton.whenReleased(new TurretCommand(m_turretSubsystem, 0));
-    squareButton.whenReleased(new TurretCommand(m_turretSubsystem, 0));
+    squareButton.whileHeld(new TurretCommand(m_turretSubsystem, -0.05));
+    circleButton.whileHeld(new TurretCommand(m_turretSubsystem, 0.05));
   }
 
   /**

@@ -20,40 +20,42 @@ public class SimDrive extends CommandBase {
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
 
-//RobotContainer.m_driveSubsystem.tankDriveAuto(-.5,-.5);
+    // RobotContainer.m_driveSubsystem.tankDriveAuto(-.5,-.5);
 
-double valetSpeed;
+    double valetSpeed;
 
-valetSpeed = 1;
-double leftAxis = RobotContainer.driverGamepad.getLeftX();
-double rightAxis = RobotContainer.driverGamepad.getRightX();
-double r2 = RobotContainer.driverGamepad.getR2Axis();
-double l2 = RobotContainer.driverGamepad.getL2Axis();
+    valetSpeed = 1;
+    double leftAxis = RobotContainer.driverGamepad.getLeftX();
+    double rightAxis = RobotContainer.driverGamepad.getRightX();
+    double r2 = RobotContainer.driverGamepad.getR2Axis();
+    double l2 = RobotContainer.driverGamepad.getL2Axis();
 
-double speed = (r2 - l2) * valetSpeed * (-1);
-// speed = Math.signum(speed) * speed * speed;
-double adjustedSpeed = slewRateLimiter.calculate(speed);
-// SmartDashboard.putNumber("adjustedSpeed", adjustedSpeed);
-// SmartDashboard.putNumber("leftAxis", leftAxis);
+    double speed = (r2 - l2) * valetSpeed * (-1);
+    // speed = Math.signum(speed) * speed * speed;
+    double adjustedSpeed = slewRateLimiter.calculate(speed);
+    // SmartDashboard.putNumber("adjustedSpeed", adjustedSpeed);
+    // SmartDashboard.putNumber("leftAxis", leftAxis);
 
-RobotContainer.m_driveSubsystem.curveDrive(adjustedSpeed, leftAxis, false);
+    RobotContainer.m_driveSubsystem.curveDrive(adjustedSpeed, leftAxis, false);
 
-if (Math.abs(rightAxis) > Constants.DriveConstants.DEADZONE) {
-    RobotContainer.m_driveSubsystem.tankDriveAuto(rightAxis * Constants.DriveConstants.TURN_SPEED, -rightAxis * Constants.DriveConstants.TURN_SPEED);
-}
+    if (Math.abs(rightAxis) > Constants.DriveConstants.DEADZONE) {
+      RobotContainer.m_driveSubsystem.tankDriveAuto(rightAxis * Constants.DriveConstants.TURN_SPEED,
+          -rightAxis * Constants.DriveConstants.TURN_SPEED);
+    }
 
-    
   }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+  }
 
   // Returns true when the command should end.
   @Override

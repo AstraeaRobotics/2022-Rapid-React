@@ -23,11 +23,13 @@ public class TurretSubsystem extends SubsystemBase {
     }
 
     public void runTurret(double speed) {
-        if (Math.abs(speed) > Math.abs(maxTurretSpeed)) {
-            turretMotor.set(maxTurretSpeed * (speed / Math.abs(speed))); // limiting speed & keeping pos or neg sign
-        } else {
-            turretMotor.set(speed);
-        }
+        // if (Math.abs(speed) > Math.abs(maxTurretSpeed)) {
+        // turretMotor.set(maxTurretSpeed * (speed / Math.abs(speed))); // limiting
+        // speed & keeping pos or neg sign
+        // } else {
+        // turretMotor.set(speed);
+        // }
+        turretMotor.set(speed);
     }
 
     public double getCurrentPosition() {
