@@ -5,6 +5,7 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 import edu.wpi.first.wpilibj.AddressableLED;
 import edu.wpi.first.wpilibj.AddressableLEDBuffer;
 
@@ -13,19 +14,19 @@ import edu.wpi.first.wpilibj.AddressableLEDBuffer;
 public class LightEmittingDiode extends SubsystemBase {
   /** Creates a new LightEmittingDiode. */
   public LightEmittingDiode() {
-    AddressableLED LightEmittingDiode = new AddressableLED(3); //this port cannot be changed
+    AddressableLED LightEmittingDiode = new AddressableLED(Constants.LightEmittingDiodeConstants.LightEmittingDiodePort); 
 
-    AddressableLEDBuffer LightEmittingDiodeBuffer = new AddressableLEDBuffer(9); //arbirtary length
+    AddressableLEDBuffer LightEmittingDiodeBuffer = new AddressableLEDBuffer(0); //arbirtary length
 
     LightEmittingDiode.setLength(LightEmittingDiodeBuffer.getLength());
     LightEmittingDiode.setData(LightEmittingDiodeBuffer);
-    
+
     LightEmittingDiode.start();
   }
 
   @Override
   public void periodic() {
-  
+  9
     // This method will be called once per scheduler run
   }
 }

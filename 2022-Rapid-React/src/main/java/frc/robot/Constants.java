@@ -48,4 +48,9 @@ public final class Constants {
         public static final double kD = 0.0;
         public static final double DEADZONE = 0;
     }
+
+    public static final class LightEmittingDiodeConstants{
+        public static final int LightEmittingDiodePort;
+        
+    }
 }
