@@ -6,13 +6,14 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import com.ctre.phoenix.motorcontrol.ControlMode; //Motor speed/control
+import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX; //Defines motor
 import com.ctre.phoenix.motorcontrol.NeutralMode; //Motor brake/run
 
 public class ShooterSubsystem extends SubsystemBase {
   /** Creates a new ShootingSubsystem. */
-  TalonSRX lowSrx = new TalonSRX(10);
-  TalonSRX topSrx = new TalonSRX(11);
+  TalonFX lowSrx = new TalonFX(10);
+  TalonFX topSrx = new TalonFX(11);
   
   public ShooterSubsystem() {
     lowSrx.setNeutralMode(NeutralMode.Coast); //Sets motor to On/Coast
@@ -27,6 +28,10 @@ public class ShooterSubsystem extends SubsystemBase {
   public void stopMotors() {
     lowSrx.set(ControlMode.PercentOutput, 0.0);
     topSrx.set(ControlMode.PercentOutput, 0.0);
+  }
+
+  public double[] getSpeed() {
+    return new double[] {lowSrx.getSensorCollection().getIntegratedSensorVelocity(), topSrx.getSensorCollection().getIntegratedSensorVelocity()};
   }
 
   @Override

@@ -46,7 +46,7 @@ public class RobotContainer {
   private void configureButtonBindings() {
      //Example command
      JoystickButton crossButton = new JoystickButton(operatorGamepad, 2);
-     crossButton.whenPressed(new ShooterCommand(m_visionSubsystem, m_shooterSubsystem));
+     crossButton.whenPressed(new ShooterCommand(m_visionSubsystem, m_shooterSubsystem, crossButton));
   }
 
   /**
