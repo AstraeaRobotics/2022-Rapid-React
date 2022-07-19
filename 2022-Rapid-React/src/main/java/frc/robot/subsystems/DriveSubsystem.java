@@ -59,7 +59,7 @@ public class DriveSubsystem extends SubsystemBase {
     private RelativeEncoder m_rightEncoder2 = m_rightMotor2.getEncoder();
     private RelativeEncoder m_rightEncoder3 = m_rightMotor3.getEncoder();
 
-    private DifferentialDrive m_drive = new DifferentialDrive(m_leftMotors, m_rightMotors);
+    private DifferentialDrive m_drive;
     private DifferentialDrivetrainSim m_driveSim = new DifferentialDrivetrainSim(
             DCMotor.getNEO(3),
             DriveConstants.kGearRatio,
@@ -74,9 +74,18 @@ public class DriveSubsystem extends SubsystemBase {
     private DifferentialDriveKinematics m_kinematics = new DifferentialDriveKinematics(DriveConstants.kTrackWidth);
     private DifferentialDriveOdometry m_odometry = new DifferentialDriveOdometry(Rotation2d.fromDegrees(getHeading()));
 
-    private SimpleMotorFeedforward m_feedforward;
-    private PIDController m_leftPID;
-    private PIDController m_rightPID;
+    private SimpleMotorFeedforward m_feedforward = new SimpleMotorFeedforward(
+            Constants.DriveConstants.kS,
+            Constants.DriveConstants.kV,
+            Constants.DriveConstants.kA);
+    private PIDController m_leftPID = new PIDController(
+            Constants.DriveConstants.kP,
+            Constants.DriveConstants.kI,
+            Constants.DriveConstants.kD);
+    private PIDController m_rightPID = new PIDController(
+            Constants.DriveConstants.kP,
+            Constants.DriveConstants.kI,
+            Constants.DriveConstants.kD);
 
     private Field2d m_field = new Field2d();
     private Pose2d m_pose;
@@ -109,25 +118,8 @@ public class DriveSubsystem extends SubsystemBase {
         m_rightMotors.setInverted(true);
         setBrake(true);
 
-        m_feedforward = new SimpleMotorFeedforward(
-                Constants.DriveConstants.kS,
-                Constants.DriveConstants.kV,
-                Constants.DriveConstants.kA);
-
-        m_leftPID = new PIDController(Constants.DriveConstants.kP, Constants.DriveConstants.kI,
-                Constants.DriveConstants.kD);
-        m_rightPID = new PIDController(Constants.DriveConstants.kP, Constants.DriveConstants.kI,
-                Constants.DriveConstants.kD);
-
-        m_feedforward = new SimpleMotorFeedforward(
-                Constants.DriveConstants.kS,
-                Constants.DriveConstants.kV,
-                Constants.DriveConstants.kA);
-
-        m_leftPID = new PIDController(Constants.DriveConstants.kP, Constants.DriveConstants.kI,
-                Constants.DriveConstants.kD);
-        m_rightPID = new PIDController(Constants.DriveConstants.kP, Constants.DriveConstants.kI,
-                Constants.DriveConstants.kD);
+        // m_drive must be initialized here because motors must be inverted first
+        m_drive = new DifferentialDrive(m_leftMotors, m_rightMotors);
 
         ShuffleboardTab driveTab = Shuffleboard.getTab("Dashboard");
         driveTab.add("Gyro", gyro).withWidget(BuiltInWidgets.kGyro);
