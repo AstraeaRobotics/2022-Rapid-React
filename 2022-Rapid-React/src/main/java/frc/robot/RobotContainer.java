@@ -51,8 +51,8 @@ public class RobotContainer {
   }
 
   private void configureButtonBindings() {
-    squareButton.whenPressed(new TurretCommand(m_turretSubsystem, 0.1));
-    circleButton.whenPressed(new TurretCommand(m_turretSubsystem, -0.1));
+    squareButton.whenPressed(new TurretCommand(m_turretSubsystem, 0.05));
+    circleButton.whenPressed(new TurretCommand(m_turretSubsystem, -0.05));
     circleButton.whenReleased(new TurretCommand(m_turretSubsystem, 0));
     squareButton.whenReleased(new TurretCommand(m_turretSubsystem, 0));
   }
