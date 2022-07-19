@@ -12,21 +12,62 @@ import edu.wpi.first.wpilibj.AddressableLEDBuffer;
 
 
 public class LightEmittingDiode extends SubsystemBase {
-  /** Creates a new LightEmittingDiode. */
-  public LightEmittingDiode() {
-    AddressableLED LightEmittingDiode = new AddressableLED(Constants.LightEmittingDiodeConstants.LightEmittingDiodePort); 
 
-    AddressableLEDBuffer LightEmittingDiodeBuffer = new AddressableLEDBuffer(0); //arbirtary length
+  /** Creates a new LightEmittingDiode. */
+
+
+  AddressableLEDBuffer LightEmittingDiodeBuffer;
+  AddressableLED LightEmittingDiode;
+
+  int startingColor =30; 
+
+  public LightEmittingDiode() {
+    LightEmittingDiode = new AddressableLED(Constants.LightEmittingDiodeConstants.LightEmittingDiodePort); 
+
+    LightEmittingDiodeBuffer = new AddressableLEDBuffer(0); //arbirtary length
 
     LightEmittingDiode.setLength(LightEmittingDiodeBuffer.getLength());
     LightEmittingDiode.setData(LightEmittingDiodeBuffer);
 
+
     LightEmittingDiode.start();
+
+  
   }
+
+  public void glowGreen() { //this will make the Light emititing diode appear green 
+    for(int i =0; i < LightEmittingDiodeBuffer.getLength(); i++)
+    LightEmittingDiodeBuffer.setHSV(i,150,100,100);
+  }
+  
+  public void glowRed() { //this will make the Light emititing diode appear red 
+    for(int i =0; i < LightEmittingDiodeBuffer.getLength(); i++)
+    LightEmittingDiodeBuffer.setHSV(i,30,100,100);
+  }
+
+  public void glowBlue() { //this will make the Light emititing diode appear blue 
+    for(int i =0; i < LightEmittingDiodeBuffer.getLength(); i++)
+    LightEmittingDiodeBuffer.setHSV(i, 280, 100, 100);
+  }
+
+
+  public void rainbow() {
+
+    for(int i = 0; i < LightEmittingDiodeBuffer.getLength(); i++) {
+       int hue = (startingColor + (i*180/LightEmittingDiodeBuffer.getLength())) % 180;
+
+      LightEmittingDiodeBuffer.setHSV(i,hue, 255, 128);
+    }
+    startingColor +=7;
+    startingColor %=180;
+
+  }
+
 
   @Override
   public void periodic() {
-  9
-    // This method will be called once per scheduler run
+      // This method will be called once per scheduler run
+
+    rainbow();
   }
 }
