@@ -3,7 +3,9 @@ package frc.robot.subsystems;
 import com.kauailabs.navx.frc.AHRS;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.IdleMode;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.RelativeEncoder;
+
 import edu.wpi.first.hal.SimDouble;
 import edu.wpi.first.hal.simulation.SimDeviceDataJNI;
 import edu.wpi.first.math.controller.PIDController;
@@ -17,6 +19,7 @@ import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
@@ -26,154 +29,109 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.simulation.DifferentialDrivetrainSim;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.Constants.DriveConstants;
+import frc.robot.Constants.RobotMap;
 import frc.robot.status.Status;
-import frc.robot.Robot;
 import frc.robot.util.Logger;
-import frc.robot.util.SparkMax;
 
 public class DriveSubsystem extends SubsystemBase {
 
-    AHRS gyro;
+    private AHRS gyro = new AHRS(SPI.Port.kMXP);
 
-    CANSparkMax leftLeader;
-    CANSparkMax leftFollower1;
-    CANSparkMax leftFollower2;
+    private CANSparkMax m_leftMotor1 = new CANSparkMax(RobotMap.kLeftDriveCAN1, MotorType.kBrushless);
+    private CANSparkMax m_leftMotor2 = new CANSparkMax(RobotMap.kLeftDriveCAN2, MotorType.kBrushless);
+    private CANSparkMax m_leftMotor3 = new CANSparkMax(RobotMap.kLeftDriveCAN3, MotorType.kBrushless);
 
-    CANSparkMax rightLeader;
-    CANSparkMax rightFollower1;
-    CANSparkMax rightFollower2;
+    private CANSparkMax m_rightMotor1 = new CANSparkMax(RobotMap.kRightDriveCAN1, MotorType.kBrushless);
+    private CANSparkMax m_rightMotor2 = new CANSparkMax(RobotMap.kRightDriveCAN2, MotorType.kBrushless);
+    private CANSparkMax m_rightMotor3 = new CANSparkMax(RobotMap.kRightDriveCAN3, MotorType.kBrushless);
 
-    MotorControllerGroup leftMotors;
-    MotorControllerGroup rightMotors;
+    private MotorControllerGroup m_leftMotors = new MotorControllerGroup(m_leftMotor1, m_leftMotor2, m_leftMotor3);
+    private MotorControllerGroup m_rightMotors = new MotorControllerGroup(m_rightMotor1, m_rightMotor2, m_rightMotor3);
 
-    RelativeEncoder leftEncoder;
-    RelativeEncoder rightEncoder;
-    RelativeEncoder leftEncoder2;
-    RelativeEncoder rightEncoder2;
-    RelativeEncoder leftEncoder3;
-    RelativeEncoder rightEncoder3;
+    private RelativeEncoder m_leftEncoder1 = m_leftMotor1.getEncoder();
+    private RelativeEncoder m_leftEncoder2 = m_leftMotor2.getEncoder();
+    private RelativeEncoder m_leftEncoder3 = m_leftMotor3.getEncoder();
 
-    DifferentialDrive m_drive;
-    DifferentialDrivetrainSim m_driveSim;
+    private RelativeEncoder m_rightEncoder1 = m_rightMotor1.getEncoder();
+    private RelativeEncoder m_rightEncoder2 = m_rightMotor2.getEncoder();
+    private RelativeEncoder m_rightEncoder3 = m_rightMotor3.getEncoder();
 
-    NetworkTable table;
+    private DifferentialDrive m_drive = new DifferentialDrive(m_leftMotors, m_rightMotors);
+    private DifferentialDrivetrainSim m_driveSim = new DifferentialDrivetrainSim(
+            DCMotor.getNEO(3),
+            DriveConstants.kGearRatio,
+            DriveConstants.kJKgMetersSquared,
+            DriveConstants.kRobotMass,
+            Units.inchesToMeters(DriveConstants.kWheelDiameterInches / 2),
+            DriveConstants.kTrackWidth,
+            null);
 
-    DifferentialDriveKinematics kinematics;
-    DifferentialDriveOdometry odometry;
+    private NetworkTable m_table = NetworkTableInstance.getDefault().getTable("Drive");
 
-    SimpleMotorFeedforward feedforward;
-    PIDController leftPID;
-    PIDController rightPID;
+    private DifferentialDriveKinematics m_kinematics = new DifferentialDriveKinematics(DriveConstants.kTrackWidth);
+    private DifferentialDriveOdometry m_odometry = new DifferentialDriveOdometry(Rotation2d.fromDegrees(getHeading()));
 
-    public Field2d field;
-    Pose2d pose;
+    private SimpleMotorFeedforward m_feedforward;
+    private PIDController m_leftPID;
+    private PIDController m_rightPID;
 
-    SendableChooser<Integer> m_chooser;
-    int simInvert;
+    private Field2d m_field = new Field2d();
+    private Pose2d m_pose;
 
     String status;
 
     public DriveSubsystem() {
-        gyro = new AHRS(SPI.Port.kMXP);
 
-        rightLeader = SparkMax.constructSparkMax(Constants.RobotMap.RIGHT_LEADER_CAN, true);
-        rightFollower1 = SparkMax.constructSparkMax(Constants.RobotMap.RIGHT_FOLLOWER_CAN1, true);
-        rightFollower2 = SparkMax.constructSparkMax(Constants.RobotMap.RIGHT_FOLLOWER_CAN2, true);
+        m_leftEncoder1.setPosition(0d);
+        m_rightEncoder1.setPosition(0d);
+        m_leftEncoder2.setPosition(0d);
+        m_rightEncoder2.setPosition(0d);
+        m_leftEncoder3.setPosition(0d);
+        m_rightEncoder3.setPosition(0d);
 
-        leftLeader = SparkMax.constructSparkMax(Constants.RobotMap.LEFT_LEADER_CAN, true);
-        leftFollower1 = SparkMax.constructSparkMax(Constants.RobotMap.LEFT_FOLLOWER_CAN1, true);
-        leftFollower2 = SparkMax.constructSparkMax(Constants.RobotMap.LEFT_FOLLOWER_CAN2, true);
+        m_leftEncoder1.setPositionConversionFactor(
+                (DriveConstants.kWheelDiameterMeters * Math.PI) / DriveConstants.kGearRatio);
+        m_rightEncoder1.setPositionConversionFactor(
+                (DriveConstants.kWheelDiameterMeters * Math.PI) / DriveConstants.kGearRatio);
+        m_leftEncoder2.setPositionConversionFactor(
+                (DriveConstants.kWheelDiameterMeters * Math.PI) / DriveConstants.kGearRatio);
+        m_rightEncoder2.setPositionConversionFactor(
+                (DriveConstants.kWheelDiameterMeters * Math.PI) / DriveConstants.kGearRatio);
+        m_leftEncoder3.setPositionConversionFactor(
+                (DriveConstants.kWheelDiameterMeters * Math.PI) / DriveConstants.kGearRatio);
+        m_rightEncoder3.setPositionConversionFactor(
+                (DriveConstants.kWheelDiameterMeters * Math.PI) / DriveConstants.kGearRatio);
 
-        leftEncoder = leftLeader.getEncoder();
-        leftEncoder2 = leftFollower1.getEncoder();
-        leftEncoder3 = leftFollower2.getEncoder();
-
-        rightEncoder = rightLeader.getEncoder();
-        rightEncoder2 = rightFollower1.getEncoder();
-        rightEncoder3 = rightFollower2.getEncoder();
-
-        leftEncoder.setPosition(0d);
-        rightEncoder.setPosition(0d);
-        leftEncoder2.setPosition(0d);
-        rightEncoder2.setPosition(0d);
-        leftEncoder3.setPosition(0d);
-        rightEncoder3.setPosition(0d);
-
-        leftEncoder.setPositionConversionFactor(
-            (Units.inchesToMeters(Constants.DriveConstants.WHEEL_DIAMETER) * Math.PI) / Constants.DriveConstants.GEAR_RATIO
-        );
-        rightEncoder.setPositionConversionFactor(
-            (Units.inchesToMeters(Constants.DriveConstants.WHEEL_DIAMETER) * Math.PI) / Constants.DriveConstants.GEAR_RATIO
-        );
-        leftEncoder2.setPositionConversionFactor(
-            (Units.inchesToMeters(Constants.DriveConstants.WHEEL_DIAMETER) * Math.PI) / Constants.DriveConstants.GEAR_RATIO
-        );
-        rightEncoder2.setPositionConversionFactor(
-            (Units.inchesToMeters(Constants.DriveConstants.WHEEL_DIAMETER) * Math.PI) / Constants.DriveConstants.GEAR_RATIO
-        );
-        leftEncoder3.setPositionConversionFactor(
-            (Units.inchesToMeters(Constants.DriveConstants.WHEEL_DIAMETER) * Math.PI) / Constants.DriveConstants.GEAR_RATIO
-        );
-        rightEncoder3.setPositionConversionFactor(
-            (Units.inchesToMeters(Constants.DriveConstants.WHEEL_DIAMETER) * Math.PI) / Constants.DriveConstants.GEAR_RATIO
-        );
-
-        leftMotors = new MotorControllerGroup(leftLeader, leftFollower1, leftFollower2);
-        rightMotors = new MotorControllerGroup(rightLeader, rightFollower1, rightFollower2);
-
-        m_drive = new DifferentialDrive(leftMotors, rightMotors);
-
-        field = new Field2d();
-
-        table = NetworkTableInstance.getDefault().getTable("Drive");
-
-        leftMotors.setInverted(false);
-        rightMotors.setInverted(true);
+        m_leftMotors.setInverted(false);
+        m_rightMotors.setInverted(true);
         setBrake(true);
 
-        m_driveSim =
-            new DifferentialDrivetrainSim(
-                DCMotor.getNEO(3),
-                Constants.DriveConstants.GEAR_RATIO,
-                Constants.DriveConstants.jKg_METERS_SQUARED,
-                DriveConstants.ROBOT_MASS,
-                Units.inchesToMeters(DriveConstants.WHEEL_DIAMETER / 2),
-                DriveConstants.TRACK_WIDTH,
-                null
-            );
+        m_feedforward = new SimpleMotorFeedforward(
+                Constants.DriveConstants.kS,
+                Constants.DriveConstants.kV,
+                Constants.DriveConstants.kA);
 
-        kinematics = new DifferentialDriveKinematics(Constants.DriveConstants.TRACK_WIDTH);
-        odometry = new DifferentialDriveOdometry(Rotation2d.fromDegrees(getHeading()));
+        m_leftPID = new PIDController(Constants.DriveConstants.kP, Constants.DriveConstants.kI,
+                Constants.DriveConstants.kD);
+        m_rightPID = new PIDController(Constants.DriveConstants.kP, Constants.DriveConstants.kI,
+                Constants.DriveConstants.kD);
 
-        feedforward =
-            new SimpleMotorFeedforward(
-                Constants.DriveConstants.ksVolts,
-                Constants.DriveConstants.kvVoltSecondsPerMeter,
-                Constants.DriveConstants.kaVoltSecondsSquaredPerMeter
-            );
-          
-        leftPID = new PIDController(Constants.DriveConstants.kP, Constants.DriveConstants.kI, Constants.DriveConstants.kD);
-        rightPID = new PIDController(Constants.DriveConstants.kP, Constants.DriveConstants.kI, Constants.DriveConstants.kD);
+        m_feedforward = new SimpleMotorFeedforward(
+                Constants.DriveConstants.kS,
+                Constants.DriveConstants.kV,
+                Constants.DriveConstants.kA);
 
-        simInvert = Robot.isReal() ? -1 : 1;
-
-        feedforward =
-            new SimpleMotorFeedforward(
-                Constants.DriveConstants.ksVolts,
-                Constants.DriveConstants.kvVoltSecondsPerMeter,
-                Constants.DriveConstants.kaVoltSecondsSquaredPerMeter
-            );
-
-        leftPID = new PIDController(Constants.DriveConstants.kP, Constants.DriveConstants.kI, Constants.DriveConstants.kD);
-        rightPID = new PIDController(Constants.DriveConstants.kP, Constants.DriveConstants.kI, Constants.DriveConstants.kD);
+        m_leftPID = new PIDController(Constants.DriveConstants.kP, Constants.DriveConstants.kI,
+                Constants.DriveConstants.kD);
+        m_rightPID = new PIDController(Constants.DriveConstants.kP, Constants.DriveConstants.kI,
+                Constants.DriveConstants.kD);
 
         ShuffleboardTab driveTab = Shuffleboard.getTab("Dashboard");
         driveTab.add("Gyro", gyro).withWidget(BuiltInWidgets.kGyro);
-        driveTab.add("Field View", field).withWidget("Field");
+        driveTab.add("Field View", m_field).withWidget("Field");
 
     }
 
@@ -183,7 +141,8 @@ public class DriveSubsystem extends SubsystemBase {
      * @return the motors
      */
     public CANSparkMax[] getMotors() {
-        return new CANSparkMax[] { leftLeader, leftFollower1, leftFollower2, rightLeader, rightFollower1, rightFollower2 };
+        return new CANSparkMax[] { m_leftMotor1, m_leftMotor2, m_leftMotor3, m_rightMotor1, m_rightMotor2,
+                m_rightMotor3 };
     }
 
     /**
@@ -206,16 +165,28 @@ public class DriveSubsystem extends SubsystemBase {
      * @param right The speed of the right side of the robot.
      */
     public void tankDrive(double left, double right) {
-        m_drive.tankDrive(left * DriveConstants.DRIVE_SPEED, right * DriveConstants.DRIVE_SPEED);
+        m_drive.tankDrive(left * DriveConstants.kDriveSpeed, right * DriveConstants.kDriveSpeed);
     }
 
-    public void tan(double speed) {
-        m_drive.tankDrive(speed * Constants.DriveConstants.TURN_SPEED, speed * Constants.DriveConstants.TURN_SPEED);
+    /**
+     * Spins both sides of the robot at the same speed
+     * 
+     * @param speed The speed to spin both wheels
+     */
+    public void tankDrive(double speed) {
+        m_drive.tankDrive(speed * Constants.DriveConstants.kTurnSpeed, speed * Constants.DriveConstants.kTurnSpeed);
     }
 
-    public void tankDriveAuto(double left, double right) {
-      m_drive.tankDrive(left, right);
-  }
+    /**
+     * Controls each side of the robot individually. This method does not scale
+     * input values and passes them directly into the drive controller
+     * 
+     * @param left  The speed of the left side of the robot
+     * @param right The speed of the right side of the robot
+     */
+    public void tankDriveRaw(double left, double right) {
+        m_drive.tankDrive(left, right);
+    }
 
     /**
      * Controls the robot with curveDrive.
@@ -227,11 +198,11 @@ public class DriveSubsystem extends SubsystemBase {
      * @param turn     Whether or not to turn in place.
      */
     public void curveDrive(double xSpeed, double rotation, boolean turn) {
-        m_drive.curvatureDrive(xSpeed * DriveConstants.DRIVE_SPEED, rotation * DriveConstants.TURN_SPEED, turn);
+        m_drive.curvatureDrive(xSpeed * DriveConstants.kDriveSpeed, rotation * DriveConstants.kTurnSpeed, turn);
     }
 
     public void arcadeDrive(double xSpeed, double rotation, boolean stabilize) {
-        m_drive.arcadeDrive(xSpeed * DriveConstants.DRIVE_SPEED, rotation * DriveConstants.TURN_SPEED, stabilize);
+        m_drive.arcadeDrive(xSpeed * DriveConstants.kDriveSpeed, rotation * DriveConstants.kTurnSpeed, stabilize);
     }
 
     /**
@@ -241,8 +212,8 @@ public class DriveSubsystem extends SubsystemBase {
      * @param rightVolts the commanded right output
      */
     public void tankDriveVolts(double leftVolts, double rightVolts) {
-        leftMotors.setVoltage(leftVolts);
-        rightMotors.setVoltage(rightVolts);
+        m_leftMotors.setVoltage(leftVolts);
+        m_rightMotors.setVoltage(rightVolts);
         m_drive.feed();
     }
 
@@ -262,27 +233,27 @@ public class DriveSubsystem extends SubsystemBase {
 
     @Override
     public void periodic() {
-        pose = odometry.update(gyro.getRotation2d(), leftEncoder.getPosition(), rightEncoder.getPosition() * simInvert);
-        field.setRobotPose(pose);
+        m_pose = m_odometry.update(gyro.getRotation2d(), m_leftEncoder1.getPosition(),
+                m_rightEncoder1.getPosition() * (RobotBase.isReal() ? 1 : -1));
+        m_field.setRobotPose(m_pose);
         log();
     }
 
     @Override
     public void simulationPeriodic() {
         m_driveSim.setInputs(
-            // Left and right CAN IDs are flipped on the robot so right and left sides are
-            // flipped for
-            // simulation
-            rightMotors.get() * RobotController.getInputVoltage(),
-            leftMotors.get() * RobotController.getInputVoltage()
-        );
+                // Left and right CAN IDs are flipped on the robot so right and left sides are
+                // flipped for
+                // simulation
+                m_rightMotors.get() * RobotController.getInputVoltage(),
+                m_leftMotors.get() * RobotController.getInputVoltage());
         m_driveSim.update(0.02);
 
-        leftEncoder.setPosition(m_driveSim.getLeftPositionMeters());
-        rightEncoder.setPosition(m_driveSim.getRightPositionMeters());
+        m_leftEncoder1.setPosition(m_driveSim.getLeftPositionMeters());
+        m_rightEncoder1.setPosition(m_driveSim.getRightPositionMeters());
 
-        int leftHandle = SimDeviceDataJNI.getSimDeviceHandle("SPARK MAX [" + leftLeader.getDeviceId() + "]");
-        int rightHandle = SimDeviceDataJNI.getSimDeviceHandle("SPARK MAX [" + rightLeader.getDeviceId() + "]");
+        int leftHandle = SimDeviceDataJNI.getSimDeviceHandle("SPARK MAX [" + m_leftMotor1.getDeviceId() + "]");
+        int rightHandle = SimDeviceDataJNI.getSimDeviceHandle("SPARK MAX [" + m_rightMotor1.getDeviceId() + "]");
         SimDouble leftVelocity = new SimDouble(SimDeviceDataJNI.getSimValueHandle(leftHandle, "Velocity"));
         SimDouble rightVelocity = new SimDouble(SimDeviceDataJNI.getSimValueHandle(rightHandle, "Velocity"));
         leftVelocity.set(m_driveSim.getLeftVelocityMetersPerSecond());
@@ -294,68 +265,94 @@ public class DriveSubsystem extends SubsystemBase {
     }
 
     public SimpleMotorFeedforward getFeedforward() {
-        return feedforward;
+        return m_feedforward;
     }
 
     public PIDController getLeftPIDController() {
-        return leftPID;
+        return m_leftPID;
     }
 
     public PIDController getRightPIDController() {
-        return rightPID;
+        return m_rightPID;
     }
 
     public DifferentialDriveKinematics getKinematics() {
-        return kinematics;
+        return m_kinematics;
     }
 
     /**
      * Resets encoder positions to 0
      */
     public void resetEncoders() {
-        leftLeader.getEncoder().setPosition(0.0);
-        rightLeader.getEncoder().setPosition(0.0);
+        m_leftMotor1.getEncoder().setPosition(0.0);
+        m_rightMotor1.getEncoder().setPosition(0.0);
     }
 
+    /**
+     * Resets odometry to base position.
+     * 
+     * NOTE: This method also resets encoders.
+     * 
+     * @param pose The pose to set the robot to
+     */
     public void resetOdometry(Pose2d pose) {
         resetEncoders();
-        odometry.resetPosition(pose, gyro.getRotation2d());
+        m_odometry.resetPosition(pose, gyro.getRotation2d());
     }
 
     /**
      * Sets drive motors in volts
      * 
-     * @param leftVolts Left motor in volts
+     * @param leftVolts  Left motor in volts
      * @param rightVolts Right motor in volts
      */
     public void setOutput(double leftVolts, double rightVolts) {
-        leftMotors.set(leftVolts / 12);
-        rightMotors.set(rightVolts / 12);
+        m_leftMotors.set(leftVolts / 12);
+        m_rightMotors.set(rightVolts / 12);
     }
 
+    /**
+     * Gets the tracked encoder position of the left front encoder
+     * 
+     * @return the tracked encoder position
+     */
     public double getEncoderPosition() {
-        return leftEncoder.getPosition();
+        return m_leftEncoder1.getPosition();
     }
 
+    /**
+     * Returns the tracked pose of the robot
+     * 
+     * @return the robot's pose
+     */
     public Pose2d getPose() {
-        return pose;
+        return m_pose;
     }
 
+    /**
+     * Gets the wheel speeds of the robot's wheels
+     * 
+     * @return The differential drive wheel speeds
+     */
     public DifferentialDriveWheelSpeeds getSpeeds() {
         return new DifferentialDriveWheelSpeeds(
-            leftEncoder.getVelocity() / Constants.DriveConstants.GEAR_RATIO * 2 * Math.PI * Units.inchesToMeters(3.0) / 60,
-            rightEncoder.getVelocity() / Constants.DriveConstants.GEAR_RATIO * 2 * Math.PI * Units.inchesToMeters(3.0) / 60
-        );
+                m_leftEncoder1.getVelocity() / Constants.DriveConstants.kGearRatio * 2 * Math.PI
+                        * Units.inchesToMeters(3.0) / 60,
+                m_rightEncoder1.getVelocity() / Constants.DriveConstants.kGearRatio * 2 * Math.PI
+                        * Units.inchesToMeters(3.0) / 60);
     }
 
+    /**
+     * Logs important data for the drivebase subsystem
+     */
     public void log() {
-        Logger.logWithNetworkTable(table, "Heading", getHeading());
-        Logger.logWithNetworkTable(table, "L1 Vel", leftEncoder.getVelocity());
-        Logger.logWithNetworkTable(table, "L2 Vel", leftEncoder2.getVelocity());
-        Logger.logWithNetworkTable(table, "L3 Vel", leftEncoder3.getVelocity());
-        Logger.logWithNetworkTable(table, "R1 Vel", rightEncoder.getVelocity());
-        Logger.logWithNetworkTable(table, "R2 Vel", rightEncoder2.getVelocity());
-        Logger.logWithNetworkTable(table, "R3 Vel", rightEncoder3.getVelocity());
+        Logger.logWithNetworkTable(m_table, "Heading", getHeading());
+        Logger.logWithNetworkTable(m_table, "L1 Vel", m_leftEncoder1.getVelocity());
+        Logger.logWithNetworkTable(m_table, "L2 Vel", m_leftEncoder2.getVelocity());
+        Logger.logWithNetworkTable(m_table, "L3 Vel", m_leftEncoder3.getVelocity());
+        Logger.logWithNetworkTable(m_table, "R1 Vel", m_rightEncoder1.getVelocity());
+        Logger.logWithNetworkTable(m_table, "R2 Vel", m_rightEncoder2.getVelocity());
+        Logger.logWithNetworkTable(m_table, "R3 Vel", m_rightEncoder3.getVelocity());
 
         Status.logStatus("Drive/Status", "Operational");
     }

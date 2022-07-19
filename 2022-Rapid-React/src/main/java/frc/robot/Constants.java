@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import edu.wpi.first.math.util.Units;
+
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
  * constants. This class should not be used for any other purpose. All constants should be declared
@@ -16,36 +18,41 @@ public final class Constants {
 
     public static final class RobotMap {
 
-        public static final boolean OUTREACH_MODE = false;
+        public static final boolean kOutreachMode = false;
 
-        public static final int DRIVER_CONTROLLER_PORT = 0;
-        public static final int OPERATOR_CONTROLLER_PORT = 1;
+        public static final int kDriverControllerPort = 0;
+        public static final int kOperatorControllerPort = 1;
 
-        public static final int RIGHT_LEADER_CAN = 1;
-        public static final int RIGHT_FOLLOWER_CAN1 = 2;
-        public static final int RIGHT_FOLLOWER_CAN2 = 3;
-        public static final int LEFT_LEADER_CAN = 4;
-        public static final int LEFT_FOLLOWER_CAN1 = 5;
-        public static final int LEFT_FOLLOWER_CAN2 = 6;
+        public static final int kRightDriveCAN1 = 1;
+        public static final int kRightDriveCAN2 = 2;
+        public static final int kRightDriveCAN3 = 3;
+        public static final int kLeftDriveCAN1 = 4;
+        public static final int kLeftDriveCAN2 = 5;
+        public static final int kLeftDriveCAN3 = 6;
 
     }
     public static final class DriveConstants {
-        public static final double DRIVE_SPEED = 0.6;
-        public static final double TURN_SPEED = 0.3;
-        public static final double WHEEL_DIAMETER = 6; // in inches
-        public static final double GEAR_RATIO = 10.81;
+        public static final double kDriveSpeed = 0.6;
+        public static final double kTurnSpeed = 0.3;
+        public static final double kWheelDiameterInches = 6;
+        public static final double kWheelDiameterMeters = Units.inchesToMeters(kWheelDiameterInches);
+        public static final double kGearRatio = 10.81;
 
-        public static final double jKg_METERS_SQUARED = 7.5;
-        public static final double ROBOT_MASS = 60;
-        public static final double TRACK_WIDTH = 0.7112;
+        /** Joules per kilogram per meter squared */
+        public static final double kJKgMetersSquared = 7.5;
+        public static final double kRobotMass = 60;
+        public static final double kTrackWidth = 0.7112;
 
-        public static final double ksVolts = .145;
-        public static final double kvVoltSecondsPerMeter = 2.8;
-        public static final double kaVoltSecondsSquaredPerMeter = .425;
+        /** Static gain in volts */
+        public static final double kS = .145;
+        /** Velocity gain in volt seconds per meter */
+        public static final double kV = 2.8;
+        /** Acceleration gain in volt seconds squared per meter */
+        public static final double kA = .425;
 
         public static final double kP = 0.01;
         public static final double kI = 0.0;
         public static final double kD = 0.0;
-        public static final double DEADZONE = 0;
+        public static final double kDeadzone = 0;
     }
 }

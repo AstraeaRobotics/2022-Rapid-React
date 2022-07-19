@@ -4,60 +4,53 @@
 
 package frc.robot.commands;
 
+import java.util.function.DoubleSupplier;
+import java.util.function.Supplier;
+
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 import frc.robot.RobotContainer;
+import frc.robot.subsystems.DriveSubsystem;
 
 public class SimDrive extends CommandBase {
 
-  SlewRateLimiter slewRateLimiter = new SlewRateLimiter(2.0);
+  private DriveSubsystem m_subsystem;
+  private SlewRateLimiter m_slewRateLimiter;
+  
+  private DoubleSupplier m_forwardsSupplier;
+  private DoubleSupplier m_backwardsSupplier;
+  private DoubleSupplier m_curveSupplier;
+  private DoubleSupplier m_turnSupplier;
 
-  public SimDrive() {
-    // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(RobotContainer.m_driveSubsystem);
+  public SimDrive(DriveSubsystem subsystem, double rateLimit, DoubleSupplier forwardsSupplier,
+      DoubleSupplier backwardsSupplier, DoubleSupplier curveAxisSupplier,
+      DoubleSupplier turnInPlaceAxisSupplier) {
+    m_subsystem = subsystem;
+    m_slewRateLimiter = new SlewRateLimiter(rateLimit);
+    m_forwardsSupplier = forwardsSupplier;
+    m_backwardsSupplier = backwardsSupplier;
+    m_curveSupplier = curveAxisSupplier;
+    m_turnSupplier = turnInPlaceAxisSupplier;
+
+    addRequirements(m_subsystem);
   }
-
-  // Called when the command is initially scheduled.
-  @Override
-  public void initialize() {}
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
 
-//RobotContainer.m_driveSubsystem.tankDriveAuto(-.5,-.5);
+    double valetSpeed = 1;
 
-double valetSpeed;
+    double speed = (m_forwardsSupplier.getAsDouble() - m_backwardsSupplier.getAsDouble()) * valetSpeed * (-1);
+    double adjustedSpeed = m_slewRateLimiter.calculate(speed);
 
-valetSpeed = 1;
-double leftAxis = RobotContainer.driverGamepad.getLeftX();
-double rightAxis = RobotContainer.driverGamepad.getRightX();
-double r2 = RobotContainer.driverGamepad.getR2Axis();
-double l2 = RobotContainer.driverGamepad.getL2Axis();
+    m_subsystem.curveDrive(adjustedSpeed, m_curveSupplier.getAsDouble(), false);
 
-double speed = (r2 - l2) * valetSpeed * (-1);
-// speed = Math.signum(speed) * speed * speed;
-double adjustedSpeed = slewRateLimiter.calculate(speed);
-// SmartDashboard.putNumber("adjustedSpeed", adjustedSpeed);
-// SmartDashboard.putNumber("leftAxis", leftAxis);
-
-RobotContainer.m_driveSubsystem.curveDrive(adjustedSpeed, leftAxis, false);
-
-if (Math.abs(rightAxis) > Constants.DriveConstants.DEADZONE) {
-    RobotContainer.m_driveSubsystem.tankDriveAuto(rightAxis * Constants.DriveConstants.TURN_SPEED, -rightAxis * Constants.DriveConstants.TURN_SPEED);
-}
-
-    
-  }
-
-  // Called once the command ends or is interrupted.
-  @Override
-  public void end(boolean interrupted) {}
-
-  // Returns true when the command should end.
-  @Override
-  public boolean isFinished() {
-    return false;
+    double slowTurnSpeed = m_turnSupplier.getAsDouble();
+    if (Math.abs(slowTurnSpeed) > Constants.DriveConstants.kDeadzone) {
+      m_subsystem.tankDriveRaw(slowTurnSpeed * Constants.DriveConstants.kTurnSpeed,
+          -slowTurnSpeed * Constants.DriveConstants.kTurnSpeed);
+    }
   }
 }
