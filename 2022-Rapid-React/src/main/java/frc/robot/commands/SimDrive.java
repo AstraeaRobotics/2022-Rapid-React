@@ -15,7 +15,7 @@ public class SimDrive extends CommandBase {
 
   public SimDrive() {
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(RobotContainer.m_driveSubsystem);
+    //addRequirements(RobotContainer.m_driveSubsystem);
   }
 
   // Called when the command is initially scheduled.
@@ -42,10 +42,10 @@ double adjustedSpeed = slewRateLimiter.calculate(speed);
 // SmartDashboard.putNumber("adjustedSpeed", adjustedSpeed);
 // SmartDashboard.putNumber("leftAxis", leftAxis);
 
-RobotContainer.m_driveSubsystem.curveDrive(adjustedSpeed, leftAxis, false);
+//RobotContainer.m_driveSubsystem.curveDrive(adjustedSpeed, leftAxis, false);
 
 if (Math.abs(rightAxis) > Constants.DriveConstants.DEADZONE) {
-    RobotContainer.m_driveSubsystem.tankDriveAuto(rightAxis * Constants.DriveConstants.TURN_SPEED, -rightAxis * Constants.DriveConstants.TURN_SPEED);
+    //RobotContainer.m_driveSubsystem.tankDriveAuto(rightAxis * Constants.DriveConstants.TURN_SPEED, -rightAxis * Constants.DriveConstants.TURN_SPEED);
 }
 
     

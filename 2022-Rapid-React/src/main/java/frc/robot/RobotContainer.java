@@ -33,14 +33,14 @@ public class RobotContainer {
   public static final PS4Controller operatorGamepad = new PS4Controller(Constants.RobotMap.OPERATOR_CONTROLLER_PORT);
 
   /* Subsystems */
-  public static final DriveSubsystem m_driveSubsystem = new DriveSubsystem();
+  //public static final DriveSubsystem m_driveSubsystem = new DriveSubsystem();
   public static final ShooterSubsystem m_shooterSubsystem = new ShooterSubsystem();
   public static final VisionSubsystem m_visionSubsystem = new VisionSubsystem();
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     configureButtonBindings();
-    m_driveSubsystem.setDefaultCommand(new SimDrive());
+    //m_driveSubsystem.setDefaultCommand(new SimDrive());
   }
 
   private void configureButtonBindings() {
@@ -55,10 +55,11 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    RobotContainer.m_driveSubsystem.resetOdometry(Traj.createNewTrajectoryFromJSON("OneBall-1").getInitialPose());
+    //RobotContainer.m_driveSubsystem.resetOdometry(Traj.createNewTrajectoryFromJSON("OneBall-1").getInitialPose());
 
-    return new SequentialCommandGroup(
-      Ramsete.createRamseteCommand(Traj.createNewTrajectoryFromJSON("OneBall-1"), m_driveSubsystem, true)
-    );
+    // return new SequentialCommandGroup(
+    //   Ramsete.createRamseteCommand(Traj.createNewTrajectoryFromJSON("OneBall-1"), m_driveSubsystem, true)
+    // );
+    return null;
   }
 }
