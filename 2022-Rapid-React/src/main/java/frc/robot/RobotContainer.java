@@ -5,7 +5,7 @@
 package frc.robot;
 
 import frc.robot.commands.SimDrive;
-import frc.robot.commands.TurretCommand;
+import frc.robot.commands.ManualTurret;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.util.Ramsete;
 import frc.robot.util.Traj;
@@ -16,51 +16,33 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 import frc.robot.subsystems.TurretSubsystem;
-import frc.robot.commands.AlignTurretNewNew;
+import frc.robot.commands.AutoAimTurret;
 
-/**
- * This class is where the bulk of the robot should be declared. Since
- * Command-based is a
- * "declarative" paradigm, very little robot logic should actually be handled in
- * the {@link Robot}
- * periodic methods (other than the scheduler calls). Instead, the structure of
- * the robot (including
- * subsystems, commands, and button mappings) should be declared here.
- */
 public class RobotContainer {
 
   /* GAMEPADS */
   public static final PS4Controller driverGamepad = new PS4Controller(Constants.RobotMap.DRIVER_CONTROLLER_PORT);
   public static final PS4Controller operatorGamepad = new PS4Controller(Constants.RobotMap.OPERATOR_CONTROLLER_PORT);
 
-  // Right
+  /* BUTTONS */
   private final JoystickButton circleButton = new JoystickButton(driverGamepad, 3);
   private final JoystickButton squareButton = new JoystickButton(driverGamepad, 1);
   private final JoystickButton triangleButton = new JoystickButton(driverGamepad, 4);
 
   public static final DriveSubsystem m_driveSubsystem = new DriveSubsystem();
+  private final TurretSubsystem m_turretSubsystem = new TurretSubsystem();
 
-  public TurretSubsystem m_turretSubsystem = new TurretSubsystem();
-
-  /**
-   * The container for the robot. Contains subsystems, OI devices, and commands.
-   */
   public RobotContainer() {
     configureButtonBindings();
     m_driveSubsystem.setDefaultCommand(new SimDrive());
   }
 
   private void configureButtonBindings() {
-    squareButton.whileHeld(new TurretCommand(m_turretSubsystem, -0.05));
-    circleButton.whileHeld(new TurretCommand(m_turretSubsystem, 0.05));
-    triangleButton.whileHeld(new AlignTurretNewNew(m_turretSubsystem));
+    squareButton.whileHeld(new ManualTurret(m_turretSubsystem, -0.05));
+    circleButton.whileHeld(new ManualTurret(m_turretSubsystem, 0.05));
+    triangleButton.whileHeld(new AutoAimTurret(m_turretSubsystem));
   }
 
-  /**
-   * Use this to pass the autonomous command to the main {@link Robot} class.
-   *
-   * @return the command to run in autonomous
-   */
   public Command getAutonomousCommand() {
     RobotContainer.m_driveSubsystem.resetOdometry(Traj.createNewTrajectoryFromJSON("OneBall-1").getInitialPose());
 
