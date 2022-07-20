@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.PS4Controller;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.commands.*;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -28,14 +29,14 @@ public class RobotContainer {
 
   public static final DriveSubsystem m_driveSubsystem = new DriveSubsystem();
 
-  public static final LightEmittingDiode M_DIODE = new LightEmittingDiode();
+  private static final LightEmittingDiode m_DIODE = new LightEmittingDiode();
   
 
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     configureButtonBindings();
-    m_driveSubsystem.setDefaultCommand(new SimDrive());
+    m_DIODE.setDefaultCommand(new lightEmittingDiodeGreen(m_DIODE));
   }
 
   private void configureButtonBindings() {

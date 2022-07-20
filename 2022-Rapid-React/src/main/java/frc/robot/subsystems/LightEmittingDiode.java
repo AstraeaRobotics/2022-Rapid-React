@@ -47,6 +47,13 @@ public class LightEmittingDiode extends SubsystemBase {
     }
   }
   /*
+  public void glow(int r, int g, int b) {
+    for (int i=0; i<LightEmittingDiodeBuffer.getLength(); i++) {
+      LightEmittingDiodeBuffer.setRGB(i, r, g, b);
+    }
+  } */
+  
+  /*
   public void glowRed() { //this will make the Light emititing diode appear red 
     for(int i =0; i < LightEmittingDiodeBuffer.getLength(); i++)
       LightEmittingDiodeBuffer.setHSV(i,30,100,100);
@@ -58,7 +65,7 @@ public class LightEmittingDiode extends SubsystemBase {
       LightEmittingDiodeBuffer.setHSV(i, 280, 100, 100);
   }
   */
-  
+
   public void blink(int blinkcolor) { //flashes
 
   }

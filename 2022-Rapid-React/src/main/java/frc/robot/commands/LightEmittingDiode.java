@@ -4,22 +4,11 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants;
-import frc.robot.RobotContainer;
-import edu.wpi.first.wpilibj.AddressableLED;
-import edu.wpi.first.wpilibj.AddressableLEDBuffer;
-
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.LightEmittingDiode;
 
-public class lightEmittingDiodeGreen extends CommandBase {
-
-  LightEmittingDiode m_LED;
-  /** Creates a new lightEmittingDiodeGreen. */
-  public lightEmittingDiodeGreen(LightEmittingDiode m_LED) {
-    this.m_LED = m_LED;
-    addRequirements(m_LED);
+public class LightEmittingDiode extends CommandBase {
+  /** Creates a new LightEmittingDiode. */
+  public LightEmittingDiode() {
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
@@ -29,12 +18,7 @@ public class lightEmittingDiodeGreen extends CommandBase {
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {
-    m_LED.glowGreen();
-    // RobotContainer.M_DIODE.glowRed();
-    // RobotContainer.M_DIODE.glowBlue();
-
-  }
+  public void execute() {}
 
   // Called once the command ends or is interrupted.
   @Override
