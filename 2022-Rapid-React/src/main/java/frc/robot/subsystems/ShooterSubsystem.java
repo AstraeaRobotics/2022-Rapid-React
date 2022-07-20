@@ -4,6 +4,7 @@
 
 package frc.robot.subsystems;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.Shooter;
 
@@ -49,6 +50,9 @@ public class ShooterSubsystem extends SubsystemBase {
     
     double targetVelocity_UnitsPer100ms = speed * 2000.00 * Shooter.kConversionFactor;
     lowSrx.set(TalonFXControlMode.Velocity, targetVelocity_UnitsPer100ms);
+
+    SmartDashboard.putNumber("Top Target Velocity", targetVelocity_UnitsPer100ms);
+    SmartDashboard.putNumber("Top Velocity", getSpeedLower());
   }
 
   public void topSrxFPID(double speed) {    
@@ -59,6 +63,9 @@ public class ShooterSubsystem extends SubsystemBase {
 
     double targetVelocity_UnitsPer100ms = speed * 2000.000 * Shooter.kConversionFactor;
     topSrx.set(TalonFXControlMode.Velocity, targetVelocity_UnitsPer100ms);
+
+    SmartDashboard.putNumber("Top Target Velocity", targetVelocity_UnitsPer100ms);
+    SmartDashboard.putNumber("Top Velocity", getSpeedUpper());
   }
 
   @Override
