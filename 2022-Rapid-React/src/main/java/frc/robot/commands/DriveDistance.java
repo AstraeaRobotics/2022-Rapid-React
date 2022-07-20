@@ -18,7 +18,7 @@ public class DriveDistanceCommand extends CommandBase {
     addRequirements(drive);
 
     m_subsystem = drive;
-    this.distance = distance*(Constants.DriveConstants.GEAR_RATIO * Constants.DriveConstants.WHEEL_DIAMETER * math.pi * Constants.DriveConstants.INCHES_TO_METERS);
+    this.distance = distance*(Constants.DriveConstants.GEAR_RATIO * Constants.DriveConstants.WHEEL_DIAMETER * Math.PI * Constants.DriveConstants.INCHES_TO_METERS);
   }
 
   // Called when the command is initially scheduled.
