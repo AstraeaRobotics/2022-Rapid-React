@@ -14,6 +14,9 @@ public class LEDSubsystem extends SubsystemBase {
   private final AddressableLED m_led;
   private final AddressableLEDBuffer m_ledBuffer;
 
+  private int m_rainbowFirstPixelHue = 30; 
+
+
   public LEDSubsystem() {
     m_led = new AddressableLED(LEDConstants.kPwmPort); 
     m_ledBuffer = new AddressableLEDBuffer(LEDConstants.kLength);
@@ -44,7 +47,6 @@ public class LEDSubsystem extends SubsystemBase {
   }
 
   public void rainbow() {
-    int m_rainbowFirstPixelHue = 30; 
     for(int i = 0; i < m_ledBuffer.getLength(); i++) {
        int hue = (m_rainbowFirstPixelHue + (i*180/m_ledBuffer.getLength())) % 180;
       m_ledBuffer.setHSV(i,hue, 255, 150);
