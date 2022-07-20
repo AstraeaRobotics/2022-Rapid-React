@@ -4,7 +4,7 @@
 
 package frc.robot;
 
-import frc.robot.commands.ShooterCommand;
+import frc.robot.commands.ManualShooterCommand;
 import frc.robot.commands.SimDrive;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
@@ -37,17 +37,17 @@ public class RobotContainer {
   public static final ShooterSubsystem m_shooterSubsystem = new ShooterSubsystem();
   public static final Limelight m_visionSubsystem = new Limelight();
 
+  /* Commands */
+  ManualShooterCommand shooterCommand = new ManualShooterCommand(m_visionSubsystem, m_shooterSubsystem);
+
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     configureButtonBindings();
+    m_shooterSubsystem.setDefaultCommand(new ManualShooterCommand(m_visionSubsystem, m_shooterSubsystem));
     //m_driveSubsystem.setDefaultCommand(new SimDrive());
   }
 
   private void configureButtonBindings() {
-     //Example command
-     JoystickButton crossButton = new JoystickButton(operatorGamepad, 2);
-     ShooterCommand shooterCommand = new ShooterCommand(m_visionSubsystem, m_shooterSubsystem);
-     crossButton.whileHeld(shooterCommand);
   }
 
   /**

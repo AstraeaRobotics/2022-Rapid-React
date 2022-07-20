@@ -7,17 +7,21 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.Shooter;
+import frc.robot.util.ShooterSpeeds;
 
 import com.ctre.phoenix.motorcontrol.ControlMode; //Motor speed/control
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX; //Defines motor
 import com.ctre.phoenix.motorcontrol.NeutralMode; //Motor brake/run
 import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
+import com.ctre.phoenix.motorcontrol.TalonFXFeedbackDevice;
 
 public class ShooterSubsystem extends SubsystemBase {
   /** Creates a new ShootingSubsystem. */
   TalonFX lowSrx = new TalonFX(10);
   TalonFX topSrx = new TalonFX(11);
+
+  ShooterSpeeds m_shooterSpeeds = new ShooterSpeeds(0, 0);
   
   public ShooterSubsystem() {
     lowSrx.setNeutralMode(NeutralMode.Coast); //Sets motor to On/Coast
@@ -34,43 +38,54 @@ public class ShooterSubsystem extends SubsystemBase {
     topSrx.set(ControlMode.PercentOutput, 0.0);
   }
 
-  public double getSpeedLower() {
-    return lowSrx.getSelectedSensorVelocity();
+  public void setSpeedLower(double speed) {
+    m_shooterSpeeds.setBottomVelocity(speed);
   }
 
-  public double getSpeedUpper() {
-    return topSrx.getSelectedSensorVelocity();
+  public void setSpeedUpper(double speed) {
+    m_shooterSpeeds.setTopVelocity(speed);
   }
 
-  public void lowSrxFPID(double speed) {    
+  private void lowSrxFPID(double speed) {    
+    lowSrx.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor, Shooter.kPIDLoopIDx, Shooter.kTimeoutMs);
     lowSrx.config_kF(Shooter.kPIDLoopIDx, Shooter.kGains_VelocitkF, Shooter.kTimeoutMs);
 		lowSrx.config_kP(Shooter.kPIDLoopIDx, Shooter.kGains_VelocitkP, Shooter.kTimeoutMs);
 		lowSrx.config_kI(Shooter.kPIDLoopIDx, Shooter.kGains_VelocitkI, Shooter.kTimeoutMs);
 		lowSrx.config_kD(Shooter.kPIDLoopIDx, Shooter.kGains_VelocitkD, Shooter.kTimeoutMs);
     
-    double targetVelocity_UnitsPer100ms = speed * 2000.00 * Shooter.kConversionFactor;
-    lowSrx.set(TalonFXControlMode.Velocity, targetVelocity_UnitsPer100ms);
+    //double targetVelocity_UnitsPer100ms = speed * 2000.00 * Shooter.kConversionFactor;
+    //TODO: this is scuffed
+    lowSrx.set(TalonFXControlMode.Velocity, ShooterSpeeds.getSpeedPercent(speed));
 
-    SmartDashboard.putNumber("Bottom Target Velocity", targetVelocity_UnitsPer100ms);
-    SmartDashboard.putNumber("Bottom Velocity", getSpeedLower());
+    SmartDashboard.putNumber("Bottom Target Velocity", ShooterSpeeds.getSpeedPercent(speed));
+    SmartDashboard.putNumber("Bottom Velocity", lowSrx.getSelectedSensorVelocity());
   }
 
-  public void topSrxFPID(double speed) {    
+  private void topSrxFPID(double speed) {    
+    topSrx.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor, Shooter.kPIDLoopIDx, Shooter.kTimeoutMs);
     topSrx.config_kF(Shooter.kPIDLoopIDx, Shooter.kGains_VelocitkF, Shooter.kTimeoutMs);
     topSrx.config_kP(Shooter.kPIDLoopIDx, Shooter.kGains_VelocitkP, Shooter.kTimeoutMs);
     topSrx.config_kI(Shooter.kPIDLoopIDx, Shooter.kGains_VelocitkI, Shooter.kTimeoutMs);
     topSrx.config_kD(Shooter.kPIDLoopIDx, Shooter.kGains_VelocitkD, Shooter.kTimeoutMs);
 
-    double targetVelocity_UnitsPer100ms = speed * 2000.000 * Shooter.kConversionFactor;
-    topSrx.set(TalonFXControlMode.Velocity, targetVelocity_UnitsPer100ms);
+    // double targetVelocity_UnitsPer100ms = speed * 2000.000 * Shooter.kConversionFactor;
+    topSrx.set(TalonFXControlMode.Velocity, ShooterSpeeds.getSpeedPercent(speed));
 
-    SmartDashboard.putNumber("Top Target Velocity", targetVelocity_UnitsPer100ms);
-    SmartDashboard.putNumber("Top Velocity", getSpeedUpper());
+    SmartDashboard.putNumber("Top Target Velocity", ShooterSpeeds.getSpeedPercent(speed));
+    SmartDashboard.putNumber("Top Velocity", topSrx.getSelectedSensorVelocity());
   }
 
+  public double speedEquation(double speed) {
+    var a = 1;
+    var b = 1;
+    var c = 0;
+    return (a*Math.pow(speed, a)) + (b*speed) + c;
+  }
+ 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-
+    lowSrxFPID(m_shooterSpeeds.getBottomVelocity());
+    topSrxFPID(m_shooterSpeeds.getTopVelocity());
   }
 }

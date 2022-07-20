@@ -64,5 +64,6 @@ public final class Constants {
         public static final double kConversionFactor = 2048/600;
         public static final int kTimeoutMs = 0;
         
+        public static final int kMaxSpeed = 20000;
     }
 }

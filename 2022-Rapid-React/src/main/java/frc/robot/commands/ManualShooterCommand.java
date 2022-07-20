@@ -14,12 +14,12 @@ import pabeles.concurrency.ConcurrencyOps.NewInstance;
 import edu.wpi.first.math.controller.PIDController;
 import frc.robot.Constants;
 
-public class ShooterCommand extends CommandBase {
+public class ManualShooterCommand extends CommandBase {
   /** Creates a new ShooterCommand. */
   private Limelight limelight;
   private ShooterSubsystem shooterSubsystem;
 
-  public ShooterCommand(Limelight limelight, ShooterSubsystem sSubsystem) {
+  public ManualShooterCommand(Limelight limelight, ShooterSubsystem sSubsystem) {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(sSubsystem);
     this.limelight = limelight;
@@ -33,16 +33,18 @@ public class ShooterCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    double speed = 0.5;
+    //Top and bottom shooter speeds
     
-    shooterSubsystem.lowSrxFPID(speed);
-    shooterSubsystem.topSrxFPID(speed);
+    double speed = 100;
+    
+    shooterSubsystem.setSpeedLower(speed);
+    shooterSubsystem.setSpeedUpper(speed);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    SmartDashboard.putString("ShooterCommand", "ending");
+    SmartDashboard.putString("ShooterCommand", "Ending");
     shooterSubsystem.setMotors(0,0);
   }
 
