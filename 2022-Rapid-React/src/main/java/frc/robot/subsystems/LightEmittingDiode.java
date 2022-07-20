@@ -24,7 +24,7 @@ public class LightEmittingDiode extends SubsystemBase {
   public LightEmittingDiode() {
     LightEmittingDiode = new AddressableLED(Constants.LightEmittingDiodeConstants.LightEmittingDiodePort); 
 
-    LightEmittingDiodeBuffer = new AddressableLEDBuffer(0); //arbirtary length
+    LightEmittingDiodeBuffer = new AddressableLEDBuffer(144); //arbirtary length
 
     LightEmittingDiode.setLength(LightEmittingDiodeBuffer.getLength());
     LightEmittingDiode.setData(LightEmittingDiodeBuffer);
@@ -39,7 +39,7 @@ public class LightEmittingDiode extends SubsystemBase {
     for(int i =0; i < LightEmittingDiodeBuffer.getLength(); i++)
     LightEmittingDiodeBuffer.setHSV(i,150,100,100);
   }
-  
+
   public void glowRed() { //this will make the Light emititing diode appear red 
     for(int i =0; i < LightEmittingDiodeBuffer.getLength(); i++)
     LightEmittingDiodeBuffer.setHSV(i,30,100,100);
@@ -49,6 +49,9 @@ public class LightEmittingDiode extends SubsystemBase {
     for(int i =0; i < LightEmittingDiodeBuffer.getLength(); i++)
     LightEmittingDiodeBuffer.setHSV(i, 280, 100, 100);
   }
+  public void blink(int blinkcolor) { //flashes
+
+  }
 
 
   public void rainbow() {
@@ -56,9 +59,9 @@ public class LightEmittingDiode extends SubsystemBase {
     for(int i = 0; i < LightEmittingDiodeBuffer.getLength(); i++) {
        int hue = (startingColor + (i*180/LightEmittingDiodeBuffer.getLength())) % 180;
 
-      LightEmittingDiodeBuffer.setHSV(i,hue, 255, 128);
+      LightEmittingDiodeBuffer.setHSV(i,hue, 255, 150);
     }
-    startingColor +=7;
+    startingColor +=3;
     startingColor %=180;
 
   }
@@ -68,6 +71,8 @@ public class LightEmittingDiode extends SubsystemBase {
   public void periodic() {
       // This method will be called once per scheduler run
 
-    rainbow();
+    // rainbow();
+    glowGreen();
+
   }
 }

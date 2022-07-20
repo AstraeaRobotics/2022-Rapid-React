@@ -50,7 +50,7 @@ public final class Constants {
     }
 
     public static final class LightEmittingDiodeConstants{
-        public static final int LightEmittingDiodePort = 3; 
+        public static final int LightEmittingDiodePort = 0; 
 
     }
 }
