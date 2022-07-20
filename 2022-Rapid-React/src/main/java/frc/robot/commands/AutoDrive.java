@@ -10,14 +10,14 @@ import frc.robot.subsystems.DriveSubsystem;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class AutoDriveCommand extends SequentialCommandGroup {
+public class AutoDrive extends SequentialCommandGroup {
   /** Creates a new AutoDiveCommand. */
   public DriveSubsystem m_driveSubsystem;
-  public AutoDriveCommand() {
+  public AutoDrive() {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-        new DriveDistanceCommand(m_driveSubsystem, 60)
+        new DriveDistance(m_driveSubsystem, 2)
         //, new shootercommand --> this is where it shoots
     );
   }

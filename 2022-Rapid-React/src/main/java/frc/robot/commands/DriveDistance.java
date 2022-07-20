@@ -8,12 +8,12 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 import frc.robot.subsystems.DriveSubsystem;
 
-public class DriveDistanceCommand extends CommandBase {
+public class DriveDistance extends CommandBase {
 
   public DriveSubsystem m_subsystem;
   public double distance;
   /** Creates a new DriveCommand. */
-  public DriveDistanceCommand( DriveSubsystem drive, double distance) { 
+  public DriveDistance( DriveSubsystem drive, double distance) { 
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(drive);
 
