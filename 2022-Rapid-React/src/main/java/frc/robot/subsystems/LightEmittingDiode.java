@@ -34,21 +34,31 @@ public class LightEmittingDiode extends SubsystemBase {
 
   
   }
-
+/*
   public void glowGreen() { //this will make the Light emititing diode appear green 
-    for(int i =0; i < LightEmittingDiodeBuffer.getLength(); i++)
-    LightEmittingDiodeBuffer.setHSV(i,150,100,100);
+    for(int i =0; i < LightEmittingDiodeBuffer.getLength(); i++) {
+      LightEmittingDiodeBuffer.setHSV(i,150,100,100);
+    }
   }
-
+  */ 
+  public void glowGreen() {
+    for (int i=0; i <LightEmittingDiodeBuffer.getLength(); i++) {
+      LightEmittingDiodeBuffer.setRGB(i,0,255,0);
+    }
+  }
+  /*
   public void glowRed() { //this will make the Light emititing diode appear red 
     for(int i =0; i < LightEmittingDiodeBuffer.getLength(); i++)
-    LightEmittingDiodeBuffer.setHSV(i,30,100,100);
+      LightEmittingDiodeBuffer.setHSV(i,30,100,100);
   }
-
+*/
+/*
   public void glowBlue() { //this will make the Light emititing diode appear blue 
     for(int i =0; i < LightEmittingDiodeBuffer.getLength(); i++)
-    LightEmittingDiodeBuffer.setHSV(i, 280, 100, 100);
+      LightEmittingDiodeBuffer.setHSV(i, 280, 100, 100);
   }
+  */
+  
   public void blink(int blinkcolor) { //flashes
 
   }
