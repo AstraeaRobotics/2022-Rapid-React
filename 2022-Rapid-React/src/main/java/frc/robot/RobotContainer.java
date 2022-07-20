@@ -4,11 +4,11 @@
 
 package frc.robot;
 
-import frc.robot.subsystems.VisionSubsystem;
 import frc.robot.commands.ShooterCommand;
 import frc.robot.commands.SimDrive;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
+import frc.robot.util.Limelight;
 import frc.robot.util.Ramsete;
 import frc.robot.util.Traj;
 import edu.wpi.first.wpilibj.PS4Controller;
@@ -35,7 +35,7 @@ public class RobotContainer {
   /* Subsystems */
   //public static final DriveSubsystem m_driveSubsystem = new DriveSubsystem();
   public static final ShooterSubsystem m_shooterSubsystem = new ShooterSubsystem();
-  public static final VisionSubsystem m_visionSubsystem = new VisionSubsystem();
+  public static final Limelight m_visionSubsystem = new Limelight();
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -46,7 +46,11 @@ public class RobotContainer {
   private void configureButtonBindings() {
      //Example command
      JoystickButton crossButton = new JoystickButton(operatorGamepad, 2);
-     crossButton.whenPressed(new ShooterCommand(m_visionSubsystem, m_shooterSubsystem, crossButton));
+     ShooterCommand shooterCommand = new ShooterCommand(m_visionSubsystem, m_shooterSubsystem);
+     crossButton.whenPressed(shooterCommand);
+     if (!crossButton.get()) {
+        shooterCommand.cancel();
+     }
   }
 
   /**

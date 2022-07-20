@@ -5,10 +5,13 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants.Shooter;
+
 import com.ctre.phoenix.motorcontrol.ControlMode; //Motor speed/control
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX; //Defines motor
 import com.ctre.phoenix.motorcontrol.NeutralMode; //Motor brake/run
+import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
 
 public class ShooterSubsystem extends SubsystemBase {
   /** Creates a new ShootingSubsystem. */
@@ -30,8 +33,32 @@ public class ShooterSubsystem extends SubsystemBase {
     topSrx.set(ControlMode.PercentOutput, 0.0);
   }
 
-  public double[] getSpeed() {
-    return new double[] {lowSrx.getSensorCollection().getIntegratedSensorVelocity(), topSrx.getSensorCollection().getIntegratedSensorVelocity()};
+  public double getSpeedLower() {
+    return lowSrx.getSelectedSensorVelocity();
+  }
+
+  public double getSpeedUpper() {
+    return topSrx.getSelectedSensorVelocity();
+  }
+
+  public void lowSrxFPID(double speed) {    
+    lowSrx.config_kF(Shooter.kPIDLoopIDx, Shooter.kGains_VelocitkF, Shooter.kTimeoutMs);
+		lowSrx.config_kP(Shooter.kPIDLoopIDx, Shooter.kGains_VelocitkP, Shooter.kTimeoutMs);
+		lowSrx.config_kI(Shooter.kPIDLoopIDx, Shooter.kGains_VelocitkI, Shooter.kTimeoutMs);
+		lowSrx.config_kD(Shooter.kPIDLoopIDx, Shooter.kGains_VelocitkD, Shooter.kTimeoutMs);
+    
+    double targetVelocity_UnitsPer100ms = speed * 2000.00 * Shooter.kConversionFactor;
+    lowSrx.set(TalonFXControlMode.Velocity, targetVelocity_UnitsPer100ms);
+  }
+
+  public void topSrxFPID(double speed) {    
+    topSrx.config_kF(Shooter.kPIDLoopIDx, Shooter.kGains_VelocitkF, Shooter.kTimeoutMs);
+    topSrx.config_kP(Shooter.kPIDLoopIDx, Shooter.kGains_VelocitkP, Shooter.kTimeoutMs);
+    topSrx.config_kI(Shooter.kPIDLoopIDx, Shooter.kGains_VelocitkI, Shooter.kTimeoutMs);
+    topSrx.config_kD(Shooter.kPIDLoopIDx, Shooter.kGains_VelocitkD, Shooter.kTimeoutMs);
+
+    double targetVelocity_UnitsPer100ms = speed * 2000.000 * Shooter.kConversionFactor;
+    topSrx.set(TalonFXControlMode.Velocity, targetVelocity_UnitsPer100ms);
   }
 
   @Override
