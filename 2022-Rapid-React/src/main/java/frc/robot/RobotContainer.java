@@ -16,7 +16,7 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 import frc.robot.subsystems.TurretSubsystem;
-//import frc.robot.commands.TurretCommand;
+import frc.robot.commands.AlignTurretNewNew;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -36,6 +36,7 @@ public class RobotContainer {
   // Right
   private final JoystickButton circleButton = new JoystickButton(driverGamepad, 3);
   private final JoystickButton squareButton = new JoystickButton(driverGamepad, 1);
+  private final JoystickButton triangleButton = new JoystickButton(driverGamepad, 4);
 
   public static final DriveSubsystem m_driveSubsystem = new DriveSubsystem();
 
@@ -52,6 +53,7 @@ public class RobotContainer {
   private void configureButtonBindings() {
     squareButton.whileHeld(new TurretCommand(m_turretSubsystem, -0.05));
     circleButton.whileHeld(new TurretCommand(m_turretSubsystem, 0.05));
+    triangleButton.whileHeld(new AlignTurretNewNew(m_turretSubsystem));
   }
 
   /**

@@ -57,6 +57,6 @@ public final class Constants {
     public static final class TurretConstants {
         public static final int TurretCANid = 20;
 
-        public static final double maxSpeed = 0.05;
+        public static final double k_maxSpeed = 0.05;
     }
 }
