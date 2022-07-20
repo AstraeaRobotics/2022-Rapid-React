@@ -51,8 +51,8 @@ public class ShooterSubsystem extends SubsystemBase {
     double targetVelocity_UnitsPer100ms = speed * 2000.00 * Shooter.kConversionFactor;
     lowSrx.set(TalonFXControlMode.Velocity, targetVelocity_UnitsPer100ms);
 
-    SmartDashboard.putNumber("Top Target Velocity", targetVelocity_UnitsPer100ms);
-    SmartDashboard.putNumber("Top Velocity", getSpeedLower());
+    SmartDashboard.putNumber("Bottom Target Velocity", targetVelocity_UnitsPer100ms);
+    SmartDashboard.putNumber("Bottom Velocity", getSpeedLower());
   }
 
   public void topSrxFPID(double speed) {    

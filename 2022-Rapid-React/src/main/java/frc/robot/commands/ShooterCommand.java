@@ -5,6 +5,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.subsystems.ShooterSubsystem;
@@ -41,8 +42,10 @@ public class ShooterCommand extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    SmartDashboard.putString("ShooterCommand", "ending");
     shooterSubsystem.setMotors(0,0);
   }
+
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {

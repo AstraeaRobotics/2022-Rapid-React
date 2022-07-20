@@ -47,10 +47,7 @@ public class RobotContainer {
      //Example command
      JoystickButton crossButton = new JoystickButton(operatorGamepad, 2);
      ShooterCommand shooterCommand = new ShooterCommand(m_visionSubsystem, m_shooterSubsystem);
-     crossButton.whenPressed(shooterCommand);
-     if (!crossButton.get()) {
-        shooterCommand.cancel();
-     }
+     crossButton.whileHeld(shooterCommand);
   }
 
   /**
