@@ -9,33 +9,30 @@ import frc.robot.subsystems.DriveSubsystem;
 
 public class DriveToDistance extends CommandBase {
 
-  private final DriveSubsystem m_driveSubsystem;
-  private final double distance;
 
-  /** Creates a new DriveCommand. */
-  public DriveToDistance(DriveSubsystem driveSubsystem, double distance) { 
-    m_driveSubsystem = driveSubsystem;
-    this.distance = distance;
-  }
+  private final DriveSubsystem m_DriveSubsystem;
+  private final double distanceMeters;
 
-  @Override
-  public void initialize() {
-
+  public DriveToDistance(DriveSubsystem driveSubsystem, double distanceMeters) {
+    addRequirements(driveSubsystem);
+    this.m_DriveSubsystem = driveSubsystem;
+    this.distanceMeters = distanceMeters;
   }
 
   @Override
   public void execute() {
-    m_driveSubsystem.tankDrive(1, 1);
+    m_DriveSubsystem.tankDriveRaw(0.25, 0.25);
+    System.out.println("RUNNING IT");
   }
 
   @Override
   public void end(boolean interrupted) {
-    m_driveSubsystem.tankDrive(0, 0);
-
+    System.out.println("STOPPED");
+    m_DriveSubsystem.tankDrive(0, 0);
   }
 
   @Override
   public boolean isFinished() {
-    return m_driveSubsystem.getEncoderPosition() > distance;
+    return false;
   }
 }
