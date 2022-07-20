@@ -31,11 +31,10 @@ public class ShooterSpeeds {
         speedVals[1] = speed;
     }
 
-    /*
-     * Assuming that 20k is the top velocity
-     * Have methods that returns speeds for each percent
-     * function (int x (0-100)) return speed
-     * 
+    /**
+     * Returns the percent of max speed
+     * @param percent The percent of max speed to return
+     * @return Max speed scaled by percent
      */
     public static double getSpeedPercent(double percent) {
         return Constants.Shooter.kMaxSpeed * percent / 100;

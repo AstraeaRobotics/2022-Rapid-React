@@ -4,88 +4,70 @@
 
 package frc.robot.subsystems;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.Shooter;
 import frc.robot.util.ShooterSpeeds;
 
-import com.ctre.phoenix.motorcontrol.ControlMode; //Motor speed/control
+import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
-import com.ctre.phoenix.motorcontrol.can.TalonSRX; //Defines motor
-import com.ctre.phoenix.motorcontrol.NeutralMode; //Motor brake/run
-import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.TalonFXFeedbackDevice;
 
 public class ShooterSubsystem extends SubsystemBase {
-  /** Creates a new ShootingSubsystem. */
-  TalonFX lowSrx = new TalonFX(10);
-  TalonFX topSrx = new TalonFX(11);
+
+  TalonFX feeder = new TalonFX(10);
+  TalonFX flywheel = new TalonFX(11);
 
   ShooterSpeeds m_shooterSpeeds = new ShooterSpeeds(0, 0);
-  
-  public ShooterSubsystem() {
-    lowSrx.setNeutralMode(NeutralMode.Coast); //Sets motor to On/Coast
-    topSrx.setNeutralMode(NeutralMode.Coast);
-  }
 
-  public void setMotors(double top, double bottom) {
-    lowSrx.set(ControlMode.PercentOutput, top);
-    topSrx.set(ControlMode.PercentOutput, bottom);
+  public ShooterSubsystem() {
+    feeder.setNeutralMode(NeutralMode.Coast);
+    flywheel.setNeutralMode(NeutralMode.Coast);
+
+    feeder.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor, Shooter.kPIDLoopIDx, Shooter.kTimeoutMs);
+    feeder.config_kF(Shooter.kPIDLoopIDx, Shooter.kGains_VelocitkF, Shooter.kTimeoutMs);
+    feeder.config_kP(Shooter.kPIDLoopIDx, Shooter.kGains_VelocitkP, Shooter.kTimeoutMs);
+    feeder.config_kI(Shooter.kPIDLoopIDx, Shooter.kGains_VelocitkI, Shooter.kTimeoutMs);
+    feeder.config_kD(Shooter.kPIDLoopIDx, Shooter.kGains_VelocitkD, Shooter.kTimeoutMs);
+
+    flywheel.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor, Shooter.kPIDLoopIDx, Shooter.kTimeoutMs);
+    flywheel.config_kF(Shooter.kPIDLoopIDx, Shooter.kGains_VelocitkF, Shooter.kTimeoutMs);
+    flywheel.config_kP(Shooter.kPIDLoopIDx, Shooter.kGains_VelocitkP, Shooter.kTimeoutMs);
+    flywheel.config_kI(Shooter.kPIDLoopIDx, Shooter.kGains_VelocitkI, Shooter.kTimeoutMs);
+    flywheel.config_kD(Shooter.kPIDLoopIDx, Shooter.kGains_VelocitkD, Shooter.kTimeoutMs);
   }
 
   public void stopMotors() {
-    lowSrx.set(ControlMode.PercentOutput, 0.0);
-    topSrx.set(ControlMode.PercentOutput, 0.0);
+    m_shooterSpeeds.setBottomVelocity(0.0);
+    m_shooterSpeeds.setTopVelocity(0.0);
+    flywheel.set(ControlMode.PercentOutput, 0.0);
+    feeder.set(ControlMode.PercentOutput, 0.0);
   }
+  
+  /**
+  * Changes the flywheel setpoint
+  * @param speed the percent of max speed to change setpoint to (between 0 and 100)
+  */
+ public void setFlywheelSetpoint(double speed) {
+   m_shooterSpeeds.setTopVelocity(speed);
+ }
 
-  public void setSpeedLower(double speed) {
+  /**
+   * Changes the feeder setpoint
+   * @param speed the percent of max speed to change setpoint to (between 0 and 100)
+   */
+  public void setFeederSetpoint(double speed) {
     m_shooterSpeeds.setBottomVelocity(speed);
   }
 
-  public void setSpeedUpper(double speed) {
-    m_shooterSpeeds.setTopVelocity(speed);
+  private void runMotors() {
+    flywheel.set(ControlMode.Velocity, m_shooterSpeeds.getTopVelocity());
+    feeder.set(ControlMode.Velocity, m_shooterSpeeds.getBottomVelocity());
   }
 
-  private void lowSrxFPID(double speed) {    
-    lowSrx.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor, Shooter.kPIDLoopIDx, Shooter.kTimeoutMs);
-    lowSrx.config_kF(Shooter.kPIDLoopIDx, Shooter.kGains_VelocitkF, Shooter.kTimeoutMs);
-		lowSrx.config_kP(Shooter.kPIDLoopIDx, Shooter.kGains_VelocitkP, Shooter.kTimeoutMs);
-		lowSrx.config_kI(Shooter.kPIDLoopIDx, Shooter.kGains_VelocitkI, Shooter.kTimeoutMs);
-		lowSrx.config_kD(Shooter.kPIDLoopIDx, Shooter.kGains_VelocitkD, Shooter.kTimeoutMs);
-    
-    //double targetVelocity_UnitsPer100ms = speed * 2000.00 * Shooter.kConversionFactor;
-    //TODO: this is scuffed
-    lowSrx.set(TalonFXControlMode.Velocity, ShooterSpeeds.getSpeedPercent(speed));
-
-    SmartDashboard.putNumber("Bottom Target Velocity", ShooterSpeeds.getSpeedPercent(speed));
-    SmartDashboard.putNumber("Bottom Velocity", lowSrx.getSelectedSensorVelocity());
-  }
-
-  private void topSrxFPID(double speed) {    
-    topSrx.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor, Shooter.kPIDLoopIDx, Shooter.kTimeoutMs);
-    topSrx.config_kF(Shooter.kPIDLoopIDx, Shooter.kGains_VelocitkF, Shooter.kTimeoutMs);
-    topSrx.config_kP(Shooter.kPIDLoopIDx, Shooter.kGains_VelocitkP, Shooter.kTimeoutMs);
-    topSrx.config_kI(Shooter.kPIDLoopIDx, Shooter.kGains_VelocitkI, Shooter.kTimeoutMs);
-    topSrx.config_kD(Shooter.kPIDLoopIDx, Shooter.kGains_VelocitkD, Shooter.kTimeoutMs);
-
-    // double targetVelocity_UnitsPer100ms = speed * 2000.000 * Shooter.kConversionFactor;
-    topSrx.set(TalonFXControlMode.Velocity, ShooterSpeeds.getSpeedPercent(speed));
-
-    SmartDashboard.putNumber("Top Target Velocity", ShooterSpeeds.getSpeedPercent(speed));
-    SmartDashboard.putNumber("Top Velocity", topSrx.getSelectedSensorVelocity());
-  }
-
-  public double speedEquation(double speed) {
-    var a = 1;
-    var b = 1;
-    var c = 0;
-    return (a*Math.pow(speed, a)) + (b*speed) + c;
-  }
- 
   @Override
   public void periodic() {
-    // This method will be called once per scheduler run
-    lowSrxFPID(m_shooterSpeeds.getBottomVelocity());
-    topSrxFPID(m_shooterSpeeds.getTopVelocity());
+    runMotors();
   }
+
 }

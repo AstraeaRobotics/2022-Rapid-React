@@ -5,25 +5,53 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.util.Limelight;
+import frc.robot.Constants.Shooter;
+import frc.robot.subsystems.ShooterSubsystem;
+import frc.robot.util.Regression;
+import frc.robot.util.ShooterSpeeds;
 
 public class ShooterRegression extends CommandBase {
-  /** Creates a new ShooterRegression. */
-  public ShooterRegression() {
-    // Use addRequirements() here to declare subsystem dependencies.
+
+  private final ShooterSubsystem m_shooterSubsystem;
+
+  public ShooterRegression(ShooterSubsystem shooterSubsystem) {
+    addRequirements(shooterSubsystem);
+    this.m_shooterSubsystem = shooterSubsystem;
   }
-  // Called when the command is initially scheduled.
-  @Override
-  public void initialize() {}
 
-  // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
+  public void initialize() {
+    m_shooterSubsystem.setFeederSetpoint(ShooterSpeeds.getSpeedPercent(0.0));
+    m_shooterSubsystem.setFeederSetpoint(ShooterSpeeds.getSpeedPercent(0.0));
+  }
 
-  // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void execute() {
 
-  // Returns true when the command should end.
+    double flywheelSpeed = Regression.binomialRegression( 
+      Shooter.kFlywheelA, 
+      Shooter.kFlywheelB, 
+      Shooter.kFeederC,
+      Limelight.getTy()
+    );
+
+    double feederSpeed = Regression.binomialRegression(
+      Shooter.kFeederA, 
+      Shooter.kFeederB, 
+      Shooter.kFeederC,
+      Limelight.getTy()
+    );
+
+    m_shooterSubsystem.setFlywheelSetpoint(flywheelSpeed);
+    m_shooterSubsystem.setFeederSetpoint(feederSpeed);
+  }
+
+  @Override
+  public void end(boolean interrupted) {
+    m_shooterSubsystem.stopMotors();
+  }
+
   @Override
   public boolean isFinished() {
     return false;
