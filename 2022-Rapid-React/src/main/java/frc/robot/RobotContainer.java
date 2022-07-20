@@ -6,6 +6,7 @@ package frc.robot;
 
 import frc.robot.commands.SimDrive;
 import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.subsystems.LightEmittingDiode;
 import frc.robot.util.Ramsete;
 import frc.robot.util.Traj;
 import edu.wpi.first.wpilibj.PS4Controller;
@@ -26,6 +27,10 @@ public class RobotContainer {
   public static final PS4Controller operatorGamepad = new PS4Controller(Constants.RobotMap.OPERATOR_CONTROLLER_PORT);
 
   public static final DriveSubsystem m_driveSubsystem = new DriveSubsystem();
+
+  public static final LightEmittingDiode M_DIODE = new LightEmittingDiode();
+  
+
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
