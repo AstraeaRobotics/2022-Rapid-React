@@ -13,12 +13,12 @@ public class DriveDistance extends CommandBase {
   public DriveSubsystem m_subsystem;
   public double distance;
   /** Creates a new DriveCommand. */
-  public DriveDistance( DriveSubsystem drive, double distance) { 
+  public DriveDistance(DriveSubsystem drive, double distance) { 
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(drive);
 
     m_subsystem = drive;
-    this.distance = distance*(Constants.DriveConstants.GEAR_RATIO * Constants.DriveConstants.WHEEL_DIAMETER * Math.PI * Constants.DriveConstants.INCHES_TO_METERS);
+    this.distance = distance;
   }
 
   // Called when the command is initially scheduled.
@@ -28,9 +28,7 @@ public class DriveDistance extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-
     m_subsystem.tankDrive(0.25, 0.25);
-
   }
 
   // Called once the command ends or is interrupted.
@@ -43,6 +41,6 @@ public class DriveDistance extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return m_subsystem.getEncoderPosition() > distance;
   }
 }
