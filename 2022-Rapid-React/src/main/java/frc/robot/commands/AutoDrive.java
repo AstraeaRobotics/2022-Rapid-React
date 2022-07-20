@@ -12,7 +12,7 @@ import frc.robot.subsystems.DriveSubsystem;
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class AutoDriveCommand extends SequentialCommandGroup {
   /** Creates a new AutoDiveCommand. */
-  DriveSubsystem m_driveSubsystem;
+  public DriveSubsystem m_driveSubsystem;
   public AutoDriveCommand() {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());

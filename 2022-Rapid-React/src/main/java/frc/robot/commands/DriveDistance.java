@@ -10,15 +10,15 @@ import frc.robot.subsystems.DriveSubsystem;
 
 public class DriveDistanceCommand extends CommandBase {
 
-  DriveSubsystem subsystem;
-  double distance;
+  public DriveSubsystem m_subsystem;
+  public double distance;
   /** Creates a new DriveCommand. */
   public DriveDistanceCommand( DriveSubsystem drive, double distance) { 
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(drive);
 
-    subsystem = drive;
-    this.distance = distance*(Constants.DriveConstants.GEAR_RATIO * Constants.DriveConstants.WHEEL_DIAMETER * math.pi);
+    m_subsystem = drive;
+    this.distance = distance*(Constants.DriveConstants.GEAR_RATIO * Constants.DriveConstants.WHEEL_DIAMETER * math.pi * Constants.DriveConstants.INCHES_TO_METERS);
   }
 
   // Called when the command is initially scheduled.
@@ -29,14 +29,14 @@ public class DriveDistanceCommand extends CommandBase {
   @Override
   public void execute() {
 
-    subsystem.tankDrive(0.25, 0.25);
+    m_subsystem.tankDrive(0.25, 0.25);
 
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    subsystem.tankDrive(0, 0);
+    m_subsystem.tankDrive(0, 0);
 
   }
 

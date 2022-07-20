@@ -34,6 +34,7 @@ public final class Constants {
         public static final double TURN_SPEED = 0.3;
         public static final double WHEEL_DIAMETER = 6; // in inches
         public static final double GEAR_RATIO = 10.81;
+        public static final double INCHES_TO_METERS = 0.0254;
 
         public static final double jKg_METERS_SQUARED = 7.5;
         public static final double ROBOT_MASS = 60;
