@@ -50,6 +50,6 @@ public class RobotContainer {
     // return new SequentialCommandGroup(
     //   Ramsete.createRamseteCommand(Traj.createNewTrajectoryFromJSON("OneBall-1"), m_driveSubsystem, true)
     // );
-    return new DriveDistance(m_driveSubsystem, 1);
+    return new AutoDrive(m_driveSubsystem);
   }
 }
