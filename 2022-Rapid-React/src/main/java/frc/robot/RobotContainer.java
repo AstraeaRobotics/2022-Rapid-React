@@ -4,8 +4,6 @@
 
 package frc.robot;
 
-import frc.robot.commands.SimDrive;
-import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.LightEmittingDiode;
 import frc.robot.util.Ramsete;
 import frc.robot.util.Traj;
@@ -27,16 +25,16 @@ public class RobotContainer {
   public static final PS4Controller driverGamepad = new PS4Controller(Constants.RobotMap.DRIVER_CONTROLLER_PORT);
   public static final PS4Controller operatorGamepad = new PS4Controller(Constants.RobotMap.OPERATOR_CONTROLLER_PORT);
 
-  public static final DriveSubsystem m_driveSubsystem = new DriveSubsystem();
+ 
 
-  private static final LightEmittingDiode m_DIODE = new LightEmittingDiode();
+  //private static final lightEmittingDiodeGreen m_DIODE = new lightEmittingDiodeGreen();
   
 
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     configureButtonBindings();
-    m_DIODE.setDefaultCommand(new lightEmittingDiodeGreen(m_DIODE));
+    
   }
 
   private void configureButtonBindings() {
@@ -48,11 +46,11 @@ public class RobotContainer {
    *
    * @return the command to run in autonomous
    */
-  public Command getAutonomousCommand() {
-    RobotContainer.m_driveSubsystem.resetOdometry(Traj.createNewTrajectoryFromJSON("OneBall-1").getInitialPose());
+  //public Command getAutonomousCommand() {
+    /*RobotContainer.m_driveSubsystem.resetOdometry(Traj.createNewTrajectoryFromJSON("OneBall-1").getInitialPose());
 
     return new SequentialCommandGroup(
       Ramsete.createRamseteCommand(Traj.createNewTrajectoryFromJSON("OneBall-1"), m_driveSubsystem, true)
-    );
-  }
+    );*/
+  //}
 }
