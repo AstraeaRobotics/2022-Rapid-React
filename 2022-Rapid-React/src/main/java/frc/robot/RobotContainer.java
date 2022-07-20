@@ -5,6 +5,7 @@
 package frc.robot;
 
 import frc.robot.commands.AutoDrive;
+import frc.robot.commands.DriveDistance;
 import frc.robot.commands.SimDrive;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.util.Ramsete;
@@ -49,6 +50,6 @@ public class RobotContainer {
     // return new SequentialCommandGroup(
     //   Ramsete.createRamseteCommand(Traj.createNewTrajectoryFromJSON("OneBall-1"), m_driveSubsystem, true)
     // );
-    return new AutoDrive();
+    return new DriveDistance(m_driveSubsystem, 1);
   }
 }

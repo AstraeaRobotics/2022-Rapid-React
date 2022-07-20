@@ -12,12 +12,15 @@ public class DriveDistance extends CommandBase {
 
   public DriveSubsystem m_subsystem;
   public double distance;
+
   /** Creates a new DriveCommand. */
   public DriveDistance( DriveSubsystem drive, double distance) { 
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(drive);
-
     m_subsystem = drive;
+
+    addRequirements(m_subsystem);
+
+
     this.distance = distance*(Constants.DriveConstants.GEAR_RATIO * Constants.DriveConstants.WHEEL_DIAMETER * Math.PI * Constants.DriveConstants.INCHES_TO_METERS);
   }
 
@@ -29,7 +32,7 @@ public class DriveDistance extends CommandBase {
   @Override
   public void execute() {
 
-    m_subsystem.tankDrive(0.25, 0.25);
+    m_subsystem.tankDrive(0.2, 0.2);
 
   }
 
