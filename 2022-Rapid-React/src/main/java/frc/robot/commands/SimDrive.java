@@ -57,10 +57,10 @@ public class SimDrive extends CommandBase {
     
     m_subsystem.curveDrive(adjustedSpeed, m_curveSupplier.getAsDouble(), false);
 
-    // double slowTurnSpeed = m_turnSupplier.getAsDouble();
-    // if (Math.abs(slowTurnSpeed) > DriveConstants.kDeadzone) {
-    //   m_subsystem.tankDriveRaw(slowTurnSpeed * DriveConstants.kTurnSpeed,
-    //       -slowTurnSpeed * DriveConstants.kTurnSpeed);
-    // }
+    double slowTurnSpeed = m_turnSupplier.getAsDouble();
+    if (Math.abs(slowTurnSpeed) > DriveConstants.kDeadzone) {
+      m_subsystem.tankDriveRaw(slowTurnSpeed * DriveConstants.kTurnSpeed,
+          -slowTurnSpeed * DriveConstants.kTurnSpeed);
+    }
   }
 }

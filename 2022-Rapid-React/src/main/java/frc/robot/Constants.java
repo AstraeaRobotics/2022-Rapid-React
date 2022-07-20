@@ -33,7 +33,7 @@ public final class Constants {
     }
     public static final class DriveConstants {
         public static final double kDriveSpeed = 0.6;
-        public static final double kTurnSpeed = 0.3;
+        public static final double kTurnSpeed = 1;
         public static final double kWheelDiameterInches = 6;
         public static final double kWheelDiameterMeters = Units.inchesToMeters(kWheelDiameterInches);
         public static final double kGearRatio = 10.81;
@@ -53,6 +53,6 @@ public final class Constants {
         public static final double kP = 0.01;
         public static final double kI = 0.0;
         public static final double kD = 0.0;
-        public static final double kDeadzone = 0;
+        public static final double kDeadzone = .2;
     }
 }
