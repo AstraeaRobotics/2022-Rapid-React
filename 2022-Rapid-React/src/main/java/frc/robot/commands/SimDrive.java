@@ -53,7 +53,6 @@ public class SimDrive extends CommandBase {
     double speed = (m_forwardsSupplier.getAsDouble() - m_backwardsSupplier.getAsDouble()) * valetSpeed * (-1);
     double adjustedSpeed = m_slewRateLimiter.calculate(speed);
 
-    System.out.println(adjustedSpeed);
     
     m_subsystem.curveDrive(adjustedSpeed, m_curveSupplier.getAsDouble(), false);
 

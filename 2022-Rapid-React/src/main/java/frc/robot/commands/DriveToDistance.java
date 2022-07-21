@@ -16,12 +16,12 @@ public class DriveToDistance extends CommandBase {
   public DriveToDistance(DriveSubsystem driveSubsystem, double distanceMeters) {
     addRequirements(driveSubsystem);
     this.m_DriveSubsystem = driveSubsystem;
-    this.distanceMeters = distanceMeters;
+    this.distanceMeters = distanceMeters + m_DriveSubsystem.getEncoderPosition();
   }
 
   @Override
   public void execute() {
-    m_DriveSubsystem.tankDriveRaw(0.25, 0.25);
+    m_DriveSubsystem.tankDrive(.4, .4);
     System.out.println("RUNNING IT");
   }
 
@@ -33,6 +33,6 @@ public class DriveToDistance extends CommandBase {
 
   @Override
   public boolean isFinished() {
-    return false;
+    return m_DriveSubsystem.getEncoderPosition() > distanceMeters;
   }
 }

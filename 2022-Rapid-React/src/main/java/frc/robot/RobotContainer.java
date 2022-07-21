@@ -5,6 +5,7 @@
 package frc.robot;
 
 import frc.robot.commands.DriveToDistance;
+import frc.robot.commands.DriveWait;
 import frc.robot.commands.SimDrive;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.util.Ramsete;
@@ -58,6 +59,14 @@ public class RobotContainer {
     // return new SequentialCommandGroup(
     //     Ramsete.createRamseteCommand(Traj.createNewTrajectoryFromJSON("OneBall-1"), m_driveSubsystem, true));
 
-    return new DriveToDistance(m_driveSubsystem, 2.0);
+    // RobotContainer.m_driveSubsystem.resetOdometry(Traj.createNewTrajectoryFromJSON("TwoBall").getInitialPose());
+    // return new SequentialCommandGroup(
+    //   Ramsete.createRamseteCommand(Traj.createNewTrajectoryFromJSON("TwoBall"), m_driveSubsystem, true)
+    // );
+
+    RobotContainer.m_driveSubsystem.resetOdometry(Traj.createNewTrajectoryFromJSON("StraightPath").getInitialPose());
+    return new SequentialCommandGroup(
+      Ramsete.createRamseteCommand(Traj.createNewTrajectoryFromJSON("StraightPath"), m_driveSubsystem, true));
+    // return new DriveWait(m_driveSubsystem);
   }
 }
