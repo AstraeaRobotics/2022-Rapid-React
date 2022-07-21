@@ -8,10 +8,11 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.LEDConstants;
 import edu.wpi.first.wpilibj.AddressableLED;
 import edu.wpi.first.wpilibj.AddressableLEDBuffer;
+import edu.wpi.first.wpilibj.util.Color;
 
 public class LEDSubsystem extends SubsystemBase {
 
-  public enum Color {
+  public enum ColorChoices {
     RED,
     GREEN,
     BLUE
@@ -61,93 +62,71 @@ public class LEDSubsystem extends SubsystemBase {
     m_rainbowFirstPixelHue %= 180;
   }
 
-  public void flash(Color color) {
-
+  public void flash(int r, int g, int b) {
     long currentTime = System.currentTimeMillis();
-
     if ((currentTime - previousTime) >= LEDConstants.kInterval) {
       previousTime = currentTime;
       isOn = !isOn;
     }
-
+    if (!isOn) {
+      r = 0;
+      g = 0;
+      b = 0;
+    }
     for (int i = 0; i < m_ledBuffer.getLength(); i++) {
-
-      if (isOn) {
-
-        switch (color) {
-          case RED:
-            m_ledBuffer.setRGB(i, 255, 0, 0);
-            break;
-          case BLUE:
-            m_ledBuffer.setRGB(i, 0, 0, 255);
-            break;
-          case GREEN:
-            m_ledBuffer.setRGB(i, 0, 255, 0);
-            break;
-        }
-
-      } else {
-        m_ledBuffer.setRGB(i, 0, 0, 0);
-      }
-
+      if (isOn)
+        m_ledBuffer.setRGB(i, r, g, b);
     }
   }
 
-  // public void flash(){
-  // for(int i =0; i < m_ledBuffer.getLength(); i++) {
-  // m_ledBuffer = setRGB(255,255,0);
-  // }
-  // m_led.setData(m_ledBuffer);
-  // for(int i =0; i < m_ledBuffer.getLength(); i++){
-  // m_ledBuffer.setRGB(0,0,0);
-  // }
-  // m_led.setData(m_ledBuffer);
-  // }
+  public void flash(Color color) {
+    flash((int) color.red, (int) color.green, (int) color.blue);
+  }
 
   // public void trailMixVersionTwo(){
-  //   for(int i=0; i < m_ledBuffer.getLength(), i++){
-  //     for(int t = 1; t < m_ledBuffer.getLength(); t++)
-  //     if(t!=i){
-  //       m_led.setRGB(t,0,255,0);
-  //       m_led.setData(m_ledBuffer);
-  //     }
-  //     else{
-  //       m_led.setRGB(t,0,0,0);
-  //       m.led.setData(m_ledBuffer);
-  //     }
-  //   }
+  // for(int i=0; i < m_ledBuffer.getLength(), i++){
+  // for(int t = 1; t < m_ledBuffer.getLength(); t++)
+  // if(t!=i){
+  // m_led.setRGB(t,0,255,0);
+  // m_led.setData(m_ledBuffer);
+  // }
+  // else{
+  // m_led.setRGB(t,0,0,0);
+  // m.led.setData(m_ledBuffer);
+  // }
+  // }
   // }
 
   // public void trailMixVersionTwoWithoutUsingAdviksMethod(){
-  //   for(int = 0; i < m_ledBuffer.getLength(); i++){
-  //     for(int = 0; n < (m_ledBuffer.getLength) -1; n++){
-  //       if(n==i){
-  //       m_led.setRGB(n,0,255,0);
-  //       m_led.setData(m_ledBuffer);
-  //       }
-  //       else{
-  //         m_led.setRGB(n,0,0,0);
-  //         m_led.setData(m_ledBuffer);
-  //       }
-  //     }
-  //   }
+  // for(int = 0; i < m_ledBuffer.getLength(); i++){
+  // for(int = 0; n < (m_ledBuffer.getLength) -1; n++){
+  // if(n==i){
+  // m_led.setRGB(n,0,255,0);
+  // m_led.setData(m_ledBuffer);
+  // }
+  // else{
+  // m_led.setRGB(n,0,0,0);
+  // m_led.setData(m_ledBuffer);
+  // }
+  // }
+  // }
   // }
 
   // public void trailMixForKylieLiu() { // this will do Kyle's trail method
-  //   // int trailLength=5;
-  //   for (int n = 0; n < m_ledBuffer.getLength(); n++) {
-  //     for (int i = 0; i < m_ledBuffer.getLength(); i++) {
-  //       if (i != n) {
-  //         m_led.setRGB(i, 0, 0, 255); // background color
-  //         m_led.setData(m_ledBuffer);
-  //       } else { // when i=n
-  //         m_led.setRGB(i, 0, 255, 0); // trailing color
-  //         m_led.setData(m_ledBuffer);
-  //       }
+  // // int trailLength=5;
+  // for (int n = 0; n < m_ledBuffer.getLength(); n++) {
+  // for (int i = 0; i < m_ledBuffer.getLength(); i++) {
+  // if (i != n) {
+  // m_led.setRGB(i, 0, 0, 255); // background color
+  // m_led.setData(m_ledBuffer);
+  // } else { // when i=n
+  // m_led.setRGB(i, 0, 255, 0); // trailing color
+  // m_led.setData(m_ledBuffer);
+  // }
 
-  //     }
-  //     m_led.setSyncTime(500000); // to delay between trail color moving
-  //   }
+  // }
+  // m_led.setSyncTime(500000); // to delay between trail color moving
+  // }
 
   // }
 
