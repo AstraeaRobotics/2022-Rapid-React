@@ -68,9 +68,38 @@ public class LEDSubsystem extends SubsystemBase {
         m_led.setData(m_ledBuffer);
   }
 
+  public void trailMixVersionTwo(){
+    for(int i=0; i < m_ledBuffer.getLength(), i++){
+      for(int t = 1; t < m_ledBuffer.getLength(); t++)
+      if(t!=i){
+        m_led.setRGB(t,0,255,0);
+        m_led.setData(m_ledBuffer);
+      }
+      else{
+        m_led.setRGB(t,0,0,0);
+        m.led.setData(m_ledBuffer);
+      }
+    }
+  }
+
+  public void trailMixVersionTwoWithoutUsingAdviksMethod(){
+    for(int = 0; i < m_ledBuffer.getLength(); i++){
+      for(int = 0; n < (m_ledBuffer.getLength) -1; n++){
+        if(n==i){
+        m_led.setRGB(n,0,255,0);
+        m_led.setData(m_ledBuffer);
+        }
+        else{
+          m_led.setRGB(n,0,0,0);
+          m_led.setData(m_ledBuffer);
+        }
+      }
+    }
+  }
+
   public void trailMixForKylieLiu() { //this will do Kyle's trail method 
      //int trailLength=5;
-     for(int n=0; n< m_ledBuffer,getLength(); n++) {
+     for(int n=0; n< m_ledBuffer.getLength(); n++) {
       for(int i =0; i < m_ledBuffer.getLength(); i++) {
       if(i!=n) {
         m_led.setRGB(i,0,0,255); //background color 
