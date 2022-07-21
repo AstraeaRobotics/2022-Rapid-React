@@ -55,9 +55,21 @@ public class LEDSubsystem extends SubsystemBase {
     m_rainbowFirstPixelHue %=180;
   }
 
+  public void flash(){
+    for(int i =0; i < m_ledBuffer.getLength(); i++) {
+      m_ledBuffer = setRGB(255,255,0);
+    }
+        
+        m_led.setSyncTime(1000000);
+        for(int i =0; i < m_ledBuffer.getLength(); i++){
+          m_ledBuffer.setRGB(0,0,0);
+        }
+  }
+
   @Override
   public void periodic() {
-    rainbow();
+    //rainbow();
+    flash();
     m_led.setData(m_ledBuffer);
   }
 }
