@@ -67,6 +67,10 @@ public class RobotContainer {
     RobotContainer.m_driveSubsystem.resetOdometry(Traj.createNewTrajectoryFromJSON("CirclePath").getInitialPose());
     return new SequentialCommandGroup(
       Ramsete.createRamseteCommand(Traj.createNewTrajectoryFromJSON("CirclePath"), m_driveSubsystem, true));
-    // return new DriveWait(m_driveSubsystem);
+
+    // RobotContainer.m_driveSubsystem.resetOdometry(Traj.createNewTrajectoryFromJSON("StraightPath").getInitialPose());
+    //   return new SequentialCommandGroup(
+    //     Ramsete.createRamseteCommand(Traj.createNewTrajectoryFromJSON("StraightPath"), m_driveSubsystem, true));
+    // // return new DriveWait(m_driveSubsystem);
   }
 }
