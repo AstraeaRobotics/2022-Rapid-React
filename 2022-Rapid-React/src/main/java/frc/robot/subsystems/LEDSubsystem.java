@@ -59,17 +59,20 @@ public class LEDSubsystem extends SubsystemBase {
     for(int i =0; i < m_ledBuffer.getLength(); i++) {
       m_ledBuffer = setRGB(255,255,0);
     }
-        
+        m_led.setData(m_ledBuffer);
         m_led.setSyncTime(1000000);
+        // m_led.setData(m_ledBuffer); uncomment this 
         for(int i =0; i < m_ledBuffer.getLength(); i++){
           m_ledBuffer.setRGB(0,0,0);
         }
+        m_led.setData(m_ledBuffer);
   }
 
   @Override
   public void periodic() {
     //rainbow();
+
     flash();
-    m_led.setData(m_ledBuffer);
+   // m_led.setData(m_ledBuffer);
   }
 }
