@@ -74,7 +74,6 @@ public class LEDSubsystem extends SubsystemBase {
       b = 0;
     }
     for (int i = 0; i < m_ledBuffer.getLength(); i++) {
-      if (isOn)
         m_ledBuffer.setRGB(i, r, g, b);
     }
   }
