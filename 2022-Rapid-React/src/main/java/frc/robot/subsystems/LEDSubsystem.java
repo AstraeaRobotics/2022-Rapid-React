@@ -12,18 +12,12 @@ import edu.wpi.first.wpilibj.util.Color;
 
 public class LEDSubsystem extends SubsystemBase {
 
-  public enum ColorChoices {
-    RED,
-    GREEN,
-    BLUE
-  }
-
   private boolean isOn = true;
 
   private final AddressableLED m_led;
   private final AddressableLEDBuffer m_ledBuffer;
 
-  private long previousTime = 0;
+  private long m_previousTime = 0;
 
   private int m_rainbowFirstPixelHue = 30;
 
@@ -35,22 +29,14 @@ public class LEDSubsystem extends SubsystemBase {
     m_led.start();
   }
 
-  public void glowRed() {
+  public void glow(int r, int g, int b) {
     for (int i = 0; i < m_ledBuffer.getLength(); i++) {
-      m_ledBuffer.setRGB(i, 255, 0, 0);
+      m_ledBuffer.setRGB(i, r, g, b);
     }
   }
 
-  public void glowGreen() {
-    for (int i = 0; i < m_ledBuffer.getLength(); i++) {
-      m_ledBuffer.setRGB(i, 0, 255, 0);
-    }
-  }
-
-  public void glowBlue() {
-    for (int i = 0; i < m_ledBuffer.getLength(); i++) {
-      m_ledBuffer.setRGB(i, 0, 0, 255);
-    }
+  public void glow(Color color) {
+    glow((int) color.red, (int) color.green, (int) color.blue);
   }
 
   public void rainbow() {
@@ -64,8 +50,8 @@ public class LEDSubsystem extends SubsystemBase {
 
   public void flash(int r, int g, int b) {
     long currentTime = System.currentTimeMillis();
-    if ((currentTime - previousTime) >= LEDConstants.kInterval) {
-      previousTime = currentTime;
+    if ((currentTime - m_previousTime) >= LEDConstants.kInterval) {
+      m_previousTime = currentTime;
       isOn = !isOn;
     }
     if (!isOn) {
@@ -74,7 +60,7 @@ public class LEDSubsystem extends SubsystemBase {
       b = 0;
     }
     for (int i = 0; i < m_ledBuffer.getLength(); i++) {
-        m_ledBuffer.setRGB(i, r, g, b);
+      m_ledBuffer.setRGB(i, r, g, b);
     }
   }
 
@@ -82,56 +68,9 @@ public class LEDSubsystem extends SubsystemBase {
     flash((int) color.red, (int) color.green, (int) color.blue);
   }
 
-  // public void trailMixVersionTwo(){
-  // for(int i=0; i < m_ledBuffer.getLength(), i++){
-  // for(int t = 1; t < m_ledBuffer.getLength(); t++)
-  // if(t!=i){
-  // m_led.setRGB(t,0,255,0);
-  // m_led.setData(m_ledBuffer);
-  // }
-  // else{
-  // m_led.setRGB(t,0,0,0);
-  // m.led.setData(m_ledBuffer);
-  // }
-  // }
-  // }
-
-  // public void trailMixVersionTwoWithoutUsingAdviksMethod(){
-  // for(int = 0; i < m_ledBuffer.getLength(); i++){
-  // for(int = 0; n < (m_ledBuffer.getLength) -1; n++){
-  // if(n==i){
-  // m_led.setRGB(n,0,255,0);
-  // m_led.setData(m_ledBuffer);
-  // }
-  // else{
-  // m_led.setRGB(n,0,0,0);
-  // m_led.setData(m_ledBuffer);
-  // }
-  // }
-  // }
-  // }
-
-  // public void trailMixForKylieLiu() { // this will do Kyle's trail method
-  // // int trailLength=5;
-  // for (int n = 0; n < m_ledBuffer.getLength(); n++) {
-  // for (int i = 0; i < m_ledBuffer.getLength(); i++) {
-  // if (i != n) {
-  // m_led.setRGB(i, 0, 0, 255); // background color
-  // m_led.setData(m_ledBuffer);
-  // } else { // when i=n
-  // m_led.setRGB(i, 0, 255, 0); // trailing color
-  // m_led.setData(m_ledBuffer);
-  // }
-
-  // }
-  // m_led.setSyncTime(500000); // to delay between trail color moving
-  // }
-
-  // }
-
   @Override
   public void periodic() {
-    rainbow();
+    flash(Color.kBlue);
     m_led.setData(m_ledBuffer);
   }
 }
