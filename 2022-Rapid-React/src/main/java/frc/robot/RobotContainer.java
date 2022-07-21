@@ -5,6 +5,7 @@
 package frc.robot;
 
 import frc.robot.commands.ManualShoot;
+import frc.robot.commands.ShooterRegression;
 import frc.robot.commands.SimDrive;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
@@ -34,8 +35,9 @@ public class RobotContainer {
 
   public RobotContainer() {
     configureButtonBindings();
-    m_shooterSubsystem.setDefaultCommand(new ManualShoot(m_shooterSubsystem, 20, 20));
-    m_driveSubsystem.setDefaultCommand(new SimDrive());
+    //m_shooterSubsystem.setDefaultCommand(new ManualShoot(m_shooterSubsystem, 30, 30, operatorGamepad::getRightY));
+    m_shooterSubsystem.setDefaultCommand(new ShooterRegression(m_shooterSubsystem));
+    // m_driveSubsystem.setDefaultCommand(new SimDrive());
   }
 
   private void configureButtonBindings() {}

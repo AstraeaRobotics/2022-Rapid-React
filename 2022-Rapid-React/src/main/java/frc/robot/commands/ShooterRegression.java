@@ -4,6 +4,7 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.util.Limelight;
 import frc.robot.Constants.Shooter;
@@ -28,11 +29,12 @@ public class ShooterRegression extends CommandBase {
 
   @Override
   public void execute() {
+    SmartDashboard.putNumber("Y-Offset", Limelight.getTy());
 
     double flywheelSpeed = Regression.binomialRegression( 
       Shooter.kFlywheelA, 
       Shooter.kFlywheelB, 
-      Shooter.kFeederC,
+      Shooter.kFlywheelC,
       Limelight.getTy()
     );
 
@@ -43,8 +45,11 @@ public class ShooterRegression extends CommandBase {
       Limelight.getTy()
     );
 
-    m_shooterSubsystem.setFlywheelSetpoint(flywheelSpeed);
-    m_shooterSubsystem.setFeederSetpoint(feederSpeed);
+    SmartDashboard.putNumber("FlywheelSpeed", flywheelSpeed);
+    SmartDashboard.putNumber("FeederSpeed", feederSpeed);
+
+    m_shooterSubsystem.setFlywheelSetpoint(ShooterSpeeds.getSpeedPercent(flywheelSpeed));
+    m_shooterSubsystem.setFeederSetpoint(ShooterSpeeds.getSpeedPercent(feederSpeed));
   }
 
   @Override

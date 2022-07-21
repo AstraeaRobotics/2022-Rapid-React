@@ -4,6 +4,8 @@
 
 package frc.robot.commands;
 
+import java.util.function.DoubleSupplier;
+
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.util.ShooterSpeeds;
@@ -14,19 +16,22 @@ public class ManualShoot extends CommandBase {
 
   private final double flywheelSpeed;
   private final double feederSpeed;
+  private final DoubleSupplier ShootSpeed;
 
 
-  public ManualShoot(ShooterSubsystem shooterSubsystem, double flywheelSpeed, double feederSpeed) {
-    addRequirements(m_shooterSubsystem);
+  public ManualShoot(ShooterSubsystem shooterSubsystem, double flywheelSpeed, double feederSpeed, DoubleSupplier ShootSpeed) {
+    addRequirements(shooterSubsystem);
     this.m_shooterSubsystem = shooterSubsystem;
     this.flywheelSpeed = flywheelSpeed;
     this.feederSpeed = feederSpeed;
+    this.ShootSpeed = ShootSpeed;
   }
 
   @Override
   public void execute() {
-    m_shooterSubsystem.setFlywheelSetpoint(ShooterSpeeds.getSpeedPercent(flywheelSpeed));
-    m_shooterSubsystem.setFeederSetpoint(ShooterSpeeds.getSpeedPercent(feederSpeed));
+    double speeds = ShootSpeed.getAsDouble() * 100;
+    m_shooterSubsystem.setFlywheelSetpoint(ShooterSpeeds.getSpeedPercent(speeds));
+    m_shooterSubsystem.setFeederSetpoint(ShooterSpeeds.getSpeedPercent(speeds));
   }
 
   @Override
