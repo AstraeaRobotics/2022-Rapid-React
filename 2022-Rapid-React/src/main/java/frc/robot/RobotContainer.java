@@ -35,8 +35,8 @@ public class RobotContainer {
 
   public RobotContainer() {
     configureButtonBindings();
-    //m_shooterSubsystem.setDefaultCommand(new ManualShoot(m_shooterSubsystem, 30, 30, operatorGamepad::getRightY));
-    m_shooterSubsystem.setDefaultCommand(new ShooterRegression(m_shooterSubsystem));
+    m_shooterSubsystem.setDefaultCommand(new ManualShoot(m_shooterSubsystem, 30, 30));
+    //m_shooterSubsystem.setDefaultCommand(new ShooterRegression(m_shooterSubsystem));
     // m_driveSubsystem.setDefaultCommand(new SimDrive());
   }
 

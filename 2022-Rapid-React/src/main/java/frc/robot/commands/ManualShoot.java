@@ -16,22 +16,18 @@ public class ManualShoot extends CommandBase {
 
   private final double flywheelSpeed;
   private final double feederSpeed;
-  private final DoubleSupplier ShootSpeed;
 
-
-  public ManualShoot(ShooterSubsystem shooterSubsystem, double flywheelSpeed, double feederSpeed, DoubleSupplier ShootSpeed) {
+  public ManualShoot(ShooterSubsystem shooterSubsystem, double flywheelSpeed, double feederSpeed) {
     addRequirements(shooterSubsystem);
     this.m_shooterSubsystem = shooterSubsystem;
     this.flywheelSpeed = flywheelSpeed;
     this.feederSpeed = feederSpeed;
-    this.ShootSpeed = ShootSpeed;
   }
 
   @Override
   public void execute() {
-    double speeds = ShootSpeed.getAsDouble() * 100;
-    m_shooterSubsystem.setFlywheelSetpoint(ShooterSpeeds.getSpeedPercent(speeds));
-    m_shooterSubsystem.setFeederSetpoint(ShooterSpeeds.getSpeedPercent(speeds));
+    m_shooterSubsystem.setFlywheelSetpoint(ShooterSpeeds.getSpeedPercent(50));
+    m_shooterSubsystem.setFeederSetpoint(ShooterSpeeds.getSpeedPercent(80));
   }
 
   @Override
