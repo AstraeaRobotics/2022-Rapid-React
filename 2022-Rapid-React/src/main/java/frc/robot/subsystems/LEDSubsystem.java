@@ -68,21 +68,29 @@ public class LEDSubsystem extends SubsystemBase {
         m_led.setData(m_ledBuffer);
   }
 
-  public void trailMixForKylieLiu() {
-     int trailLength=5;
-    for(int i =0; i < m_ledBuffer.getLength(); i++) {
+  public void trailMixForKylieLiu() { //this will do Kyle's trail method 
+     //int trailLength=5;
+     for(int n=0; n< m_ledBuffer,getLength(); n++) {
+      for(int i =0; i < m_ledBuffer.getLength(); i++) {
+      if(i!=n) {
+        m_led.setRGB(i,0,0,255); //background color 
+        m_led.setData(m_ledBuffer);
+      } else { //when i=n
+        m_led.setRGB(i,0,255,0); //trailing color 
+        m_led.setData(m_ledBuffer);
+      }
       
-      /*for(int n=0; n<= trailLength; n++) {
-        m_ledBuffer.setRGB(i,0,0,255);
-      } */
       
-    }
+      }
+      m_led.setSyncTime(500000); //to delay between trail color moving 
+     }
+    
   }
 
   @Override
   public void periodic() {
     //rainbow();
-    
+    trailMixForKylieLiu();
     //flash();
    // m_led.setData(m_ledBuffer);
   }
