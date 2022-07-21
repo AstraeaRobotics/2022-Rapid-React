@@ -68,11 +68,22 @@ public class LEDSubsystem extends SubsystemBase {
         m_led.setData(m_ledBuffer);
   }
 
+  public void trailMixForKylieLiu() {
+     int trailLength=5;
+    for(int i =0; i < m_ledBuffer.getLength(); i++) {
+      
+      /*for(int n=0; n<= trailLength; n++) {
+        m_ledBuffer.setRGB(i,0,0,255);
+      } */
+      
+    }
+  }
+
   @Override
   public void periodic() {
     //rainbow();
-
-    flash();
+    
+    //flash();
    // m_led.setData(m_ledBuffer);
   }
 }
