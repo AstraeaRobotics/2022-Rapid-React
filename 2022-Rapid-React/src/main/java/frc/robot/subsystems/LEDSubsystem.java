@@ -17,9 +17,10 @@ public class LEDSubsystem extends SubsystemBase {
   private final AddressableLED m_led;
   private final AddressableLEDBuffer m_ledBuffer;
 
-  private long m_previousTime = 0;
+  private long m_previousTimeFlash = 0;
 
   private int m_rainbowFirstPixelHue = 30;
+  private int currentTrailIndex = 0;
 
   public LEDSubsystem() {
     m_led = new AddressableLED(LEDConstants.kPwmPort);
@@ -50,8 +51,8 @@ public class LEDSubsystem extends SubsystemBase {
 
   public void flash(int r, int g, int b) {
     long currentTime = System.currentTimeMillis();
-    if ((currentTime - m_previousTime) >= LEDConstants.kInterval) {
-      m_previousTime = currentTime;
+    if ((currentTime - m_previousTimeFlash) >= LEDConstants.kInterval) {
+      m_previousTimeFlash = currentTime;
       isOn = !isOn;
     }
     if (!isOn) {
@@ -66,6 +67,14 @@ public class LEDSubsystem extends SubsystemBase {
 
   public void flash(Color color) {
     flash((int) color.red, (int) color.green, (int) color.blue);
+  }
+
+  public void trail(Color bgColor, Color movingColor, int trailLength) {
+    glow(bgColor);
+    for(int i = currentTrailIndex; i < currentTrailIndex + trailLength; i ++) {
+      m_ledBuffer.setLED(i % m_ledBuffer.getLength(), movingColor);
+    }
+    currentTrailIndex ++;
   }
 
   @Override

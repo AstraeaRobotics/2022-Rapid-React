@@ -55,6 +55,7 @@ public final class Constants {
         public static final int kPwmPort = 0; 
         public static final int kLength = 144;
         public static final double kInterval = Units.secondsToMilliseconds(1.0);
+        public static final double kIntervalTrail = Units.secondsToMilliseconds(0.1);
 
     }
 }
