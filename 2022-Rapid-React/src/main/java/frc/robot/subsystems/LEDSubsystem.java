@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.LEDConstants;
 import edu.wpi.first.wpilibj.AddressableLED;
 import edu.wpi.first.wpilibj.AddressableLEDBuffer;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.util.Color;
 
 public class LEDSubsystem extends SubsystemBase {
@@ -71,15 +72,19 @@ public class LEDSubsystem extends SubsystemBase {
 
   public void trail(Color bgColor, Color movingColor, int trailLength) {
     glow(bgColor);
-    for(int i = currentTrailIndex; i < currentTrailIndex + trailLength; i ++) {
+    for (int i = currentTrailIndex; i < currentTrailIndex + trailLength; i++) {
       m_ledBuffer.setLED(i % m_ledBuffer.getLength(), movingColor);
     }
-    currentTrailIndex ++;
+    currentTrailIndex++;
   }
 
   @Override
   public void periodic() {
-    flash(Color.kBlue);
+    if (DriverStation.isDisabled()) {
+      rainbow();
+    } else {
+      flash(Color.kBlue);
+    }
     m_led.setData(m_ledBuffer);
   }
 }
