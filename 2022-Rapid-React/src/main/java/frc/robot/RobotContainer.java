@@ -64,10 +64,24 @@ public class RobotContainer {
     //   Ramsete.createRamseteCommand(Traj.createNewTrajectoryFromJSON("TwoBall"), m_driveSubsystem, true)
     // );
 
-    RobotContainer.m_driveSubsystem.resetOdometry(Traj.createNewTrajectoryFromJSON("CirclePath").getInitialPose());
+    // RobotContainer.m_driveSubsystem.resetOdometry(Traj.createNewTrajectoryFromJSON("CirclePath").getInitialPose());
+    // return new SequentialCommandGroup(
+    //   Ramsete.createRamseteCommand(Traj.createNewTrajectoryFromJSON("CirclePath"), m_driveSubsystem, true));
+
+    /* //ThreeBall
+    RobotContainer.m_driveSubsystem.resetOdometry(Traj.createNewTrajectoryFromJSON("ThreeBall-1").getInitialPose());
+    RobotContainer.m_driveSubsystem.resetOdometry(Traj.createNewTrajectoryFromJSON("ThreeBall-2").getInitialPose());
+    RobotContainer.m_driveSubsystem.resetOdometry(Traj.createNewTrajectoryFromJSON("ThreeBall-3").getInitialPose());
     return new SequentialCommandGroup(
-      //Shoot ball
-      Ramsete.createRamseteCommand(Traj.createNewTrajectoryFromJSON("CirclePath"), m_driveSubsystem, true));
+      Ramsete.createRamseteCommand(Traj.createNewTrajectoryFromJSON("ThreeBall-1"), m_driveSubsystem, true)
+      //Intake
+      //Shoot
+      Ramsete.createRamseteCommand(Traj.createNewTrajectoryFromJSON("ThreeBall-2"), m_driveSubsystem, true)
+      //Intake
+      //Shoot
+      Ramsete.createRamseteCommand(Traj.createNewTrajectoryFromJSON("ThreeBall-3"), m_driveSubsystem, true)
+    );
+    */
 
     // RobotContainer.m_driveSubsystem.resetOdometry(Traj.createNewTrajectoryFromJSON("StraightPath").getInitialPose());
     //   return new SequentialCommandGroup(
