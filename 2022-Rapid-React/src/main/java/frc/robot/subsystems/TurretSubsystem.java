@@ -1,16 +1,14 @@
 package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkMaxLowLevel;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.TurretConstants;
 
 import com.revrobotics.RelativeEncoder;
 
-import edu.wpi.first.networktables.NetworkTable;
-import edu.wpi.first.networktables.NetworkTableInstance;
-import frc.robot.util.Logger;
+import edu.wpi.first.math.MathUtil;
 
 public class TurretSubsystem extends SubsystemBase {
 
@@ -18,25 +16,15 @@ public class TurretSubsystem extends SubsystemBase {
 
     private RelativeEncoder m_encoder;
 
-    private NetworkTable table = NetworkTableInstance.getDefault().getTable("Turret");
-
-
     public TurretSubsystem() {
-        m_turretMotor = new CANSparkMax(TurretConstants.TurretCANid, CANSparkMaxLowLevel.MotorType.kBrushless);
+        m_turretMotor = new CANSparkMax(TurretConstants.kTurretCANId, MotorType.kBrushless);
         m_encoder = m_turretMotor.getEncoder();
         m_encoder.setPosition(0.0);
-        Logger.logWithNetworkTable(table, "isRunning", false);
     }
 
     public void runTurret(double speed) {
-        // if (Math.abs(speed) > Math.abs(TurretConstants.k_maxSpeed)) {
-        // turretMotor.set(TurretConstants.k_maxSpeed * (speed / Math.abs(speed))); // limiting
-        // speed & keeping pos or neg sign
-        // } else {
-        // turretMotor.set(speed);
-        // }
+        MathUtil.clamp(speed, -TurretConstants.kMaxSpeed, TurretConstants.kMaxSpeed);
         m_turretMotor.set(speed);
-        Logger.logWithNetworkTable(table, "isRunning", true);
     }
 
     public double getCurrentPosition() {
@@ -49,6 +37,5 @@ public class TurretSubsystem extends SubsystemBase {
 
     @Override
     public void periodic() {
-        Logger.logWithNetworkTable(table, "Position", getCurrentPosition());
     }
 }
