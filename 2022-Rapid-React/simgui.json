@@ -1,13 +1,4 @@
 {
-  "HALProvider": {
-    "Other Devices": {
-      "SPARK MAX [4]": {
-        "header": {
-          "open": true
-        }
-      }
-    }
-  },
   "NTProvider": {
     "types": {
       "/FMSInfo": "FMSInfo",
@@ -25,6 +16,7 @@
     },
     "windows": {
       "/Shuffleboard/Dashboard/Field View": {
+        "image": "/Users/siddharthlohani/Downloads/2022-field.png",
         "window": {
           "visible": true
         }
@@ -32,9 +24,6 @@
     }
   },
   "NetworkTables": {
-    "Drive": {
-      "open": true
-    },
     "Shuffleboard": {
       "Dashboard": {
         "open": true
