@@ -16,8 +16,8 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 public class RobotContainer {
 
   /* GAMEPADS */
-  public static final PS4Controller driverGamepad = new PS4Controller(Constants.RobotMap.DRIVER_CONTROLLER_PORT);
-  public static final PS4Controller operatorGamepad = new PS4Controller(Constants.RobotMap.OPERATOR_CONTROLLER_PORT);
+  private static final PS4Controller driverGamepad = new PS4Controller(Constants.RobotMap.kDriverControllerPort);
+  private static final PS4Controller operatorGamepad = new PS4Controller(Constants.RobotMap.kOperatorControllerPort);
 
   public static final DriveSubsystem m_driveSubsystem = new DriveSubsystem();
   private final LEDSubsystem m_ledSubsystem = new LEDSubsystem();
@@ -27,7 +27,12 @@ public class RobotContainer {
    */
   public RobotContainer() {
     configureButtonBindings();
-    m_driveSubsystem.setDefaultCommand(new SimDrive());
+    m_driveSubsystem.setDefaultCommand(
+        new SimDrive(m_driveSubsystem, 2,
+            driverGamepad::getR2Axis,
+            driverGamepad::getL2Axis,
+            driverGamepad::getLeftX,
+            driverGamepad::getRightX));
   }
 
   private void configureButtonBindings() {
