@@ -70,8 +70,6 @@ public class RobotContainer {
 
     /* //ThreeBall
     RobotContainer.m_driveSubsystem.resetOdometry(Traj.createNewTrajectoryFromJSON("ThreeBall-1").getInitialPose());
-    RobotContainer.m_driveSubsystem.resetOdometry(Traj.createNewTrajectoryFromJSON("ThreeBall-2").getInitialPose());
-    RobotContainer.m_driveSubsystem.resetOdometry(Traj.createNewTrajectoryFromJSON("ThreeBall-3").getInitialPose());
     return new SequentialCommandGroup(
       Ramsete.createRamseteCommand(Traj.createNewTrajectoryFromJSON("ThreeBall-1"), m_driveSubsystem, true)
       //Intake
@@ -86,7 +84,6 @@ public class RobotContainer {
     */
 
     RobotContainer.m_driveSubsystem.resetOdometry(Traj.createNewTrajectoryFromJSON("TwoBall-1").getInitialPose());
-    RobotContainer.m_driveSubsystem.resetOdometry(Traj.createNewTrajectoryFromJSON("TwoBall-2").getInitialPose());
     return new SequentialCommandGroup(
       Ramsete.createRamseteCommand(Traj.createNewTrajectoryFromJSON("TwoBall-1"), m_driveSubsystem, true)
       //Intake
