@@ -37,7 +37,7 @@ public class RobotContainer {
 
   private final JoystickButton circleButton = new JoystickButton(driverGamepad, 3);
 
-  private boolean extend = true;
+  // private boolean extend = true;
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -53,8 +53,7 @@ public class RobotContainer {
   }
 
   private void configureButtonBindings() {
-    circleButton.whenPressed(new IntakeToggle(m_IntakeSubsystem, extend));
-    
+    circleButton.whenPressed(new IntakeToggle(m_IntakeSubsystem));
   }
 
   /**

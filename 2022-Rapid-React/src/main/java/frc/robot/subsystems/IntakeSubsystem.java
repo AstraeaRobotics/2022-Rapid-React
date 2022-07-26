@@ -6,6 +6,7 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 
 import com.revrobotics.CANSparkMax;
@@ -25,25 +26,29 @@ public class IntakeSubsystem extends SubsystemBase {
 
   private final I2C.Port i2cPort;
   ColorSensorV3 colorSensor;
+  //boolean extend;
 
 
   /** Creates a new IntakeSubsystem. */
   public IntakeSubsystem() {
-    left = new DoubleSolenoid(PneumaticsModuleType.REVPH, 0, 1);  // port numbers are random
-    right = new DoubleSolenoid(PneumaticsModuleType.REVPH, 2, 3);
-
+    left = new DoubleSolenoid(PneumaticsModuleType.REVPH, 15, 14);  // port numbers are random
+    right = new DoubleSolenoid(PneumaticsModuleType.REVPH, 13, 12);
+    left.set(DoubleSolenoid.Value.kReverse);  // setting as default
+    right.set(DoubleSolenoid.Value.kReverse);
+    
     mIntake = new CANSparkMax(99, CANSparkMaxLowLevel.MotorType.kBrushless);
 
     i2cPort = I2C.Port.kOnboard;
     colorSensor = new ColorSensorV3(i2cPort);
   }
 
-  public void extendAndRetract(boolean extend){
-    if (extend){
+  public void extendAndRetract(){
+    // pneumatics are doing opposite of curr status
+    if (left.get() == Value.kReverse){
       left.set(DoubleSolenoid.Value.kForward);
       right.set(DoubleSolenoid.Value.kForward);
     }
-    else{
+    else if (left.get() == Value.kForward) {
       left.set(DoubleSolenoid.Value.kReverse);
       right.set(DoubleSolenoid.Value.kReverse);
     }
@@ -61,6 +66,10 @@ public class IntakeSubsystem extends SubsystemBase {
       return false;
     }
     return null;
+  }
+
+  public boolean isExtended() {
+    return right.get() == Value.kForward;
   }
 
 
