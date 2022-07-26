@@ -4,8 +4,6 @@
 
 package frc.robot.commands;
 
-import java.util.function.DoubleSupplier;
-
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.util.ShooterSpeeds;
@@ -26,8 +24,8 @@ public class ManualShoot extends CommandBase {
 
   @Override
   public void execute() {
-    m_shooterSubsystem.setFlywheelSetpoint(ShooterSpeeds.getSpeedPercent(50));
-    m_shooterSubsystem.setFeederSetpoint(ShooterSpeeds.getSpeedPercent(80));
+    m_shooterSubsystem.setFlywheelSetpoint(ShooterSpeeds.getSpeedPercent(flywheelSpeed));
+    m_shooterSubsystem.setFeederSetpoint(ShooterSpeeds.getSpeedPercent(feederSpeed));
   }
 
   @Override
