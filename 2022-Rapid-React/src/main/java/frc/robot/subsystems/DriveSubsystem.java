@@ -177,7 +177,8 @@ public class DriveSubsystem extends SubsystemBase {
      * @param right The speed of the right side of the robot
      */
     public void tankDriveRaw(double left, double right) {
-        m_drive.tankDrive(left, right);
+        m_leftMotors.set(left);
+        m_rightMotors.set(right);
     }
 
     /**
