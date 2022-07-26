@@ -75,4 +75,30 @@ public final class Constants {
 
         public static final double kMaxSpeed = 0.05;
     }
+    public static final class Limelight {
+        public static final double kLimeLightMountAngleDegrees = 25.0;
+        public static final double kLimelightLensHeightInches = 20.0;
+        public static final double kGoalHeightInches = 60.0;
+    }
+
+    public static final class Shooter {
+        public static final int kPIDLoopIDx = 0;
+        public static final double kGains_VelocitkF = 0.048973143759; //Feed Forward
+        public static final double kGains_VelocitkP = 0.085035;
+        public static final double kGains_VelocitkI = 0.00035;
+        public static final double kGains_VelocitkD = 0;
+        public static final double kConversionFactor = 2048/600;
+        public static final int kTimeoutMs = 0;
+        
+        public static final int kMaxSpeed = 20000;
+
+        public static final double kFlywheelA = 0;
+        public static final double kFlywheelB = 1;
+        public static final double kFlywheelC = 0;
+
+        public static final double kFeederA = 0;
+        public static final double kFeederB = 1;
+        public static final double kFeederC = 0;
+
+    }
 }
