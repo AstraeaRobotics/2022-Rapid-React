@@ -2,26 +2,102 @@ package frc.robot.status;
 
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import frc.robot.Constants.StatusConstants;
 
 public class Status {
-
-    // STATUSES
-    // drivebase: auto, forward, backward
-    // elevator: bottom, going_up, going_down, top
-    // intake: extended_spinning, retracted_stopped,
-    // shooter: ready, shooting, stopped
-    // indexer: no_balls, one_ball, two_balls
-
     
+    public enum ShooterStatus {
+        kReady,
+        kStopped
+    }
+    
+    public enum IntakeStatus {
+        kExtended,
+        kRetracted
+    }
+
+    public enum DriveStatus {
+        kForward,
+        kBackward,
+        kStopped
+    }    
+
+    public enum BallStatus {
+        kEmpty,
+        kBlue,
+        kRed
+    }
+    
+    public enum ClimberStatus {
+        kBottom,
+        kGoingUp,
+        kGoingDown,
+        kTop
+    }
+
+    public enum IndexerStatus {
+        kLoading,
+        kShooting,
+        kStopped
+    }
+
+    /* DEFAULT STATUS */
+
     public static void logStatus(String system, String status) {
-        NetworkTable table = NetworkTableInstance.getDefault().getTable("status");
-        table.getEntry(system).setString(status);
+        NetworkTable table = NetworkTableInstance.getDefault().getTable(system);
+        table.getEntry("status").setString(status);
     }
 
-    public static String check(String system) {
-        NetworkTable table = NetworkTableInstance.getDefault().getTable("status");
-        String status = table.getEntry(system).getString("");
-        return status;
+    public static void logStatus(String system, String status, String key) {
+        NetworkTable table = NetworkTableInstance.getDefault().getTable(system);
+        table.getEntry(key).setString(status);
     }
-    
+
+    public static String checkStatus(String system, String defaultValue) {
+        NetworkTable table = NetworkTableInstance.getDefault().getTable(system);
+        return table.getEntry("status").getString(defaultValue);
+    }
+
+    public static String checkStatus(String system, String defaultValue, String key) {
+        NetworkTable table = NetworkTableInstance.getDefault().getTable(system);
+        return table.getEntry(key).getString(defaultValue);
+    }
+
+    /* SHOOTER */
+
+    public static void logShooterStatus(ShooterStatus status) {
+        logStatus(StatusConstants.kShooter, status.name());
+    }
+
+    public static ShooterStatus getShooterStatus() {
+        return ShooterStatus.valueOf(checkStatus(StatusConstants.kShooter, "kStopped"));
+    }
+
+    /* INTAKE */
+
+    public static void logIntakeStatus(IntakeStatus status) {
+        logStatus(StatusConstants.kIntake, status.name());
+    }
+
+    public static IntakeStatus getIntakeStatus() {
+        return IntakeStatus.valueOf(checkStatus(StatusConstants.kIntake, "kRetracted"));
+    }
+
+    /* INDEXER */
+
+    public static void logBallStatus(int ballNumber, BallStatus status) {
+        logStatus(StatusConstants.kIndexer, status.name(), "ball " + ballNumber);
+    }
+
+    public static BallStatus getBallStatus(int ballNumber) {
+        return BallStatus.valueOf(checkStatus(StatusConstants.kIndexer, "kEmpty", "ball " + ballNumber));
+    }
+
+    public static void logIndexerStatus(IndexerStatus status) {
+        logStatus(StatusConstants.kIndexer, status.name());
+    }
+
+    public static IndexerStatus getIndexerStatus() {
+        return IndexerStatus.valueOf(checkStatus(StatusConstants.kIndexer, "kStopped"));
+    }
 }
