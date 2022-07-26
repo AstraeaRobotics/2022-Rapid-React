@@ -66,6 +66,7 @@ public class RobotContainer {
 
     RobotContainer.m_driveSubsystem.resetOdometry(Traj.createNewTrajectoryFromJSON("CirclePath").getInitialPose());
     return new SequentialCommandGroup(
+      //Shoot ball
       Ramsete.createRamseteCommand(Traj.createNewTrajectoryFromJSON("CirclePath"), m_driveSubsystem, true));
 
     // RobotContainer.m_driveSubsystem.resetOdometry(Traj.createNewTrajectoryFromJSON("StraightPath").getInitialPose());
