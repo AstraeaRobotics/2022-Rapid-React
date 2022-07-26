@@ -11,6 +11,10 @@ import frc.robot.util.Traj;
 import edu.wpi.first.wpilibj.PS4Controller;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+
+import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.commands.IntakeToggle;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -25,9 +29,15 @@ public class RobotContainer {
 
   /* GAMEPADS */
   private static final PS4Controller driverGamepad = new PS4Controller(Constants.RobotMap.kDriverControllerPort);
-  private static final PS4Controller operatorGamepad = new PS4Controller(Constants.RobotMap.kOperatorControllerPort);
 
   private static final DriveSubsystem m_driveSubsystem = new DriveSubsystem();
+
+  private final IntakeSubsystem m_IntakeSubsystem = new IntakeSubsystem();
+  
+
+  private final JoystickButton circleButton = new JoystickButton(driverGamepad, 3);
+
+  private boolean extend = true;
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -43,7 +53,8 @@ public class RobotContainer {
   }
 
   private void configureButtonBindings() {
-
+    circleButton.whenPressed(new IntakeToggle(m_IntakeSubsystem, extend));
+    
   }
 
   /**
