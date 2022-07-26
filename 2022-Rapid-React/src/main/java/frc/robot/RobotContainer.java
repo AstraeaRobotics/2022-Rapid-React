@@ -85,7 +85,7 @@ public class RobotContainer {
 
     RobotContainer.m_driveSubsystem.resetOdometry(Traj.createNewTrajectoryFromJSON("TwoBall-1").getInitialPose());
     return new SequentialCommandGroup(
-      Ramsete.createRamseteCommand(Traj.createNewTrajectoryFromJSON("TwoBall-1"), m_driveSubsystem, true)
+      Ramsete.createRamseteCommand(Traj.createNewTrajectoryFromJSON("TwoBall-1"), m_driveSubsystem, true),
       //Intake
       Ramsete.createRamseteCommand(Traj.createNewTrajectoryFromJSON("TwoBall-2"), m_driveSubsystem, true)
       //Shoot
