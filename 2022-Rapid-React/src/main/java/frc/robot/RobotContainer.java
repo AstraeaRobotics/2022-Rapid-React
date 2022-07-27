@@ -83,17 +83,19 @@ public class RobotContainer {
     );
     */
 
-    RobotContainer.m_driveSubsystem.resetOdometry(Traj.createNewTrajectoryFromJSON("TwoBall-1").getInitialPose());
-    return new SequentialCommandGroup(
-      Ramsete.createRamseteCommand(Traj.createNewTrajectoryFromJSON("TwoBall-1"), m_driveSubsystem, true),
-      //Intake
-      Ramsete.createRamseteCommand(Traj.createNewTrajectoryFromJSON("TwoBall-2"), m_driveSubsystem, true)
-      //Shoot
-      );
+    // RobotContainer.m_driveSubsystem.resetOdometry(Traj.createNewTrajectoryFromJSON("TwoBall-1").getInitialPose());
+    // return new SequentialCommandGroup(
+    //   Ramsete.createRamseteCommand(Traj.createNewTrajectoryFromJSON("TwoBall-1"), m_driveSubsystem, true),
+    //   //Intake
+    //   Ramsete.createRamseteCommand(Traj.createNewTrajectoryFromJSON("TwoBall-2"), m_driveSubsystem, true)
+    //   //Shoot
+    //   );
 
     // RobotContainer.m_driveSubsystem.resetOdometry(Traj.createNewTrajectoryFromJSON("StraightPath").getInitialPose());
     //   return new SequentialCommandGroup(
     //     Ramsete.createRamseteCommand(Traj.createNewTrajectoryFromJSON("StraightPath"), m_driveSubsystem, true));
     // // return new DriveWait(m_driveSubsystem);
+
+    return new StraightPath(drive);
   }
 }
