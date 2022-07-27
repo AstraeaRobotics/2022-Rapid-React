@@ -33,7 +33,10 @@ public final class Constants {
         public static final int kLeftDriveCAN1 = 4;
         public static final int kLeftDriveCAN2 = 5;
         public static final int kLeftDriveCAN3 = 6;
-
+        
+        public static final int kFeederCAN = 10;
+        public static final int kFlywheelCAN = 11;
+        public static final int kTurretCANId = 20;
     }
 
     public static final class DriveConstants {
@@ -75,7 +78,6 @@ public final class Constants {
         public static final String kIntake = "intake";
     }
     public static final class TurretConstants {
-        public static final int kTurretCANId = 20;
         public static final double kVisionThreshold = 5;
 
         public static final double kMaxSpeed = 0.05;

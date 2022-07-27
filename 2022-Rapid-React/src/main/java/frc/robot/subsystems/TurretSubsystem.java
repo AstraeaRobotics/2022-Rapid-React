@@ -5,6 +5,7 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.TurretConstants;
+import frc.robot.Constants.RobotMap;
 
 import com.revrobotics.RelativeEncoder;
 
@@ -17,7 +18,7 @@ public class TurretSubsystem extends SubsystemBase {
     private RelativeEncoder m_encoder;
 
     public TurretSubsystem() {
-        m_turretMotor = new CANSparkMax(TurretConstants.kTurretCANId, MotorType.kBrushless);
+        m_turretMotor = new CANSparkMax(RobotMap.kTurretCANId, MotorType.kBrushless);
         m_encoder = m_turretMotor.getEncoder();
         m_encoder.setPosition(0.0);
     }

@@ -13,6 +13,8 @@ import edu.wpi.first.wpilibj.util.Color;
 
 public class LEDSubsystem extends SubsystemBase {
 
+  boolean enabled = false;
+
   private boolean isOn = true;
 
   private final AddressableLED m_led;
@@ -29,6 +31,10 @@ public class LEDSubsystem extends SubsystemBase {
     m_led.setLength(m_ledBuffer.getLength());
     m_led.setData(m_ledBuffer);
     m_led.start();
+  }
+
+  public void setIsEnabled(boolean enabled) {
+    this.enabled = enabled;
   }
 
   public void glow(int r, int g, int b) {
@@ -80,10 +86,17 @@ public class LEDSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
+
+    if (!enabled) {
+      glow(0, 0, 0);
+      m_led.setData(m_ledBuffer);
+      return;
+    }
+
     if (DriverStation.isDisabled()) {
       rainbow();
     } else {
-      flash(Color.kBlue);
+      flash(0,0,255);
     }
     m_led.setData(m_ledBuffer);
   }

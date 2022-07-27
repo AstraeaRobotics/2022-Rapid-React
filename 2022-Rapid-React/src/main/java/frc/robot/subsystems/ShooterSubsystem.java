@@ -5,6 +5,7 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants.RobotMap;
 import frc.robot.Constants.Shooter;
 import frc.robot.util.ShooterSpeeds;
 
@@ -15,8 +16,8 @@ import com.ctre.phoenix.motorcontrol.TalonFXFeedbackDevice;
 
 public class ShooterSubsystem extends SubsystemBase {
 
-  TalonFX feeder = new TalonFX(10);
-  TalonFX flywheel = new TalonFX(11);
+  TalonFX feeder = new TalonFX(RobotMap.kFeederCAN);
+  TalonFX flywheel = new TalonFX(RobotMap.kFlywheelCAN);
 
   ShooterSpeeds m_shooterSpeeds = new ShooterSpeeds(0, 0);
 

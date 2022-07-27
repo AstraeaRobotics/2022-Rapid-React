@@ -4,15 +4,19 @@
 
 package frc.robot;
 
-import frc.robot.commands.DriveToDistance;
-import frc.robot.commands.SimDrive;
+import frc.robot.commands.auto.DriveToDistance;
+import frc.robot.commands.drive.SimDrive;
+import frc.robot.commands.led.ToggleLED;
+import frc.robot.commands.shooter.ManualShoot;
+import frc.robot.commands.turret.AutoAimTurret;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.LEDSubsystem;
-import frc.robot.util.Ramsete;
-import frc.robot.util.Traj;
+import frc.robot.subsystems.ShooterSubsystem;
+import frc.robot.subsystems.TurretSubsystem;
 import edu.wpi.first.wpilibj.PS4Controller;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 public class RobotContainer {
 
@@ -20,14 +24,17 @@ public class RobotContainer {
   private static final PS4Controller driverGamepad = new PS4Controller(Constants.RobotMap.kDriverControllerPort);
   private static final PS4Controller operatorGamepad = new PS4Controller(Constants.RobotMap.kOperatorControllerPort);
 
-  public static final DriveSubsystem m_driveSubsystem = new DriveSubsystem();
-  private final LEDSubsystem m_ledSubsystem = new LEDSubsystem();
+  private static final JoystickButton triangleButton = new JoystickButton(operatorGamepad, PS4Controller.Button.kTriangle.value);
 
-  /**
-   * The container for the robot. Contains subsystems, OI devices, and commands.
-   */
+  private final DriveSubsystem m_driveSubsystem = new DriveSubsystem();
+  private final LEDSubsystem m_ledSubsystem = new LEDSubsystem();
+  private final ShooterSubsystem m_shooterSubsystem = new ShooterSubsystem();
+  private final TurretSubsystem m_turretSubsystem = new TurretSubsystem();
+
   public RobotContainer() {
     configureButtonBindings();
+    CommandScheduler.getInstance().schedule(new ToggleLED(m_ledSubsystem, true));
+    m_shooterSubsystem.setDefaultCommand(new ManualShoot(m_shooterSubsystem, 50, 50));
     m_driveSubsystem.setDefaultCommand(
         new SimDrive(m_driveSubsystem, 2,
             driverGamepad::getR2Axis,
@@ -37,13 +44,10 @@ public class RobotContainer {
   }
 
   private void configureButtonBindings() {
+    triangleButton.whileHeld(new AutoAimTurret(m_turretSubsystem, 0.05));
   }
 
   public Command getAutonomousCommand() {
-    // RobotContainer.m_driveSubsystem.resetOdometry(Traj.createNewTrajectoryFromJSON("OneBall-1").getInitialPose());
-    // return new SequentialCommandGroup(
-    //   Ramsete.createRamseteCommand(Traj.createNewTrajectoryFromJSON("OneBall-1"), m_driveSubsystem, true));
-
     return new DriveToDistance(m_driveSubsystem, 2);
   }
 
