@@ -67,6 +67,7 @@ public class RobotContainer {
    */
    
   public Command getAutonomousCommand() {
+    new ResetPosition(m_driveSubsystem, m_chooser.getSelected.kInitialTrajectory);
     return m_chooser.getSelected();
   }
 }

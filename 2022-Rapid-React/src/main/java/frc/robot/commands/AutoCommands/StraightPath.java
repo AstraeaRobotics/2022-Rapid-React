@@ -14,10 +14,11 @@ import frc.robot.util.Traj;
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class StraightPath extends SequentialCommandGroup {
   /** Creates a new StraightPath. */
+  public static final Traj kInitialTrajectory = Traj.createNewTrajectoryFromJSON("StraightPath");
+
   public StraightPath(DriveSubsystem drive) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
-    drive.resetOdometry(Traj.createNewTrajectoryFromJSON("StraightPath").getInitialPose());
     addCommands(
       Ramsete.createRamseteCommand(Traj.createNewTrajectoryFromJSON("StraightPath"), drive, true)
     );

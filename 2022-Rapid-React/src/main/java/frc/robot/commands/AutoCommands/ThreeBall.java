@@ -14,10 +14,11 @@ import frc.robot.util.Traj;
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class ThreeBall extends SequentialCommandGroup {
   /** Creates a new ThreeBall. */
+  public static final Traj kInitialTrajectory = Traj.createNewTrajectoryFromJSON("ThreeBall-1");
+
   public ThreeBall(DriveSubsystem drive) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
-    drive.resetOdometry(Traj.createNewTrajectoryFromJSON("ThreeBall-1").getInitialPose());
     addCommands(
       Ramsete.createRamseteCommand(Traj.createNewTrajectoryFromJSON("ThreeBall-1"), drive, true),
       //Intake

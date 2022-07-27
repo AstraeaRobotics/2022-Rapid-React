@@ -11,9 +11,13 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class OneBall extends SequentialCommandGroup {
   /** Creates a new OneBall. */
+public static final Traj kInitialTrajectory = Traj.createNewTrajectoryFromJSON("StraightPath");
+
   public OneBall() {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
-    addCommands();
+    addCommands(
+      //Shoot
+    );
   }
 }
