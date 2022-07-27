@@ -7,6 +7,7 @@ package frc.robot;
 import frc.robot.commands.DriveToDistance;
 import frc.robot.commands.DriveWait;
 import frc.robot.commands.SimDrive;
+import frc.robot.commands.AutoCommands.StraightPath;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.util.Ramsete;
 import frc.robot.util.Traj;
@@ -96,6 +97,6 @@ public class RobotContainer {
     //     Ramsete.createRamseteCommand(Traj.createNewTrajectoryFromJSON("StraightPath"), m_driveSubsystem, true));
     // // return new DriveWait(m_driveSubsystem);
 
-    return new StraightPath(drive);
+    return new StraightPath(m_driveSubsystem);
   }
 }
