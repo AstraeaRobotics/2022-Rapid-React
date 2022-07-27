@@ -22,18 +22,11 @@ public class AutoAimTurret extends CommandBase {
 
   @Override
   public void execute() {
-    if (Math.abs(Limelight.getTx()) > TurretConstants.kVisionThreshold)
+    if (Math.abs(Limelight.getTx()) < TurretConstants.kVisionThreshold)
+    {
+      m_turretSubsystem.runTurret(0);
       return;
+    }
     m_turretSubsystem.runTurret(m_turretSpeed * Math.signum(Limelight.getTx()));
-  }
-
-  @Override
-  public void end(boolean interrupted) {
-    m_turretSubsystem.runTurret(0.0);
-  }
-
-  @Override
-  public boolean isFinished() {
-    return false;
   }
 }

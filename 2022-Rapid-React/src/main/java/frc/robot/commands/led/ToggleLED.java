@@ -12,10 +12,10 @@ public class ToggleLED extends CommandBase {
   LEDSubsystem m_ledSubsystem;
   boolean enable;
 
-  public ToggleLED(LEDSubsystem m_ledSubsystem, boolean enable) {
+  public ToggleLED(LEDSubsystem ledSubsystem, boolean enable) {
     addRequirements(m_ledSubsystem);
     this.enable = enable;
-    this.m_ledSubsystem = m_ledSubsystem;
+    this.m_ledSubsystem = ledSubsystem;
   }
 
   @Override

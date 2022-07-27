@@ -22,7 +22,7 @@ public class LEDSubsystem extends SubsystemBase {
 
   private long m_previousTimeFlash = 0;
 
-  private int m_rainbowFirstPixelHue = 30;
+  private int m_rainbowFirstPixelHue = 0;
   private int currentTrailIndex = 0;
 
   public LEDSubsystem() {
@@ -49,11 +49,11 @@ public class LEDSubsystem extends SubsystemBase {
 
   public void rainbow() {
     for (int i = 0; i < m_ledBuffer.getLength(); i++) {
-      int hue = (m_rainbowFirstPixelHue + (i * 180 / m_ledBuffer.getLength())) % 180;
-      m_ledBuffer.setHSV(i, hue, 255, 150);
+      int hue = (m_rainbowFirstPixelHue + (i * LEDConstants.kMaxHue / m_ledBuffer.getLength())) % LEDConstants.kMaxHue;
+      m_ledBuffer.setHSV(i, hue, LEDConstants.kRainbowSaturation, LEDConstants.kRainbowValue);
     }
-    m_rainbowFirstPixelHue += 3;
-    m_rainbowFirstPixelHue %= 180;
+    m_rainbowFirstPixelHue += LEDConstants.kRainbowIncrement;
+    m_rainbowFirstPixelHue %= LEDConstants.kMaxHue;
   }
 
   public void flash(int r, int g, int b) {

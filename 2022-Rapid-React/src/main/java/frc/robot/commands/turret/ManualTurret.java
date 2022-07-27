@@ -27,9 +27,4 @@ public class ManualTurret extends CommandBase {
   public void end(boolean interrupted) {
     m_turretSubsystem.runTurret(0);
   }
-
-  @Override
-  public boolean isFinished() {
-    return false;
-  }
 }

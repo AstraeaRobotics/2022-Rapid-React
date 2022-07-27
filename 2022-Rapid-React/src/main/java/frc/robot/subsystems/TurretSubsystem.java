@@ -35,8 +35,4 @@ public class TurretSubsystem extends SubsystemBase {
     public void setEncoderPosition(double position) {
         m_encoder.setPosition(position);
     }
-
-    @Override
-    public void periodic() {
-    }
 }

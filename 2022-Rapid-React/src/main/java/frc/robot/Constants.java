@@ -70,6 +70,11 @@ public final class Constants {
         public static final double kInterval = Units.secondsToMilliseconds(1.0);
         public static final double kIntervalTrail = Units.secondsToMilliseconds(0.1);
 
+        public static final int kRainbowSaturation = 255;
+        public static final int kRainbowValue = 150;
+        public static final int kRainbowIncrement = 150;
+        public static final int kMaxHue = 180;
+
     }
 
     public static final class StatusConstants {
