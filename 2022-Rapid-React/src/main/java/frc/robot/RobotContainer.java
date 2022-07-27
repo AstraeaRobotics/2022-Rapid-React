@@ -64,6 +64,6 @@ public class RobotContainer {
    */
    
   public Command getAutonomousCommand() {
-    return new StraightPath(m_driveSubsystem);
+    return m_chooser.getSelected();
   }
 }
