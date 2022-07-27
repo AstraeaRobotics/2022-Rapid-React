@@ -38,6 +38,8 @@ public class IntakeRun extends CommandBase {
       m_IntakeSubsystem.setMotor(0.5);
     } else if (!m_IntakeSubsystem.isColorBlue() == isBlueTeam && m_IntakeSubsystem.isExtended()){
       m_IntakeSubsystem.setMotor(-0.5);
+    } else {
+      m_IntakeSubsystem.setMotor(0);
     }
 }
 

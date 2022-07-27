@@ -7,6 +7,7 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
+import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 
 import com.revrobotics.CANSparkMax;
@@ -26,7 +27,8 @@ public class IntakeSubsystem extends SubsystemBase {
 
   private final I2C.Port i2cPort;
   ColorSensorV3 colorSensor;
-  //boolean extend;
+
+  Compressor comp;
 
 
   /** Creates a new IntakeSubsystem. */
@@ -40,25 +42,35 @@ public class IntakeSubsystem extends SubsystemBase {
 
     i2cPort = I2C.Port.kOnboard;
     colorSensor = new ColorSensorV3(i2cPort);
+
+    comp = new Compressor(PneumaticsModuleType.REVPH);
   }
 
   public void extendAndRetract(){
+    comp.enableDigital();
     // pneumatics are doing opposite of curr status
-    if (left.get() == Value.kReverse){
+    /*if (left.get() == Value.kReverse){
       left.set(DoubleSolenoid.Value.kForward);
       right.set(DoubleSolenoid.Value.kForward);
     }
     else if (left.get() == Value.kForward) {
       left.set(DoubleSolenoid.Value.kReverse);
       right.set(DoubleSolenoid.Value.kReverse);
-    }
+    }*/
+
+    comp.enableDigital();
+    left.toggle();
+    right.toggle();
+    comp.disable();
   }
 
   public void setMotor(double speed) {
     mIntake.set(speed);
   }
 
-  public Boolean isColorBlue(){
+  public boolean isColorBlue(){
+    return true;
+    /*
     // blue is true, red is false
     if (colorSensor.getBlue() > colorSensor.getRed() + 30) {
       return true;
@@ -66,6 +78,7 @@ public class IntakeSubsystem extends SubsystemBase {
       return false;
     }
     return null;
+    */
   }
 
   public boolean isExtended() {
