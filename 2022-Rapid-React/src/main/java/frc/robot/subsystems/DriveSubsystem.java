@@ -227,7 +227,7 @@ public class DriveSubsystem extends SubsystemBase {
     @Override
     public void periodic() {
         m_pose = m_odometry.update(gyro.getRotation2d(), m_leftEncoder1.getPosition(),
-                m_rightEncoder1.getPosition() * (RobotBase.isReal() ? 1 : -1));
+                m_rightEncoder1.getPosition());
         m_field.setRobotPose(m_pose);
         log();
     }
