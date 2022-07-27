@@ -45,7 +45,6 @@ public class RobotContainer {
             driverGamepad::getLeftX,
             driverGamepad::getRightX));
 
-    // Move out of RobotContainer
     m_chooser.setDefaultOption("StraightPath", new StraightPath(drive))
     m_chooser.addOption("OneBall", new OneBall());
     m_chooser.addOption("TwoBall", new TwoBall(drive));
@@ -62,7 +61,8 @@ public class RobotContainer {
    *
    * @return the command to run in autonomous
    */
+   
   public Command getAutonomousCommand() {
-    return m_chooser.getSelected();
+    return new StraightPath(drive);
   }
 }
