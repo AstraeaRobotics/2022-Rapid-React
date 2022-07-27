@@ -5,6 +5,7 @@
 package frc.robot;
 
 import frc.robot.commands.SimDrive;
+import frc.robot.commands.ToggleIntake;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.util.Ramsete;
 import frc.robot.util.Traj;
@@ -14,7 +15,7 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 import frc.robot.subsystems.IntakeSubsystem;
-import frc.robot.commands.IntakeToggle;
+import frc.robot.commands.IntakeRun;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -32,7 +33,7 @@ public class RobotContainer {
 
   private static final DriveSubsystem m_driveSubsystem = new DriveSubsystem();
 
-  private final IntakeSubsystem m_IntakeSubsystem = new IntakeSubsystem();
+  private static final IntakeSubsystem m_IntakeSubsystem = new IntakeSubsystem();
   
 
   private final JoystickButton circleButton = new JoystickButton(driverGamepad, 3);
@@ -53,7 +54,10 @@ public class RobotContainer {
   }
 
   private void configureButtonBindings() {
-    circleButton.whenPressed(new IntakeToggle(m_IntakeSubsystem));
+    m_IntakeSubsystem.setDefaultCommand(new IntakeRun(m_IntakeSubsystem));
+    circleButton.whenPressed(new ToggleIntake(m_IntakeSubsystem));
+    
+    //circleButton.whenHeld(new IntakeRun(m_IntakeSubsystem));
   }
 
   /**

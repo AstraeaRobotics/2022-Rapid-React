@@ -54,7 +54,7 @@ public class IntakeSubsystem extends SubsystemBase {
     }
   }
 
-  public void rejectOrIntake(double speed) {
+  public void setMotor(double speed) {
     mIntake.set(speed);
   }
 
