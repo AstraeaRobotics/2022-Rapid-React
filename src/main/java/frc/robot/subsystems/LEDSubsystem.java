@@ -6,6 +6,7 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.LEDConstants;
+import frc.robot.status.Status;
 import edu.wpi.first.wpilibj.AddressableLED;
 import edu.wpi.first.wpilibj.AddressableLEDBuffer;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -95,8 +96,11 @@ public class LEDSubsystem extends SubsystemBase {
 
     if (DriverStation.isDisabled()) {
       rainbow();
-    } else {
+    } else if (Status.getIntakeStatus() == Status.IntakeStatus.kExtended) {
       flash(0,0,255);
+    }
+    else {
+      flash(0, 0, 0);
     }
     m_led.setData(m_ledBuffer);
   }

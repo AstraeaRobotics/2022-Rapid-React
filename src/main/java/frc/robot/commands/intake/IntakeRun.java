@@ -5,7 +5,7 @@
 package frc.robot.commands.intake;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-
+import frc.robot.status.Status;
 import frc.robot.subsystems.IntakeSubsystem;
 
 public class IntakeRun extends CommandBase {
@@ -22,8 +22,10 @@ public class IntakeRun extends CommandBase {
   @Override
   public void execute() {
     if (m_IntakeSubsystem.isExtended()) {
+      Status.logIntakeStatus(Status.IntakeStatus.kExtended);
       m_IntakeSubsystem.setMotor(0.5);
     } else {
+      Status.logIntakeStatus(Status.IntakeStatus.kRetracted);
       m_IntakeSubsystem.setMotor(0);
     }
   }
