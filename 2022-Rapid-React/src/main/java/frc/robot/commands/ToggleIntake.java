@@ -13,7 +13,7 @@ import frc.robot.subsystems.IntakeSubsystem;
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class ToggleIntake extends InstantCommand {
   IntakeSubsystem m_IntakeSubsystem;
-  boolean isBlueTeam;
+
   public ToggleIntake(IntakeSubsystem system) {
     m_IntakeSubsystem = system;
     // Use addRequirements() here to declare subsystem dependencies.
@@ -24,6 +24,6 @@ public class ToggleIntake extends InstantCommand {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_IntakeSubsystem.extendAndRetract();
+    m_IntakeSubsystem.toggleIntake();
   }
 }

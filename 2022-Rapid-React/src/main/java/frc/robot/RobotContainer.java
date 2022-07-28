@@ -33,12 +33,9 @@ public class RobotContainer {
 
   private static final DriveSubsystem m_driveSubsystem = new DriveSubsystem();
 
-  private static final IntakeSubsystem m_IntakeSubsystem = new IntakeSubsystem();
-  
+  private static final IntakeSubsystem m_intakeSubsystem = new IntakeSubsystem();
 
-  private final JoystickButton circleButton = new JoystickButton(driverGamepad, 3);
-
-  // private boolean extend = true;
+  private final JoystickButton m_circleButton = new JoystickButton(driverGamepad, PS4Controller.Button.kCircle.value);
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -54,10 +51,8 @@ public class RobotContainer {
   }
 
   private void configureButtonBindings() {
-    m_IntakeSubsystem.setDefaultCommand(new IntakeRun(m_IntakeSubsystem));
-    circleButton.whenPressed(new ToggleIntake(m_IntakeSubsystem));
-    
-    //circleButton.whenHeld(new IntakeRun(m_IntakeSubsystem));
+    m_intakeSubsystem.setDefaultCommand(new IntakeRun(m_intakeSubsystem));
+    m_circleButton.whenPressed(new ToggleIntake(m_intakeSubsystem));
   }
 
   /**
