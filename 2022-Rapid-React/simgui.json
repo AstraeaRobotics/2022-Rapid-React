@@ -20,10 +20,16 @@
       "/LiveWindow/Ungrouped/Scheduler": "Scheduler",
       "/LiveWindow/Ungrouped/navX-Sensor[4]": "Gyro",
       "/Shuffleboard/Dashboard/Field View": "Field2d",
-      "/Shuffleboard/Dashboard/Gyro": "Gyro"
+      "/Shuffleboard/Dashboard/Gyro": "Gyro",
+      "/SmartDashboard/SendableChooser[0]": "String Chooser"
     },
     "windows": {
       "/Shuffleboard/Dashboard/Field View": {
+        "window": {
+          "visible": true
+        }
+      },
+      "/SmartDashboard/SendableChooser[0]": {
         "window": {
           "visible": true
         }
@@ -36,6 +42,12 @@
     },
     "Shuffleboard": {
       "Dashboard": {
+        "open": true
+      },
+      "open": true
+    },
+    "SmartDashboard": {
+      "SendableChooser[0]": {
         "open": true
       },
       "open": true

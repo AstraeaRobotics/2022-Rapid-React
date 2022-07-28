@@ -5,6 +5,7 @@
 package frc.robot.commands.AutoCommands;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.commands.ResetOdometry;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.util.Ramsete;
 import frc.robot.util.Traj;
@@ -14,12 +15,13 @@ import frc.robot.util.Traj;
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class FourBall extends SequentialCommandGroup {
   /** Creates a new FourBall. */
-  public static final Traj kInitialTrajectory = Traj.createNewTrajectoryFromJSON("FourBall-1");
+  // public static final Traj kInitialTrajectory = Traj.createNewTrajectoryFromJSON("FourBall-1");
 
   public FourBall(DriveSubsystem drive) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
+      new ResetOdometry(drive, Traj.createNewTrajectoryFromJSON("FourBall-1")),
       Ramsete.createRamseteCommand(Traj.createNewTrajectoryFromJSON("FourBall-1"), drive, true),
       //Intake
       Ramsete.createRamseteCommand(Traj.createNewTrajectoryFromJSON("FourBall-2"), drive, true),

@@ -5,6 +5,7 @@
 package frc.robot.commands.AutoCommands;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.commands.ResetOdometry;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.util.Ramsete;
 import frc.robot.util.Traj;
@@ -14,12 +15,13 @@ import frc.robot.util.Traj;
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class StraightPath extends SequentialCommandGroup {
   /** Creates a new StraightPath. */
-  public static final Traj kInitialTrajectory = Traj.createNewTrajectoryFromJSON("StraightPath");
+  // public static final Traj kInitialTrajectory = Traj.createNewTrajectoryFromJSON("StraightPath");
+
+  DriveSubsystem m_driveSubsystem;
 
   public StraightPath(DriveSubsystem drive) {
-    // Add your commands in the addCommands() call, e.g.
-    // addCommands(new FooCommand(), new BarCommand());
     addCommands(
+      new ResetOdometry(drive, Traj.createNewTrajectoryFromJSON("StraightPath")),
       Ramsete.createRamseteCommand(Traj.createNewTrajectoryFromJSON("StraightPath"), drive, true)
     );
   }
