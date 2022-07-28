@@ -18,7 +18,7 @@ public class IntakeRun extends CommandBase {
   public IntakeRun(IntakeSubsystem system) {
     m_IntakeSubsystem = system;
     team = DriverStation.getAlliance();
-    System.out.println(team);
+    // System.out.println(team);
     addRequirements(m_IntakeSubsystem);
     // Use addRequirements() here to declare subsystem dependencies.
   }
@@ -32,11 +32,19 @@ public class IntakeRun extends CommandBase {
   @Override
   public void execute() {
 
-    if (m_IntakeSubsystem.getTeam() == team && m_IntakeSubsystem.isExtended()
-        && m_IntakeSubsystem.getTeam() != Alliance.Invalid) {
+    // if (m_IntakeSubsystem.getTeam() == team && m_IntakeSubsystem.isExtended()
+    // && m_IntakeSubsystem.getTeam() != Alliance.Invalid) {
+    // m_IntakeSubsystem.setMotor(0.5);
+    // } else if (m_IntakeSubsystem.getTeam() != team &&
+    // m_IntakeSubsystem.isExtended()) {
+    // m_IntakeSubsystem.setMotor(-0.5);
+    // } else {
+    // m_IntakeSubsystem.setMotor(0);
+    // }
+
+    if (m_IntakeSubsystem.isExtended()) {
       m_IntakeSubsystem.setMotor(0.5);
-    } else if (m_IntakeSubsystem.getTeam() != team && m_IntakeSubsystem.isExtended()) {
-      m_IntakeSubsystem.setMotor(-0.5);
+      System.out.println("is extended");
     } else {
       m_IntakeSubsystem.setMotor(0);
     }

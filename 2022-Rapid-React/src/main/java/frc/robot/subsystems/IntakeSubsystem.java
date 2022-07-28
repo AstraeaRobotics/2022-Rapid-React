@@ -29,11 +29,11 @@ public class IntakeSubsystem extends SubsystemBase {
   /** Creates a new IntakeSubsystem. */
   public IntakeSubsystem() {
     left = new DoubleSolenoid(15, PneumaticsModuleType.REVPH, 15, 14); // port numbers are random
-    right = new DoubleSolenoid(15, PneumaticsModuleType.REVPH, 13, 12);
+    right = new DoubleSolenoid(15, PneumaticsModuleType.REVPH, 12, 13);
     left.set(DoubleSolenoid.Value.kReverse); // setting as default
     right.set(DoubleSolenoid.Value.kReverse);
 
-    mIntake = new CANSparkMax(99, CANSparkMaxLowLevel.MotorType.kBrushless);
+    mIntake = new CANSparkMax(7, CANSparkMaxLowLevel.MotorType.kBrushless);
 
     i2cPort = I2C.Port.kOnboard;
     colorSensor = new ColorSensorV3(i2cPort);
