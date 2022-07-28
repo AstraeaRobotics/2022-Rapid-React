@@ -7,7 +7,7 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
-import edu.wpi.first.wpilibj.Compressor;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 
 import com.revrobotics.CANSparkMax;
@@ -15,8 +15,6 @@ import com.revrobotics.CANSparkMaxLowLevel;
 
 import edu.wpi.first.wpilibj.I2C;
 import com.revrobotics.ColorSensorV3;
-
-
 
 public class IntakeSubsystem extends SubsystemBase {
 
@@ -28,63 +26,58 @@ public class IntakeSubsystem extends SubsystemBase {
   private final I2C.Port i2cPort;
   ColorSensorV3 colorSensor;
 
-  Compressor comp;
-
-
   /** Creates a new IntakeSubsystem. */
   public IntakeSubsystem() {
-    left = new DoubleSolenoid(PneumaticsModuleType.REVPH, 15, 14);  // port numbers are random
-    right = new DoubleSolenoid(PneumaticsModuleType.REVPH, 13, 12);
-    left.set(DoubleSolenoid.Value.kReverse);  // setting as default
+    left = new DoubleSolenoid(15, PneumaticsModuleType.REVPH, 15, 14); // port numbers are random
+    right = new DoubleSolenoid(15, PneumaticsModuleType.REVPH, 13, 12);
+    left.set(DoubleSolenoid.Value.kReverse); // setting as default
     right.set(DoubleSolenoid.Value.kReverse);
-    
+
     mIntake = new CANSparkMax(99, CANSparkMaxLowLevel.MotorType.kBrushless);
 
     i2cPort = I2C.Port.kOnboard;
     colorSensor = new ColorSensorV3(i2cPort);
 
-    comp = new Compressor(PneumaticsModuleType.REVPH);
   }
 
-  public void extendAndRetract(){
-    comp.enableDigital();
+  public void extendAndRetract() {
     // pneumatics are doing opposite of curr status
-    /*if (left.get() == Value.kReverse){
-      left.set(DoubleSolenoid.Value.kForward);
-      right.set(DoubleSolenoid.Value.kForward);
-    }
-    else if (left.get() == Value.kForward) {
-      left.set(DoubleSolenoid.Value.kReverse);
-      right.set(DoubleSolenoid.Value.kReverse);
-    }*/
+    /*
+     * if (left.get() == Value.kReverse){
+     * left.set(DoubleSolenoid.Value.kForward);
+     * right.set(DoubleSolenoid.Value.kForward);
+     * }
+     * else if (left.get() == Value.kForward) {
+     * left.set(DoubleSolenoid.Value.kReverse);
+     * right.set(DoubleSolenoid.Value.kReverse);
+     * }
+     */
 
-    comp.enableDigital();
     left.toggle();
     right.toggle();
-    comp.disable();
   }
 
   public void setMotor(double speed) {
     mIntake.set(speed);
   }
 
-  public boolean isColorBlue(){
-    return true;
-    /*
+  public Alliance getTeam() {
+    return Alliance.Blue;
     // blue is true, red is false
-    if (colorSensor.getBlue() > colorSensor.getRed() + 30) {
-      return true;
-    } else if (colorSensor.getRed() > colorSensor.getBlue() + 30) {
-      return false;
-    }
-    return null;
-    */
+    /*
+     * if (colorSensor.getBlue() > colorSensor.getRed() + 30) {
+     * return Alliance.Blue;
+     * } else if (colorSensor.getRed() > colorSensor.getBlue() + 30) {
+     * return Alliance.Red;
+     * }
+     * return Alliance.Invalid;
+     */
+
   }
 
   public boolean isExtended() {
     return right.get() == Value.kForward;
   }
-
 
   @Override
   public void periodic() {
