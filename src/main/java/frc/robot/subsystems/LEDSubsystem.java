@@ -6,6 +6,8 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.LEDConstants;
+import frc.robot.status.Status;
+import frc.robot.status.Status.IntakeStatus;
 import edu.wpi.first.wpilibj.AddressableLED;
 import edu.wpi.first.wpilibj.AddressableLEDBuffer;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -22,7 +24,7 @@ public class LEDSubsystem extends SubsystemBase {
 
   private long m_previousTimeFlash = 0;
 
-  private int m_rainbowFirstPixelHue = 0;
+  private int m_rainbowFirstPixelHue = 30;
   private int currentTrailIndex = 0;
 
   public LEDSubsystem() {
@@ -49,11 +51,11 @@ public class LEDSubsystem extends SubsystemBase {
 
   public void rainbow() {
     for (int i = 0; i < m_ledBuffer.getLength(); i++) {
-      int hue = (m_rainbowFirstPixelHue + (i * LEDConstants.kMaxHue / m_ledBuffer.getLength())) % LEDConstants.kMaxHue;
-      m_ledBuffer.setHSV(i, hue, LEDConstants.kRainbowSaturation, LEDConstants.kRainbowValue);
+      int hue = (m_rainbowFirstPixelHue + (i * 180 / m_ledBuffer.getLength())) % 180;
+      m_ledBuffer.setHSV(i, hue, 255, 128);
     }
-    m_rainbowFirstPixelHue += LEDConstants.kRainbowIncrement;
-    m_rainbowFirstPixelHue %= LEDConstants.kMaxHue;
+    m_rainbowFirstPixelHue += 2;
+    m_rainbowFirstPixelHue %= 180;
   }
 
   public void flash(int r, int g, int b) {
@@ -87,16 +89,22 @@ public class LEDSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
 
-    if (!enabled) {
-      glow(0, 0, 0);
-      m_led.setData(m_ledBuffer);
-      return;
-    }
+    // if (!enabled) {
+    //   glow(0, 0, 0);
+    //   m_led.setData(m_ledBuffer);
+    //   return;
+    // }
 
     if (DriverStation.isDisabled()) {
       rainbow();
+      // flash(0,0,255);
+      // glow(0,0,255);
     } else {
-      flash(0,0,255);
+      if(Status.getIntakeStatus() == IntakeStatus.kExtended) {
+        flash(255, 0, 0);
+      } else {
+        flash(0,0,255);
+      }
     }
     m_led.setData(m_ledBuffer);
   }
