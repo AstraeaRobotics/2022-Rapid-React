@@ -13,6 +13,7 @@ import frc.robot.status.Status.IntakeStatus;
 import frc.robot.util.SparkMax;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.I2C;
 import com.revrobotics.ColorSensorV3;
 
@@ -37,20 +38,31 @@ public class IndexerSubsystem extends SubsystemBase {
   }
 
   public Alliance getBallColor(){
-      if (colorSensor.getBlue() > colorSensor.getRed() + 30) {
-        return Alliance.Blue;
-      } else if (colorSensor.getRed() > colorSensor.getBlue() + 30) {
-        return Alliance.Red;
-      }
+    if (colorSensor.getProximity() < 150) {
       return Alliance.Invalid;
     }
+    int blueColorValue = colorSensor.getBlue();
+    int redColorValue = colorSensor.getRed();
+    if (blueColorValue > redColorValue) {
+      return Alliance.Blue;
+    } else {
+      return Alliance.Red;
+    }
+    }
+
 
   @Override
   public void periodic() {
+    SmartDashboard.putString("Ball Color", getBallColor().toString());
     if(Status.getIntakeStatus() == IntakeStatus.kExtended) {
-      transition.set(0.5);
+      if(DriverStation.getAlliance() != getBallColor()) {
+        spinMotors(-0.5);
+      } else {
+        transition.set(0.5);
+      }
     } else {
       transition.set(0.0);
     }
+
   }
 }
