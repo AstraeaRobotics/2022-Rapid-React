@@ -13,6 +13,7 @@ public class RejectBall extends CommandBase {
   /** Creates a new IntakeReject. */
   public RejectBall(IntakeSubsystem system) {
     m_IntakeSubsystem = system;
+    addRequirements(m_IntakeSubsystem);
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
