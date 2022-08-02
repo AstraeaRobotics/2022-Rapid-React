@@ -19,7 +19,6 @@ import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
-import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
@@ -226,7 +225,7 @@ public class DriveSubsystem extends SubsystemBase {
     @Override
     public void periodic() {
         m_pose = m_odometry.update(gyro.getRotation2d(), m_leftEncoder1.getPosition(),
-                m_rightEncoder1.getPosition() * (RobotBase.isReal() ? 1 : -1));
+                m_rightEncoder1.getPosition());
         m_field.setRobotPose(m_pose);
         log();
     }

@@ -1,6 +1,9 @@
 package frc.robot.util;
 
 import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.networktables.NetworkTableEntry;
+import frc.robot.Constants;
 
 public class Limelight {
 
@@ -43,6 +46,14 @@ public class Limelight {
      */
     public static void setLEDMode(int mode) {
         NetworkTableInstance.getDefault().getTable("limelight").getEntry("ledMode").setNumber(mode);
+    }
+
+    public double getDistanceToTarget() {
+        double yOffset = getTy();
+        double angleToGoalDegrees = Constants.Limelight.kLimeLightMountAngleDegrees + yOffset;
+        double angleToGoalRadians = angleToGoalDegrees * (Math.PI / 180.0);
+        //calculate distance
+        return (Constants.Limelight.kGoalHeightInches - Constants.Limelight.kLimelightLensHeightInches)/Math.tan(angleToGoalRadians);
     }
 
     /**

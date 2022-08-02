@@ -7,15 +7,24 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.I2C;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel;
+import com.revrobotics.ColorSensorV3;
 
 public class IntakeSubsystem extends SubsystemBase {
 
   DoubleSolenoid left;
   DoubleSolenoid right;
+
+  ColorSensorV3 colorSensor;
+  private final I2C.Port i2cPort;
+
+  Alliance team;
 
   CANSparkMax m_motor;
 
@@ -28,6 +37,10 @@ public class IntakeSubsystem extends SubsystemBase {
 
     m_motor = new CANSparkMax(7, CANSparkMaxLowLevel.MotorType.kBrushless);
 
+    i2cPort = I2C.Port.kOnboard;
+    colorSensor = new ColorSensorV3(i2cPort);
+    team = DriverStation.getAlliance();
+
   }
 
   public void toggleIntake() {
@@ -39,7 +52,32 @@ public class IntakeSubsystem extends SubsystemBase {
     m_motor.set(speed);
   }
 
+  public Alliance getBallColor() {
+    if (colorSensor.getProximity() < 150) {
+      return Alliance.Invalid;
+    }
+    int blueColorValue = colorSensor.getBlue();
+    int redColorValue = colorSensor.getRed();
+    if (blueColorValue > redColorValue) {
+      return Alliance.Blue;
+    } else {
+      return Alliance.Red;
+    }
+  }
+
   public boolean isExtended() {
     return right.get() == Value.kForward;
+  }
+
+  public void periodic() {
+    if (isExtended()) {
+      if (DriverStation.getAlliance() != getBallColor()) {
+        setMotor(-0.5);
+      } else {
+        setMotor(0.5);
+      }
+    } else {
+      setMotor(0.0);
+    }
   }
 }

@@ -2,7 +2,7 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands;
+package frc.robot.commands.drive;
 
 import java.util.function.DoubleSupplier;
 
@@ -26,10 +26,14 @@ public class SimDrive extends CommandBase {
    * 
    * @param subsystem               Subsystem to require
    * @param rateLimit               Maximum rate of change of controller inputs
-   * @param forwardsSupplier        Supplier to get forwards input value, likely from a trigger axis
-   * @param backwardsSupplier       Supplier to get backwards input value, likely from a trigger axis
-   * @param curveAxisSupplier       Supplier to get curve drive input value, likely from a joystick axis
-   * @param turnInPlaceAxisSupplier Supplier to get turn in place input value, likely from a joystick axis
+   * @param forwardsSupplier        Supplier to get forwards input value, likely
+   *                                from a trigger axis
+   * @param backwardsSupplier       Supplier to get backwards input value, likely
+   *                                from a trigger axis
+   * @param curveAxisSupplier       Supplier to get curve drive input value,
+   *                                likely from a joystick axis
+   * @param turnInPlaceAxisSupplier Supplier to get turn in place input value,
+   *                                likely from a joystick axis
    */
   public SimDrive(DriveSubsystem subsystem, double rateLimit, DoubleSupplier forwardsSupplier,
       DoubleSupplier backwardsSupplier, DoubleSupplier curveAxisSupplier,
@@ -44,7 +48,6 @@ public class SimDrive extends CommandBase {
     addRequirements(m_subsystem);
   }
 
-  // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
 
@@ -53,8 +56,6 @@ public class SimDrive extends CommandBase {
     double speed = (m_forwardsSupplier.getAsDouble() - m_backwardsSupplier.getAsDouble()) * valetSpeed * (-1);
     double adjustedSpeed = m_slewRateLimiter.calculate(speed);
 
-    System.out.println(adjustedSpeed);
-    
     m_subsystem.curveDrive(adjustedSpeed, m_curveSupplier.getAsDouble(), false);
 
     double slowTurnSpeed = m_turnSupplier.getAsDouble();
@@ -63,4 +64,5 @@ public class SimDrive extends CommandBase {
           -slowTurnSpeed * DriveConstants.kTurnSpeed);
     }
   }
+
 }
