@@ -6,7 +6,7 @@ package frc.robot.commands.auto;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
-import edu.wpi.first.wpilibj2.command.WaitCommand;
+import frc.robot.commands.auto.DriveToDistance;
 import frc.robot.commands.ResetOdometry;
 import frc.robot.commands.intake.ToggleIntake;
 import frc.robot.commands.shooter.ManualShoot;
@@ -29,31 +29,31 @@ public class FourBall extends SequentialCommandGroup {
       Ramsete.createRamseteCommand(Traj.createNewTrajectoryFromJSON("FourBall-1"), drive, true),
       new ParallelCommandGroup(
         new ToggleIntake(intake),
-        new WaitCommand(2)
+        new DriveToDistance(drive, 0.5)
       ),
       new ParallelCommandGroup(
         new ToggleIntake(intake),
-        new WaitCommand(2)
+        new DriveToDistance(drive, 0.5)
       ),
       Ramsete.createRamseteCommand(Traj.createNewTrajectoryFromJSON("FourBall-2"), drive, true),
       new ManualShoot(shooter, 50, 50),
       Ramsete.createRamseteCommand(Traj.createNewTrajectoryFromJSON("FourBall-3"), drive, true),
       new ParallelCommandGroup(
         new ToggleIntake(intake),
-        new WaitCommand(2)
+        new DriveToDistance(drive, 0.5)
       ),
       new ParallelCommandGroup(
         new ToggleIntake(intake),
-        new WaitCommand(2)
+        new DriveToDistance(drive, 0.5)
       ),
       Ramsete.createRamseteCommand(Traj.createNewTrajectoryFromJSON("FourBall-4"), drive, true),
       new ParallelCommandGroup(
         new ToggleIntake(intake),
-        new WaitCommand(2)
+        new DriveToDistance(drive, 0.5)
       ),
       new ParallelCommandGroup(
         new ToggleIntake(intake),
-        new WaitCommand(2)
+        new DriveToDistance(drive, 0.5)
       ),
       Ramsete.createRamseteCommand(Traj.createNewTrajectoryFromJSON("FourBall-5"), drive, true),
       new ManualShoot(shooter, 50, 50)
