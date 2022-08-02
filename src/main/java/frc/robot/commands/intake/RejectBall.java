@@ -5,15 +5,19 @@
 package frc.robot.commands.intake;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.status.Status.IndexerStatus;
+import frc.robot.subsystems.IndexerSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 
 
 public class RejectBall extends CommandBase {
   IntakeSubsystem m_IntakeSubsystem;
+  IndexerSubsystem m_IndexerSubsystem;
   /** Creates a new IntakeReject. */
-  public RejectBall(IntakeSubsystem system) {
+  public RejectBall(IntakeSubsystem system, IndexerSubsystem system2) {
     m_IntakeSubsystem = system;
-    addRequirements(m_IntakeSubsystem);
+    m_IndexerSubsystem = system2;
+    addRequirements(m_IntakeSubsystem, m_IndexerSubsystem);
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
@@ -25,6 +29,7 @@ public class RejectBall extends CommandBase {
   @Override
   public void execute() {
     m_IntakeSubsystem.setMotor(-0.5);
+    m_IndexerSubsystem.spinMotors(-0.5);
   }
 
   // Called once the command ends or is interrupted.
