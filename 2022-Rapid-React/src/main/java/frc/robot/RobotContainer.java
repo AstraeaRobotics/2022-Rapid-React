@@ -7,7 +7,7 @@ package frc.robot;
 import frc.robot.commands.DriveToDistance;
 import frc.robot.commands.DriveWait;
 import frc.robot.commands.SimDrive;
-import frc.robot.commands.AutoCommands.*;
+import frc.robot.commands.autocommands.*;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.util.Ramsete;
 import frc.robot.util.Traj;
@@ -65,9 +65,7 @@ public class RobotContainer {
    *
    * @return the command to run in autonomous
    */
-   
   public Command getAutonomousCommand() {
-    // new ResetPosition(m_driveSu/bsystem, m_chooser.getSelected.kInitialTrajectory);
     return m_chooser.getSelected();
   }
 }

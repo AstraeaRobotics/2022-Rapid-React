@@ -16,6 +16,13 @@ public class ResetOdometry extends InstantCommand {
   DriveSubsystem m_driveSubsystem;
   Trajectory m_trajectory;
 
+  /**
+  * Resets odometry of drive subsystem.
+  * Used as an instant command at the start of autonomous paths.
+  *
+  * @param drive DriveSubsystem instance from RobotContainer.
+  * @param trajectory Starting path.
+   */
   public ResetOdometry(DriveSubsystem drive, Trajectory trajectory) {
       addRequirements(drive);
       m_driveSubsystem = drive;
