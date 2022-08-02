@@ -57,7 +57,7 @@ public class RobotContainer {
     CommandScheduler
       .getInstance()
       .schedule(new ToggleLED(m_ledSubsystem, true));
-    // m_shooterSubsystem.setDefaultCommand(new ManualShoot(m_shooterSubsystem, 40, 40));
+    m_shooterSubsystem.setDefaultCommand(new ManualShoot(m_shooterSubsystem, 40, 40));
     m_driveSubsystem.setDefaultCommand(
       new SimDrive(
         m_driveSubsystem,
