@@ -4,80 +4,68 @@
 
 package frc.robot;
 
-import edu.wpi.first.wpilibj.PS4Controller;
-import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import frc.robot.commands.RunIndexer;
-import frc.robot.commands.auto.DriveToDistance;
-import frc.robot.commands.drive.SimDrive;
-import frc.robot.commands.intake.IntakeRun;
-import frc.robot.commands.intake.ToggleIntake;
-import frc.robot.commands.led.ToggleLED;
-import frc.robot.commands.shooter.ManualShoot;
-import frc.robot.commands.turret.AutoAimTurret;
+import frc.robot.commands.DriveToDistance;
+import frc.robot.commands.DriveWait;
+import frc.robot.commands.SimDrive;
+import frc.robot.commands.auto.*;
 import frc.robot.subsystems.DriveSubsystem;
-import frc.robot.subsystems.IndexerSubsystem;
-import frc.robot.subsystems.IntakeSubsystem;
-import frc.robot.subsystems.LEDSubsystem;
-import frc.robot.subsystems.ShooterSubsystem;
-import frc.robot.subsystems.TurretSubsystem;
+import frc.robot.util.Ramsete;
+import frc.robot.util.Traj;
+import edu.wpi.first.wpilibj.PS4Controller;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
+/**
+ * This class is where the bulk of the robot should be declared. Since
+ * Command-based is a
+ * "declarative" paradigm, very little robot logic should actually be handled in
+ * the {@link Robot}
+ * periodic methods (other than the scheduler calls). Instead, the structure of
+ * the robot (including
+ * subsystems, commands, and button mappings) should be declared here.
+ */
 public class RobotContainer {
 
   /* GAMEPADS */
-  private static final PS4Controller driverGamepad = new PS4Controller(
-    Constants.RobotMap.kDriverControllerPort
-  );
-  private static final PS4Controller operatorGamepad = new PS4Controller(
-    Constants.RobotMap.kOperatorControllerPort
-  );
+  private static final PS4Controller driverGamepad = new PS4Controller(Constants.RobotMap.kDriverControllerPort);
+  private static final PS4Controller operatorGamepad = new PS4Controller(Constants.RobotMap.kOperatorControllerPort);
 
-  private static final JoystickButton triangleButton = new JoystickButton(
-    operatorGamepad,
-    PS4Controller.Button.kTriangle.value
-  );
+  private static final DriveSubsystem m_driveSubsystem = new DriveSubsystem();
 
-  private static final JoystickButton X_BUTTON = new JoystickButton(driverGamepad, PS4Controller.Button.kCross.value);
+  SendableChooser<Command> m_chooser = new SendableChooser<>();
 
-  private final DriveSubsystem m_driveSubsystem = new DriveSubsystem();
-  private final LEDSubsystem m_ledSubsystem = new LEDSubsystem();
-  private final ShooterSubsystem m_shooterSubsystem = new ShooterSubsystem();
-  private final TurretSubsystem m_turretSubsystem = new TurretSubsystem();
-  private final IntakeSubsystem m_intakeSubsystem = new IntakeSubsystem();
-  private final IndexerSubsystem m_indexerSubsystem = new IndexerSubsystem();
-
-  private final JoystickButton m_circleButton = new JoystickButton(
-    driverGamepad,
-    PS4Controller.Button.kCircle.value
-  );
-
+  /**
+   * The container for the robot. Contains subsystems, OI devices, and commands.
+   */
   public RobotContainer() {
     configureButtonBindings();
-    CommandScheduler
-      .getInstance()
-      .schedule(new ToggleLED(m_ledSubsystem, true));
-    m_shooterSubsystem.setDefaultCommand(new ManualShoot(m_shooterSubsystem, 40, 40));
     m_driveSubsystem.setDefaultCommand(
-      new SimDrive(
-        m_driveSubsystem,
-        2,
-        driverGamepad::getR2Axis,
-        driverGamepad::getL2Axis,
-        driverGamepad::getLeftX,
-        driverGamepad::getRightX
-      )
-    );
-    m_intakeSubsystem.setDefaultCommand(new IntakeRun(m_intakeSubsystem));
+        new SimDrive(m_driveSubsystem, 2,
+            driverGamepad::getR2Axis,
+            driverGamepad::getL2Axis,
+            driverGamepad::getLeftX,
+            driverGamepad::getRightX));
+
+    m_chooser.setDefaultOption("StraightPath", new StraightPath(m_driveSubsystem));
+    m_chooser.addOption("OneBall", new OneBall());
+    m_chooser.addOption("TwoBall", new TwoBall(m_driveSubsystem));
+    m_chooser.addOption("ThreeBall", new ThreeBall(m_driveSubsystem));
+    m_chooser.addOption("FourBall", new FourBall(m_driveSubsystem));
+    SmartDashboard.putData(m_chooser);
   }
 
   private void configureButtonBindings() {
-    triangleButton.whileHeld(new AutoAimTurret(m_turretSubsystem, 0.05));
-    m_circleButton.whenPressed(new ToggleIntake(m_intakeSubsystem));
-    X_BUTTON.whileHeld(new RunIndexer(m_indexerSubsystem));
+
   }
 
+  /**
+   * Use this to pass the autonomous command to the main {@link Robot} class.
+   *
+   * @return the command to run in autonomous
+   */
   public Command getAutonomousCommand() {
-    return new DriveToDistance(m_driveSubsystem, 2);
+    return m_chooser.getSelected();
   }
 }
