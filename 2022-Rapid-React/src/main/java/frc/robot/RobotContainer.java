@@ -7,7 +7,7 @@ package frc.robot;
 import frc.robot.commands.DriveToDistance;
 import frc.robot.commands.DriveWait;
 import frc.robot.commands.SimDrive;
-import frc.robot.commands.autocommands.*;
+import frc.robot.commands.auto.*;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.util.Ramsete;
 import frc.robot.util.Traj;
