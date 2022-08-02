@@ -4,7 +4,9 @@
 
 package frc.robot.commands.auto;
 
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;;
+import frc.robot.subsystems.ShooterSubsystem;
+
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
@@ -12,11 +14,11 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 public class OneBall extends SequentialCommandGroup {
   /** Creates a new OneBall. */
 
-  public OneBall() {
+  public OneBall(ShooterSubsystem shooter) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-      //Shoot
+      new ManualShoot(shooter, 50, 50)
     );
   }
 }

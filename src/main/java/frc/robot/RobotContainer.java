@@ -33,6 +33,8 @@ public class RobotContainer {
   private static final PS4Controller operatorGamepad = new PS4Controller(Constants.RobotMap.kOperatorControllerPort);
 
   private static final DriveSubsystem m_driveSubsystem = new DriveSubsystem();
+  private static final ShooterSubsystem m_shooterSubsystem = new ShooterSubsystem();
+  private static final IntakeSubsystem m_intakeSubsystem = new IntakeSubsystem();
 
   SendableChooser<Command> m_chooser = new SendableChooser<>();
 
@@ -49,10 +51,10 @@ public class RobotContainer {
             driverGamepad::getRightX));
 
     m_chooser.setDefaultOption("StraightPath", new StraightPath(m_driveSubsystem));
-    m_chooser.addOption("OneBall", new OneBall());
-    m_chooser.addOption("TwoBall", new TwoBall(m_driveSubsystem));
-    m_chooser.addOption("ThreeBall", new ThreeBall(m_driveSubsystem));
-    m_chooser.addOption("FourBall", new FourBall(m_driveSubsystem));
+    m_chooser.addOption("OneBall", new OneBall(m_shooterSubsystem));
+    m_chooser.addOption("TwoBall", new TwoBall(m_driveSubsystem, m_shooterSubsystem, m_intakeSubsystem));
+    m_chooser.addOption("ThreeBall", new ThreeBall(m_driveSubsystem, m_shooterSubsystem, m_intakeSubsystem));
+    m_chooser.addOption("FourBall", new FourBall(m_driveSubsystem, m_shooterSubsystem, m_intakeSubsystem));
     SmartDashboard.putData(m_chooser);
   }
 

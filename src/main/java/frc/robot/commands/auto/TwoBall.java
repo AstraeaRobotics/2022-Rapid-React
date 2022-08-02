@@ -5,10 +5,17 @@
 package frc.robot.commands.auto;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.commands.ResetOdometry;
+import frc.robot.commands.intake.ToggleIntake;
+import frc.robot.commands.shooter.ManualShoot;
 import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.subsystems.ShooterSubsystem;
+import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.util.Ramsete;
 import frc.robot.util.Traj;
+
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
@@ -16,15 +23,22 @@ import frc.robot.util.Traj;
 public class TwoBall extends SequentialCommandGroup {
   /** Creates a new TwoBall. */
 
-  public TwoBall(DriveSubsystem drive) {
+  public TwoBall(DriveSubsystem drive, ShooterSubsystem shooter, IntakeSubsystem intake) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
       new ResetOdometry(drive, Traj.createNewTrajectoryFromJSON("TwoBall-1")),
       Ramsete.createRamseteCommand(Traj.createNewTrajectoryFromJSON("TwoBall-1"), drive, true),
-      //Intake
-      Ramsete.createRamseteCommand(Traj.createNewTrajectoryFromJSON("TwoBall-2"), drive, true)
-      //Shoot
+      new ParallelCommandGroup(
+        new ToggleIntake(intake),
+        new WaitCommand(2)
+      ),
+      new ParallelCommandGroup(
+        new ToggleIntake(intake),
+        new WaitCommand(2)
+      ),
+      Ramsete.createRamseteCommand(Traj.createNewTrajectoryFromJSON("TwoBall-2"), drive, true),
+      new ManualShoot(shooter, 50, 50)
     );
   }
 }

@@ -5,8 +5,14 @@
 package frc.robot.commands.auto;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.commands.ResetOdometry;
+import frc.robot.commands.intake.ToggleIntake;
+import frc.robot.commands.shooter.ManualShoot;
 import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.subsystems.ShooterSubsystem;
+import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.util.Ramsete;
 import frc.robot.util.Traj;
 
@@ -16,20 +22,34 @@ import frc.robot.util.Traj;
 public class ThreeBall extends SequentialCommandGroup {
   /** Creates a new ThreeBall. */
 
-  public ThreeBall(DriveSubsystem drive) {
+  public ThreeBall(DriveSubsystem drive, ShooterSubsystem shooter, IntakeSubsystem intake) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
       new ResetOdometry(drive, Traj.createNewTrajectoryFromJSON("ThreeBall-1")),
       Ramsete.createRamseteCommand(Traj.createNewTrajectoryFromJSON("ThreeBall-1"), drive, true),
-      //Intake
+      new ParallelCommandGroup(
+        new ToggleIntake(intake),
+        new WaitCommand(2)
+      ),
+      new ParallelCommandGroup(
+        new ToggleIntake(intake),
+        new WaitCommand(2)
+      ),
       //Standing Turn
-      //Shoot
+      new ManualShoot(shooter, 50, 50),
       Ramsete.createRamseteCommand(Traj.createNewTrajectoryFromJSON("ThreeBall-2"), drive, true),
-      //Intake
+      new ParallelCommandGroup(
+        new ToggleIntake(intake),
+        new WaitCommand(2)
+      ),
+      new ParallelCommandGroup(
+        new ToggleIntake(intake),
+        new WaitCommand(2)
+      ),
       //Standing Turn
-      Ramsete.createRamseteCommand(Traj.createNewTrajectoryFromJSON("ThreeBall-3"), drive, true)
-      //Shoot
+      Ramsete.createRamseteCommand(Traj.createNewTrajectoryFromJSON("ThreeBall-3"), drive, true),
+      new ManualShoot(shooter, 50, 50)
     );
 
   }
