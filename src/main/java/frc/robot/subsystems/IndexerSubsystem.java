@@ -11,19 +11,39 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.status.Status;
 import frc.robot.status.Status.IntakeStatus;
 import frc.robot.util.SparkMax;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
+import edu.wpi.first.wpilibj.I2C;
+import com.revrobotics.ColorSensorV3;
 
 public class IndexerSubsystem extends SubsystemBase {
-  /** Creates a new IndexerSubsystem. */
-  public IndexerSubsystem() {}
+  Alliance team;
 
+  private final I2C.Port i2cPort;
+  ColorSensorV3 colorSensor;
   CANSparkMax belt = new CANSparkMax(9, MotorType.kBrushless);
   CANSparkMax transition = new CANSparkMax(8, MotorType.kBrushless);
+  /** Creates a new IndexerSubsystem. */
+  public IndexerSubsystem() {
+    i2cPort = I2C.Port.kOnboard;
+    colorSensor = new ColorSensorV3(i2cPort);
+    team = DriverStation.getAlliance();
+  }
 
 
   public void spinMotors(double speed) {
     belt.set(-speed);
     transition.set(speed);
   }
+
+  public Alliance getBallColor(){
+      if (colorSensor.getBlue() > colorSensor.getRed() + 30) {
+        return Alliance.Blue;
+      } else if (colorSensor.getRed() > colorSensor.getBlue() + 30) {
+        return Alliance.Red;
+      }
+      return Alliance.Invalid;
+    }
 
   @Override
   public void periodic() {
