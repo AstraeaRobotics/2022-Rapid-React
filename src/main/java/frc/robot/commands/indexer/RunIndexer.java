@@ -20,7 +20,7 @@ public class RunIndexer extends CommandBase {
     // Use addRequirements() here to declare subsystem dependencies.
     m_indexerSubsystem = indexerSubsystem;
     m_IntakeSubsystem = system;
-    addRequirements(m_indexerSubsystem, m_IntakeSubsystem);
+    addRequirements(m_indexerSubsystem);
 
   }
 
