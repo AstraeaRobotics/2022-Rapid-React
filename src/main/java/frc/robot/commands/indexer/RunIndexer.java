@@ -33,11 +33,11 @@ public class RunIndexer extends CommandBase {
   @Override
   public void execute() {
     // motors are moving forwards
-    if (m_indexerSubsystem.getBallColor() != Alliance.Invalid
-        && m_indexerSubsystem.getBallColor() == DriverStation.getAlliance()) {
-      m_indexerSubsystem.spinMotors(0.5);
-    } else {
+    if (m_indexerSubsystem.getBallColor() != Alliance.Invalid && m_indexerSubsystem.getBallColor() != DriverStation.getAlliance()){
       new RejectBall(m_IntakeSubsystem, m_indexerSubsystem, 3);
+    }
+    else{
+      m_indexerSubsystem.spinMotors(0.5);
     }
   }
 

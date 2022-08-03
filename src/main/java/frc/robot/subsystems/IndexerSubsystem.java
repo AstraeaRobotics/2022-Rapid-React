@@ -19,7 +19,6 @@ import com.revrobotics.ColorSensorV3;
 
 public class IndexerSubsystem extends SubsystemBase {
   Alliance team;
-  boolean backwards = false;
 
   private final I2C.Port i2cPort;
   ColorSensorV3 colorSensor;
@@ -49,14 +48,6 @@ public class IndexerSubsystem extends SubsystemBase {
     } else {
       return Alliance.Red;
     }
-  }
-
-  public boolean getRejectState() {
-    return backwards;
-  }
-
-  public void setRejectState(boolean s) {
-    backwards = s;
   }
 
   @Override
