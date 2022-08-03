@@ -12,6 +12,9 @@ import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.I2C;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
+
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel;
 import com.revrobotics.ColorSensorV3;
@@ -49,7 +52,11 @@ public class IntakeSubsystem extends SubsystemBase {
   }
 
   public void setMotor(double speed) {
-    m_motor.set(speed);
+    if (isExtended()) {
+      m_motor.set(speed);
+    } else {
+      m_motor.set(0);
+    }
   }
 
   public Alliance getBallColor() {
@@ -59,6 +66,7 @@ public class IntakeSubsystem extends SubsystemBase {
     int blueColorValue = colorSensor.getBlue();
     int redColorValue = colorSensor.getRed();
     if (blueColorValue > redColorValue) {
+
       return Alliance.Blue;
     } else {
       return Alliance.Red;
@@ -81,5 +89,8 @@ public class IntakeSubsystem extends SubsystemBase {
      * setMotor(0.0);
      * }
      */
+
+    //  SmartDashboard.putString("Color", getBallColor().toString());
+
   }
 }

@@ -25,5 +25,8 @@ public class ToggleIntake extends InstantCommand {
   @Override
   public void initialize() {
     m_IntakeSubsystem.toggleIntake();
+    if (m_IntakeSubsystem.isExtended() == false){
+      m_IntakeSubsystem.setMotor(0);
+    }
   }
 }

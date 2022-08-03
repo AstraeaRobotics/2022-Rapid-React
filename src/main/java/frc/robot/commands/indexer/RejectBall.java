@@ -6,6 +6,7 @@ package frc.robot.commands.indexer;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.status.Status.IndexerStatus;
@@ -30,6 +31,8 @@ public class RejectBall extends WaitCommand {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    super.initialize();
+
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -37,11 +40,12 @@ public class RejectBall extends WaitCommand {
   public void execute() {
     m_IntakeSubsystem.setMotor(-0.5);
     m_IndexerSubsystem.spinMotors(-0.5);
-  }
+    }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    super.end(interrupted);
     m_IntakeSubsystem.setMotor(0);
     m_IndexerSubsystem.spinMotors(0);
   }
