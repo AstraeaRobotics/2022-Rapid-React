@@ -20,6 +20,7 @@ public class IntakeSubsystem extends SubsystemBase {
 
   DoubleSolenoid left;
   DoubleSolenoid right;
+  boolean backwards = false;
 
   ColorSensorV3 colorSensor;
   private final I2C.Port i2cPort;
@@ -69,15 +70,25 @@ public class IntakeSubsystem extends SubsystemBase {
     return right.get() == Value.kForward;
   }
 
+  public boolean getRejectState() {
+    return backwards;
+  }
+
+  public void setRejectState(boolean s) {
+    backwards = s;
+  }
+
   public void periodic() {
-    if (isExtended()) {
-      if (DriverStation.getAlliance() != getBallColor()) {
-        setMotor(-0.5);
-      } else {
-        setMotor(0.5);
-      }
-    } else {
-      setMotor(0.0);
-    }
+    /*
+     * if (isExtended()) {
+     * if (DriverStation.getAlliance() != getBallColor()) {
+     * setMotor(-0.5);
+     * } else {
+     * setMotor(0.5);
+     * }
+     * } else {
+     * setMotor(0.0);
+     * }
+     */
   }
 }

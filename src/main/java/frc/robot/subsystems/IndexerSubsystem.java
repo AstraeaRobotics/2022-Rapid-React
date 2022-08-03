@@ -19,11 +19,13 @@ import com.revrobotics.ColorSensorV3;
 
 public class IndexerSubsystem extends SubsystemBase {
   Alliance team;
+  boolean backwards = false;
 
   private final I2C.Port i2cPort;
   ColorSensorV3 colorSensor;
   CANSparkMax belt = new CANSparkMax(9, MotorType.kBrushless);
   CANSparkMax transition = new CANSparkMax(8, MotorType.kBrushless);
+
   /** Creates a new IndexerSubsystem. */
   public IndexerSubsystem() {
     i2cPort = I2C.Port.kOnboard;
@@ -31,13 +33,12 @@ public class IndexerSubsystem extends SubsystemBase {
     team = DriverStation.getAlliance();
   }
 
-
   public void spinMotors(double speed) {
     belt.set(-speed);
     transition.set(speed);
   }
 
-  public Alliance getBallColor(){
+  public Alliance getBallColor() {
     if (colorSensor.getProximity() < 150) {
       return Alliance.Invalid;
     }
@@ -48,21 +49,30 @@ public class IndexerSubsystem extends SubsystemBase {
     } else {
       return Alliance.Red;
     }
-    }
+  }
 
+  public boolean getRejectState() {
+    return backwards;
+  }
+
+  public void setRejectState(boolean s) {
+    backwards = s;
+  }
 
   @Override
   public void periodic() {
     SmartDashboard.putString("Ball Color", getBallColor().toString());
-    if(Status.getIntakeStatus() == IntakeStatus.kExtended) {
-      if(DriverStation.getAlliance() != getBallColor()) {
-        spinMotors(-0.5);
-      } else {
-        transition.set(0.5);
-      }
-    } else {
-      transition.set(0.0);
-    }
+    /*
+     * if(Status.getIntakeStatus() == IntakeStatus.kExtended) {
+     * if(DriverStation.getAlliance() != getBallColor()) {
+     * spinMotors(-0.5);
+     * } else {
+     * transition.set(0.5);
+     * }
+     * } else {
+     * transition.set(0.0);
+     * }
+     */
 
   }
 }

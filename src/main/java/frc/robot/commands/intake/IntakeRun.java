@@ -27,12 +27,12 @@ public class IntakeRun extends CommandBase {
   @Override
   public void execute() {
     if (m_IntakeSubsystem.isExtended()) {
-        Status.logIntakeStatus(IntakeStatus.kExtended);
-      m_IntakeSubsystem.setMotor(0.5);
-    } 
-    else {
-        Status.logIntakeStatus(IntakeStatus.kRetracted);
-
+      Status.logIntakeStatus(IntakeStatus.kExtended);
+      if (m_IntakeSubsystem.getRejectState() == false) {
+        m_IntakeSubsystem.setMotor(0.5);
+      }
+    } else {
+      Status.logIntakeStatus(IntakeStatus.kRetracted);
       m_IntakeSubsystem.setMotor(0);
     }
   }

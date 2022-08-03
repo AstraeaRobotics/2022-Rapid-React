@@ -8,9 +8,10 @@ import edu.wpi.first.wpilibj.PS4Controller;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import frc.robot.commands.RunIndexer;
 import frc.robot.commands.auto.DriveToDistance;
 import frc.robot.commands.drive.SimDrive;
+import frc.robot.commands.indexer.RejectBall;
+import frc.robot.commands.indexer.RunIndexer;
 import frc.robot.commands.intake.IntakeRun;
 import frc.robot.commands.intake.ToggleIntake;
 import frc.robot.commands.led.ToggleLED;
@@ -22,7 +23,6 @@ import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.LEDSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.TurretSubsystem;
-import frc.robot.commands.intake.RejectBall;
 
 public class RobotContainer {
 
@@ -72,6 +72,8 @@ public class RobotContainer {
       )
     );
     m_intakeSubsystem.setDefaultCommand(new IntakeRun(m_intakeSubsystem));
+
+    m_indexerSubsystem.setDefaultCommand(new RejectBall(m_intakeSubsystem, m_indexerSubsystem));
   }
 
   private void configureButtonBindings() {
