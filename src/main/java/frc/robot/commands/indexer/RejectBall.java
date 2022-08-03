@@ -7,17 +7,19 @@ package frc.robot.commands.indexer;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.status.Status.IndexerStatus;
 import frc.robot.subsystems.IndexerSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 
-public class RejectBall extends CommandBase {
+public class RejectBall extends WaitCommand {
   IntakeSubsystem m_IntakeSubsystem;
   IndexerSubsystem m_IndexerSubsystem;
   Alliance team;
 
   /** Creates a new IntakeReject. */
-  public RejectBall(IntakeSubsystem system, IndexerSubsystem system2) {
+  public RejectBall(IntakeSubsystem system, IndexerSubsystem system2, double seconds) {
+    super(seconds);
     m_IntakeSubsystem = system;
     m_IndexerSubsystem = system2;
     team = DriverStation.getAlliance();
@@ -33,15 +35,8 @@ public class RejectBall extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (m_IndexerSubsystem.getBallColor() != Alliance.Invalid && m_IndexerSubsystem.getBallColor() != team) {
-      m_IndexerSubsystem.setRejectState(true);
-      m_IntakeSubsystem.setRejectState(true);
-      m_IntakeSubsystem.setMotor(-0.5);
-      m_IndexerSubsystem.spinMotors(-0.5);
-    } else {
-      m_IndexerSubsystem.setRejectState(false);
-      m_IntakeSubsystem.setRejectState(false);
-    }
+    m_IntakeSubsystem.setMotor(-0.5);
+    m_IndexerSubsystem.spinMotors(-0.5);
   }
 
   // Called once the command ends or is interrupted.
@@ -49,11 +44,5 @@ public class RejectBall extends CommandBase {
   public void end(boolean interrupted) {
     m_IntakeSubsystem.setMotor(0);
     m_IndexerSubsystem.spinMotors(0);
-  }
-
-  // Returfns true when the command should end.
-  @Override
-  public boolean isFinished() {
-    return false;
   }
 }

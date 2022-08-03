@@ -4,17 +4,24 @@
 
 package frc.robot.commands.indexer;
 
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.IndexerSubsystem;
+import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.commands.indexer.RejectBall;
 
 public class RunIndexer extends CommandBase {
 
   IndexerSubsystem m_indexerSubsystem;
+  IntakeSubsystem m_IntakeSubsystem;
 
-  public RunIndexer(IndexerSubsystem indexerSubsystem) {
+  public RunIndexer(IndexerSubsystem indexerSubsystem, IntakeSubsystem system) {
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(indexerSubsystem);
     m_indexerSubsystem = indexerSubsystem;
+    m_IntakeSubsystem = system;
+    addRequirements(m_indexerSubsystem, m_IntakeSubsystem);
+
   }
 
   // Called when the command is initially scheduled.
@@ -25,9 +32,12 @@ public class RunIndexer extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (m_indexerSubsystem.getRejectState() == false) {
-      // motors are moving forwards
+    // motors are moving forwards
+    if (m_indexerSubsystem.getBallColor() != Alliance.Invalid
+        && m_indexerSubsystem.getBallColor() == DriverStation.getAlliance()) {
       m_indexerSubsystem.spinMotors(0.5);
+    } else {
+      new RejectBall(m_IntakeSubsystem, m_indexerSubsystem, 3);
     }
   }
 
