@@ -65,16 +65,16 @@ public class RobotContainer {
             driverGamepad::getL2Axis,
             driverGamepad::getLeftX,
             driverGamepad::getRightX));
-    m_intakeSubsystem.setDefaultCommand(new IntakeRun(m_intakeSubsystem));
 
-    m_indexerSubsystem.setDefaultCommand(new RejectBall(m_intakeSubsystem, m_indexerSubsystem, 3));
+    m_intakeSubsystem.setDefaultCommand(new IntakeRun(m_intakeSubsystem));
+    m_indexerSubsystem.setDefaultCommand(new RunIndexer(m_indexerSubsystem, m_intakeSubsystem));
   }
 
   private void configureButtonBindings() {
     triangleButton.whileHeld(new AutoAimTurret(m_turretSubsystem, 0.05));
     m_circleButton.whenPressed(new ToggleIntake(m_intakeSubsystem));
-    X_BUTTON.whileHeld(new RunIndexer(m_indexerSubsystem, m_intakeSubsystem));
-    m_squareButton.whileHeld(new RejectBall(m_intakeSubsystem, m_indexerSubsystem, 3));
+    //X_BUTTON.whileHeld(new RunIndexer(m_indexerSubsystem, m_intakeSubsystem));
+    //m_squareButton.whileHeld(new RejectBall(m_intakeSubsystem, m_indexerSubsystem, 3));
   }
 
   public Command getAutonomousCommand() {
