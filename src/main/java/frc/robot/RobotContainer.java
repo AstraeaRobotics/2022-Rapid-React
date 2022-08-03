@@ -73,7 +73,7 @@ public class RobotContainer {
   private void configureButtonBindings() {
     triangleButton.whileHeld(new AutoAimTurret(m_turretSubsystem, 0.05));
     m_circleButton.whenPressed(new ToggleIntake(m_intakeSubsystem));
-    X_BUTTON.whileHeld(new RunIndexer(m_indexerSubsystem));
+    X_BUTTON.whileHeld(new RunIndexer(m_indexerSubsystem, m_intakeSubsystem));
     m_squareButton.whileHeld(new RejectBall(m_intakeSubsystem, m_indexerSubsystem, 3));
   }
 
