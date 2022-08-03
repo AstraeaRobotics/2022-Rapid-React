@@ -6,7 +6,7 @@ package frc.robot.commands.auto;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
-import frc.robot.commands.auto.DriveToDistance
+import frc.robot.commands.auto.DriveToDistance;
 import frc.robot.commands.ResetOdometry;
 import frc.robot.commands.intake.ToggleIntake;
 import frc.robot.commands.shooter.ManualShoot;
