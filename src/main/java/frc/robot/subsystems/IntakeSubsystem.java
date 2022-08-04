@@ -12,8 +12,7 @@ import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.I2C;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
+// import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel;
@@ -90,7 +89,7 @@ public class IntakeSubsystem extends SubsystemBase {
      * }
      */
 
-    //  SmartDashboard.putString("Color", getBallColor().toString());
+    // SmartDashboard.putString("Color", getBallColor().toString());
 
   }
 }

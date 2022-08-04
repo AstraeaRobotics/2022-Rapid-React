@@ -49,7 +49,7 @@ public class RobotContainer {
       driverGamepad,
       PS4Controller.Button.kCircle.value);
 
-  private final JoystickButton m_squareButton = new JoystickButton(driverGamepad, 1);
+  private final JoystickButton indexButton = new JoystickButton(driverGamepad, 2);
 
   public RobotContainer() {
     configureButtonBindings();
@@ -66,15 +66,17 @@ public class RobotContainer {
             driverGamepad::getLeftX,
             driverGamepad::getRightX));
 
-    m_intakeSubsystem.setDefaultCommand(new IntakeRun(m_intakeSubsystem));
-    m_indexerSubsystem.setDefaultCommand(new RunIndexer(m_indexerSubsystem, m_intakeSubsystem));
+    m_intakeSubsystem.setDefaultCommand(new IntakeRun(m_intakeSubsystem, m_indexerSubsystem));
+    // m_indexerSubsystem.setDefaultCommand(new RunIndexer(m_indexerSubsystem,
+    // m_intakeSubsystem));
   }
 
   private void configureButtonBindings() {
     triangleButton.whileHeld(new AutoAimTurret(m_turretSubsystem, 0.05));
     m_circleButton.whenPressed(new ToggleIntake(m_intakeSubsystem));
-    //X_BUTTON.whileHeld(new RunIndexer(m_indexerSubsystem, m_intakeSubsystem));
-    //m_squareButton.whileHeld(new RejectBall(m_intakeSubsystem, m_indexerSubsystem, 3));
+    indexButton.whenPressed(new RunIndexer(m_indexerSubsystem, m_intakeSubsystem)); // x button
+    // m_squareButton.whileHeld(new RejectBall(m_intakeSubsystem,
+    // m_indexerSubsystem, 3));
   }
 
   public Command getAutonomousCommand() {

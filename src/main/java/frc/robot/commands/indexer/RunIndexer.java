@@ -12,7 +12,6 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.subsystems.IndexerSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.commands.indexer.RejectBall;
-
 public class RunIndexer extends CommandBase {
 
   IndexerSubsystem m_indexerSubsystem;
