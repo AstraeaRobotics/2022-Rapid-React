@@ -18,4 +18,15 @@ public class Regression {
     public static double binomialRegression(double a, double b, double c, double x) {
         return a*Math.pow(x, 2) + b*x + c;
     }
+
+    /**
+     * Returns value of linear regression function with the form ax + b
+     * @param a coefficient for the x term
+     * @param b constant
+     * @param x input value
+     * @return the value of the function
+     */
+    public static double linearRegression(double a, double b, double x) {
+        return a*x + b;
+    }
 }

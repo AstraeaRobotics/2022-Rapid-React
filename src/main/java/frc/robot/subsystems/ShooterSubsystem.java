@@ -66,6 +66,14 @@ public class ShooterSubsystem extends SubsystemBase {
     feeder.set(ControlMode.Velocity, m_shooterSpeeds.getBottomVelocity());
   }
 
+  public double getFlywheelSensorVelocity() {
+    return flywheel.getSelectedSensorVelocity();
+  }
+
+  public double getFeederSensorVelocity() {
+    return feeder.getSelectedSensorVelocity();
+  }
+
   @Override
   public void periodic() {
     runMotors();

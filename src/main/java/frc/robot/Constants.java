@@ -104,13 +104,12 @@ public final class Constants {
         
         public static final int kMaxSpeed = 20000;
 
-        public static final double kFlywheelA = 0;
-        public static final double kFlywheelB = 1;
-        public static final double kFlywheelC = 0;
+        public static final double kFlywheelA = -2.64518;
+        public static final double kFlywheelB = 90.5509;
 
-        public static final double kFeederA = 0;
-        public static final double kFeederB = 1;
-        public static final double kFeederC = 0;
+        public static final double kFeederA = 0.0877963;
+        public static final double kFeederB = -2.63389;
+        public static final double kFeederC = 74.6831;
 
     }
 }

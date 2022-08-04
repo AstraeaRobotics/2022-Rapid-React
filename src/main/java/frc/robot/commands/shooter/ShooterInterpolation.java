@@ -29,8 +29,13 @@ public class ShooterInterpolation extends CommandBase {
     m_shooterSubsystem.setFeederSetpoint(ShooterSpeeds.getSpeedPercent(0.0));
     m_shooterSubsystem.setFeederSetpoint(ShooterSpeeds.getSpeedPercent(0.0));
 
-    //m_feederInterpolation.addPoint(ty, speed);
-    //m_flywheelInterpolation.addPoint(ty, speed);
+    m_feederInterpolation.addPoint(14.1, 55);
+    m_feederInterpolation.addPoint(22.6, 60);
+    m_feederInterpolation.addPoint(7.4, 60);
+
+    m_flywheelInterpolation.addPoint(14.1, 55);
+    m_flywheelInterpolation.addPoint(22.6, 30);
+    m_flywheelInterpolation.addPoint(7.4, 70);
   }
 
   // Called every time the scheduler runs while the command is scheduled.

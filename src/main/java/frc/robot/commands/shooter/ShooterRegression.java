@@ -31,10 +31,9 @@ public class ShooterRegression extends CommandBase {
   public void execute() {
     SmartDashboard.putNumber("Y-Offset", Limelight.getTy());
 
-    double flywheelSpeed = Regression.binomialRegression( 
+    double flywheelSpeed = Regression.linearRegression( 
       Shooter.kFlywheelA, 
-      Shooter.kFlywheelB, 
-      Shooter.kFlywheelC,
+      Shooter.kFlywheelB,
       Limelight.getTy()
     );
 
