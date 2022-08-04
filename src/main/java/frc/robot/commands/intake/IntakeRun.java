@@ -37,11 +37,12 @@ public class IntakeRun extends CommandBase {
     // motors are moving forwards
     if (m_IntakeSubsystem.getBallColor() != Alliance.Invalid
         && m_IntakeSubsystem.getBallColor() != DriverStation.getAlliance()) {
-      SmartDashboard.putBoolean("RunIntake", true);
+      SmartDashboard.putBoolean("Rejection", true);
       SmartDashboard.putString("Alliance", DriverStation.getAlliance().toString());
       CommandScheduler.getInstance().schedule(m_rejectball);
     } else if (m_IntakeSubsystem.isExtended()) {
       Status.logIntakeStatus(IntakeStatus.kExtended);
+      SmartDashboard.putBoolean("Rejection", false);
       m_IntakeSubsystem.setMotor(0.5);
     } else {
       Status.logIntakeStatus(IntakeStatus.kRetracted);

@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.subsystems.IndexerSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.commands.indexer.RejectBall;
+
 public class RunIndexer extends CommandBase {
 
   IndexerSubsystem m_indexerSubsystem;
@@ -38,7 +39,6 @@ public class RunIndexer extends CommandBase {
     // motors are moving forwards
     if (m_indexerSubsystem.getBallColor() != Alliance.Invalid
         && m_indexerSubsystem.getBallColor() != DriverStation.getAlliance()) {
-      SmartDashboard.putBoolean("RunIndexer", true);
       SmartDashboard.putString("Alliance", DriverStation.getAlliance().toString());
       CommandScheduler.getInstance().schedule(m_rejectball);
     } else {

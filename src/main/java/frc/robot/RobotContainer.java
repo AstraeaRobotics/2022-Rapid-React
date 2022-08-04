@@ -36,7 +36,8 @@ public class RobotContainer {
       operatorGamepad,
       PS4Controller.Button.kTriangle.value);
 
-  private static final JoystickButton X_BUTTON = new JoystickButton(driverGamepad, PS4Controller.Button.kCross.value);
+  // private static final JoystickButton X_BUTTON = new
+  // JoystickButton(driverGamepad, PS4Controller.Button.kCross.value);
 
   private final DriveSubsystem m_driveSubsystem = new DriveSubsystem();
   private final LEDSubsystem m_ledSubsystem = new LEDSubsystem();
