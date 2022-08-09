@@ -5,6 +5,7 @@
 package frc.robot.commands.climber;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.subsystem.ClimberSubsystem;
 
 public class ElevatorDown extends CommandBase {
   /** Creates a new ElevatorDown. */

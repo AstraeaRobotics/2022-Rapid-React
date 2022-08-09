@@ -22,6 +22,7 @@ import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.LEDSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.TurretSubsystem;
+import frc.robot.subsystems.ClimberSubsystem;
 
 public class RobotContainer {
 
@@ -46,6 +47,7 @@ public class RobotContainer {
   private final TurretSubsystem m_turretSubsystem = new TurretSubsystem();
   private final IntakeSubsystem m_intakeSubsystem = new IntakeSubsystem();
   private final IndexerSubsystem m_indexerSubsystem = new IndexerSubsystem();
+  private final ClimberSubsystem m_ClimberSubsystem = new ClimberSubsystem();
 
   private final JoystickButton m_circleButton = new JoystickButton(
     driverGamepad,
