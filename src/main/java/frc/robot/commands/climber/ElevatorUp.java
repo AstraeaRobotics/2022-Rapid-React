@@ -6,25 +6,26 @@ package frc.robot.commands.climber;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.ClimberSubsystem;
-import frc.robot.Constants;
 
 public class ElevatorUp extends CommandBase {
   /** Creates a new Elevator. */
   private ClimberSubsystem m_climberSubsystem;
 
-  public ElevatorUp(double speed) {
-    // Use addRequirements() here to declare subsystem dependencies.
+  public ElevatorUp(ClimberSubsystem climbsubsystem) {
+    m_climberSubsystem = climbsubsystem;
     addRequirements(m_climberSubsystem);
-    if (!m_climberSubsystem.isFullyRetracted()) {
-      m_climberSubsystem.setSpeed(speed);
-    } else {
-      m_climberSubsystem.setSpeed(0);
-    }
+    // if (!m_climberSubsystem.isFullyRetracted()) {
+    // m_climberSubsystem.setSpeed(speed);
+    // } else {
+    // m_climberSubsystem.setSpeed(0);
+    // }
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    super.initialize();
+    m_climberSubsystem.climb();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -35,7 +36,7 @@ public class ElevatorUp extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_climberSubsystem.setSpeed(0);
+    m_climberSubsystem.stop();
   }
 
   // Returns true when the command should end.

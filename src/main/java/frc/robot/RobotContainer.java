@@ -28,16 +28,13 @@ public class RobotContainer {
 
   /* GAMEPADS */
   private static final PS4Controller driverGamepad = new PS4Controller(
-    Constants.RobotMap.kDriverControllerPort
-  );
+      Constants.RobotMap.kDriverControllerPort);
   private static final PS4Controller operatorGamepad = new PS4Controller(
-    Constants.RobotMap.kOperatorControllerPort
-  );
+      Constants.RobotMap.kOperatorControllerPort);
 
   private static final JoystickButton triangleButton = new JoystickButton(
-    operatorGamepad,
-    PS4Controller.Button.kTriangle.value
-  );
+      operatorGamepad,
+      PS4Controller.Button.kTriangle.value);
 
   private static final JoystickButton X_BUTTON = new JoystickButton(driverGamepad, PS4Controller.Button.kCross.value);
 
@@ -50,26 +47,23 @@ public class RobotContainer {
   private final ClimberSubsystem m_ClimberSubsystem = new ClimberSubsystem();
 
   private final JoystickButton m_circleButton = new JoystickButton(
-    driverGamepad,
-    PS4Controller.Button.kCircle.value
-  );
+      driverGamepad,
+      PS4Controller.Button.kCircle.value);
 
   public RobotContainer() {
     configureButtonBindings();
     CommandScheduler
-      .getInstance()
-      .schedule(new ToggleLED(m_ledSubsystem, true));
+        .getInstance()
+        .schedule(new ToggleLED(m_ledSubsystem, true));
     m_shooterSubsystem.setDefaultCommand(new ManualShoot(m_shooterSubsystem, 40, 40));
     m_driveSubsystem.setDefaultCommand(
-      new SimDrive(
-        m_driveSubsystem,
-        2,
-        driverGamepad::getR2Axis,
-        driverGamepad::getL2Axis,
-        driverGamepad::getLeftX,
-        driverGamepad::getRightX
-      )
-    );
+        new SimDrive(
+            m_driveSubsystem,
+            2,
+            driverGamepad::getR2Axis,
+            driverGamepad::getL2Axis,
+            driverGamepad::getLeftX,
+            driverGamepad::getRightX));
     m_intakeSubsystem.setDefaultCommand(new IntakeRun(m_intakeSubsystem));
   }
 

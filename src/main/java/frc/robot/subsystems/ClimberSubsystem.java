@@ -14,23 +14,17 @@ import frc.robot.Constants.Climber;
 
 public class ClimberSubsystem extends SubsystemBase {
   /** Creates a new ClimberSubsystem. */
-  private CANSparkMax climber_motor = new CANSparkMax(50, MotorType.kBrushless); // Magik Number Port
-  private DigitalInput limit_switch = new DigitalInput(50); // Magik Number Port
+
+  private CANSparkMax m_climber_motor = new CANSparkMax(Climber.CLIMBER_MOTOR_PORT, MotorType.kBrushless);
+  private DigitalInput m_limit_switch = new DigitalInput(Climber.LIMIT_SWITCH_PORT);
+  public double m_climbSpeed = Climber.kElevatorSpeed;
 
   public ClimberSubsystem() {
 
   }
 
-  public void calibrate() {
-    climber_motor.setSoftLimit(SoftLimitDirection.kForward, Climber.kUpperLimit);
-  }
-
-  public void setSpeed(double speed) {
-    climber_motor.set(speed);
-  }
-
   public boolean isFullyRetracted() {
-    return limit_switch.get();
+    return m_limit_switch.get();
   }
 
   @Override
@@ -41,5 +35,23 @@ public class ClimberSubsystem extends SubsystemBase {
     // } else {
     // setSpeed(0);
     // }
+  }
+
+  public void setSpeed(double speed) {
+    m_climber_motor.set(speed);
+  }
+
+  public void climb() {
+    m_climber_motor.setSoftLimit(SoftLimitDirection.kForward, Climber.kUpperLimit);
+    m_climber_motor.set(Climber.kElevatorSpeed);
+  }
+
+  public void descend() {
+    m_climber_motor.setSoftLimit(SoftLimitDirection.kReverse, Climber.kLowerLimit);
+    m_climber_motor.set(Climber.kElevatorSpeed);
+  }
+
+  public void stop() {
+    m_climber_motor.set(0);
   }
 }

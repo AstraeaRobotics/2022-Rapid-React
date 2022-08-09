@@ -9,13 +9,19 @@ import frc.robot.subsystems.ClimberSubsystem;
 
 public class ElevatorDown extends CommandBase {
   /** Creates a new ElevatorDown. */
-  public ElevatorDown() {
+  private ClimberSubsystem m_climberSubsystem;
+
+  public ElevatorDown(ClimberSubsystem climberSubsystem) {
     // Use addRequirements() here to declare subsystem dependencies.
+    m_climberSubsystem = climberSubsystem;
+    addRequirements(m_climberSubsystem);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    super.initialize();
+    m_climberSubsystem.descend();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -26,6 +32,7 @@ public class ElevatorDown extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    m_climberSubsystem.stop();
   }
 
   // Returns true when the command should end.

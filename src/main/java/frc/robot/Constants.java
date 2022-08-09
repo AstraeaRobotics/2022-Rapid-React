@@ -116,8 +116,10 @@ public final class Constants {
     }
 
     public static final class Climber {
-        public static final float kUpperLimit = 10; // Magik Number, Need to Find
-        public static final float kLowerLimit = 0;
-        public static final double kElevateUpSpeed = 0.2;
+        public static final float kUpperLimit = 10; // unknown
+        public static final float kLowerLimit = 0; // unknown
+        public static final double kElevatorSpeed = 0.2;
+        public static final int LIMIT_SWITCH_PORT = 0; // unknown
+        public static final int CLIMBER_MOTOR_PORT = 0; // unknown
     }
 }
