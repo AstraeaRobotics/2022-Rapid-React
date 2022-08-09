@@ -4,6 +4,7 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.IndexerSubsystem;
 
@@ -24,13 +25,16 @@ public class RunIndexer extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_indexerSubsystem.spinMotors(0.5);
+    m_indexerSubsystem.spinTransition(0.5);
+
+    SmartDashboard.putNumber("Indexer Ball Proximity", m_indexerSubsystem.getProximity());
+    SmartDashboard.putString("Indexer Ball Color", m_indexerSubsystem.getDetectedColor().toString());
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_indexerSubsystem.spinMotors(0.0);
+    m_indexerSubsystem.spinTransition(0.0);
   }
 
   // Returns true when the command should end.
