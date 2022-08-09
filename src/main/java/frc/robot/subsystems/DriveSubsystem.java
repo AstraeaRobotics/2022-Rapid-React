@@ -123,6 +123,9 @@ public class DriveSubsystem extends SubsystemBase {
         ShuffleboardTab driveTab = Shuffleboard.getTab("Dashboard");
         driveTab.add("Gyro", gyro).withWidget(BuiltInWidgets.kGyro);
         driveTab.add("Field View", m_field).withWidget("Field");
+        // driveTab.add("Left Speed", m_leftMotors.get()).withWidget(BuiltInWidgets.kNumberSlider);
+        // driveTab.add("Right Speed", m_rightMotors.get()).withWidget(BuiltInWidgets.kNumberSlider);
+        driveTab.add("Differential Drive", m_drive);
 
     }
 

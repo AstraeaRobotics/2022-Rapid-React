@@ -7,6 +7,10 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+import edu.wpi.first.wpilibj.shuffleboard.WidgetType;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 
 import com.revrobotics.CANSparkMax;
@@ -27,6 +31,11 @@ public class IntakeSubsystem extends SubsystemBase {
     right.set(DoubleSolenoid.Value.kReverse);
 
     m_motor = new CANSparkMax(7, CANSparkMaxLowLevel.MotorType.kBrushless);
+
+    ShuffleboardTab dashboard = Shuffleboard.getTab("Dashboard");
+    dashboard.add("Left Intake Status", left);
+    dashboard.add("Right Intake Status", right);
+    // dashboard.add("Pneumatics Extended", isExtended()).withWidget(BuiltInWidgets.kToggleButton);
 
   }
 
