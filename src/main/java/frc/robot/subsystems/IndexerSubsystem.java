@@ -66,6 +66,8 @@ public class IndexerSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
+    m_indexerSubsystem.getDetectedColor(upperSensor, 1);
+    m_indexerSubsystem.getDetectedColor(lowerSensor, 0);
     if(Status.getIntakeStatus() == IntakeStatus.kExtended) {
       transition.set(0.5);
     } else {
