@@ -8,12 +8,19 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.LEDConstants;
 import frc.robot.status.Status;
 import frc.robot.status.Status.IntakeStatus;
+
+import com.fasterxml.jackson.annotation.JsonTypeInfo.None;
+
+import edu.wpi.first.util.sendable.Sendable;
+import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj.AddressableLED;
 import edu.wpi.first.wpilibj.AddressableLEDBuffer;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.util.Color;
 
-public class LEDSubsystem extends SubsystemBase {
+public class LEDSubsystem extends SubsystemBase implements Sendable{
 
   boolean enabled = false;
 
@@ -33,7 +40,31 @@ public class LEDSubsystem extends SubsystemBase {
     m_led.setLength(m_ledBuffer.getLength());
     m_led.setData(m_ledBuffer);
     m_led.start();
+    
+    ShuffleboardTab dashboard = Shuffleboard.getTab("Dashboard");
+    dashboard.add("LEDStatus", this);
   }
+
+  @Override
+  public void initSendable(SendableBuilder builder) {
+    builder.setSmartDashboardType("Led State");
+    builder.addStringProperty("Status", this::getStatus, null);
+  }
+
+  private String getStatus() {
+    if (DriverStation.isDisabled()) {
+      return "Rainbow";
+      // flash(0,0,255);
+      // glow(0,0,255);
+    } else {
+      if(Status.getIntakeStatus() == IntakeStatus.kExtended) {
+        return "Red";
+      } else {
+        return "Blue";
+      }
+    }
+  }
+
 
   public void setIsEnabled(boolean enabled) {
     this.enabled = enabled;

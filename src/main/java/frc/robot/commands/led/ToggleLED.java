@@ -4,6 +4,8 @@
 
 package frc.robot.commands.led;
 
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.LEDSubsystem;
 
@@ -16,6 +18,9 @@ public class ToggleLED extends CommandBase {
     addRequirements(ledSubsystem);
     this.enable = enable;
     this.m_ledSubsystem = ledSubsystem;
+
+    // ShuffleboardTab dashboard = Shuffleboard.getTab("Dashboard");
+    // dashboard.add("LEDStatus", this.m_ledSubsystem);
   }
 
   @Override

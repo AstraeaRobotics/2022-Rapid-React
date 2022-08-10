@@ -4,6 +4,9 @@
 
 package frc.robot.subsystems;
 
+import edu.wpi.first.util.sendable.SendableBuilder;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.RobotMap;
 import frc.robot.Constants.Shooter;
@@ -36,6 +39,26 @@ public class ShooterSubsystem extends SubsystemBase {
     flywheel.config_kP(Shooter.kPIDLoopIDx, Shooter.kGains_VelocitkP, Shooter.kTimeoutMs);
     flywheel.config_kI(Shooter.kPIDLoopIDx, Shooter.kGains_VelocitkI, Shooter.kTimeoutMs);
     flywheel.config_kD(Shooter.kPIDLoopIDx, Shooter.kGains_VelocitkD, Shooter.kTimeoutMs);
+
+    ShuffleboardTab dashboard = Shuffleboard.getTab("Dashboard");
+    dashboard.add("Shooter Status", this);
+  }
+
+  @Override
+  public void initSendable(SendableBuilder builder) {
+    builder.setSmartDashboardType("Shooter State");
+    builder.addStringProperty("Feeder Percentage", this::getFeederOutputPercent, null);
+    builder.addStringProperty("Flywheel Percentage", this::getFlywheelOutputPercent, null);
+    builder.addDoubleProperty("Feeder velocity", feeder::getSelectedSensorVelocity, null);
+    builder.addDoubleProperty("Flywheel velocity", flywheel::getSelectedSensorVelocity, null);
+  }
+
+  private String getFeederOutputPercent() {
+    return feeder.getMotorOutputPercent() * 100 + "%";
+  }
+
+  private String getFlywheelOutputPercent() {
+    return flywheel.getMotorOutputPercent() * 100 + "%";
   }
 
   public void stopMotors() {
