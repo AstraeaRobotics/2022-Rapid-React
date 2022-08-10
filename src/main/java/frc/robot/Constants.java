@@ -113,4 +113,10 @@ public final class Constants {
         public static final double kFeederC = 0;
 
     }
+
+    public static final class Indexer {
+        public static final int sensorDist = 2000; //[0, 2047]
+        public static final double transitionSpeed = 0.5;
+        public static final double beltSpeed = 0.5;
+    }
 }

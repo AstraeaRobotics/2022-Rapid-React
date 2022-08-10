@@ -22,7 +22,8 @@ import edu.wpi.first.wpilibj.util.Color;
 
 public class IndexerSubsystem extends SubsystemBase {
   /** Creates a new IndexerSubsystem. */
-  public static ColorSensorV3 sensor;
+  public static ColorSensorV3 lowerSensor;
+  public static ColorSensorV3 upperSensor;
   public static I2C.Port I2C;
 
   private Color upperBall;
@@ -49,17 +50,30 @@ public class IndexerSubsystem extends SubsystemBase {
     transition.set(speed);
   }
 
-  public Color getDetectedColor() {
+  /*
+   * @param sensor upper or lower sensor
+   * @param ballNumber 0 for lower ball, 1 for upper ball
+  */
+  public Color getDetectedColor(ColorSensorV3 sensor, int ballNumber) {
+    if (getProximity(sensor) < Constants.Indexer.sensorDist) { //If the ball is too far away, or under the distance value, return null
+      logBallStatus(ballNumber, Static.BallStatus.kEmpty);
+      return null;
+    }
     int red = sensor.getRed();
     int blue = sensor.getBlue();
-    if (red > blue)
+    if (red > blue) {
+      logBallStatus(ballNumber, Static.BallStatus.kRed);
       return Color.kRed;
-    if (red < blue)
+    }
+    if (red < blue) {
+      logBallStatus(ballNumber, Static.BallStatus.kBlue);
       return Color.kBlue;
+    }
+    logBallStatus(ballNumber, Static.BallStatus.kEmpty);
     return null;
   }
 
-  public int getProximity() {
+  public int getProximity(ColorSensorV3 sensor) {
     return sensor.getProximity();
   }
 
