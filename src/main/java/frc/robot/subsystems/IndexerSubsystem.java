@@ -22,28 +22,20 @@ import edu.wpi.first.wpilibj.util.Color;
 
 public class IndexerSubsystem extends SubsystemBase {
   /** Creates a new IndexerSubsystem. */
-  public static ColorSensorV3 lowerSensor;
-  public static ColorSensorV3 upperSensor;
+  public ColorSensorV3 lowerSensor;
+  public ColorSensorV3 upperSensor;
   public static I2C.Port I2C;
-
-  private Color upperBall;
-  private Color lowerBall;
-
-  public IndexerSubsystem() {
-    sensor = new ColorSensorV3(Port.kOnboard);
-    upperBall = null;
-    lowerBall = null;
-  }
 
   CANSparkMax belt = new CANSparkMax(9, MotorType.kBrushless);
   CANSparkMax transition = new CANSparkMax(8, MotorType.kBrushless);
 
+  public IndexerSubsystem() {
+    lowerSensor = new ColorSensorV3(Port.kOnboard);
+    upperSensor = new ColorSensorV3(Port.kOnboard);
+  }
 
   public void spinBelt(double speed) {
     belt.set(-speed);
-    if (speed > 0) {
-      launched();
-    }
   }
 
   public void spinTransition(double speed) {
@@ -54,52 +46,23 @@ public class IndexerSubsystem extends SubsystemBase {
    * @param sensor upper or lower sensor
    * @param ballNumber 0 for lower ball, 1 for upper ball
   */
-  public Color getDetectedColor(ColorSensorV3 sensor, int ballNumber) {
-    if (getProximity(sensor) < Constants.Indexer.sensorDist) { //If the ball is too far away, or under the distance value, return null
-      logBallStatus(ballNumber, Static.BallStatus.kEmpty);
-      return null;
-    }
+  public void getDetectedColor(ColorSensorV3 sensor, int ballNumber) {
     int red = sensor.getRed();
     int blue = sensor.getBlue();
-    if (red > blue) {
+    if (getProximity(sensor) < Constants.Indexer.sensorDist) { //If the ball is too far away, or under the distance value, return null
+      logBallStatus(ballNumber, Static.BallStatus.kEmpty);
+    } else if (red > blue) {
       logBallStatus(ballNumber, Static.BallStatus.kRed);
-      return Color.kRed;
-    }
-    if (red < blue) {
+    } else if (red < blue) {
       logBallStatus(ballNumber, Static.BallStatus.kBlue);
-      return Color.kBlue;
+    } else {
+      logBallStatus(ballNumber, Static.BallStatus.kEmpty);
     }
-    logBallStatus(ballNumber, Static.BallStatus.kEmpty);
-    return null;
   }
 
   public int getProximity(ColorSensorV3 sensor) {
     return sensor.getProximity();
   }
-
-  //0 means upper, and 1 means lower
-  public void addColor(int position, Color color) {
-    if (position == 0) {
-      upperBall = color;
-    } else if (position == 1) {
-      lowerBall = color;
-    }
-  }
-
-  public Color getUpperColors() {
-    return upperBall;
-  }
-
-  public Color getLowerColors() {
-    return lowerBall;
-  }
-
-  public void launched() { //Assume both balls are launched for now
-    upperBall = null;
-    lowerBall = null;
-  }
-
-
 
   @Override
   public void periodic() {

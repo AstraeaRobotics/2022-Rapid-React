@@ -27,7 +27,7 @@ public class DefaultIndexer extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (m_indexerSubsystem.getDetectedColor(m_indexerSubsystem.lowerSensor, 0) != null && m_indexerSubsystem.getDetectedColor(m_indexerSubsystem.upperSensor, 1) != null)
+    if (getBallStatus(0) != BallStatus.kempty && getBallStatus(1) != BallStatus.kempty)
       m_indexerSubsystem.spinTransition(0.0);
     else
       m_indexerSubsystem.spinTransition(Constants.Indexer.transitionSpeed);

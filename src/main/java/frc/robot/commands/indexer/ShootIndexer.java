@@ -25,9 +25,9 @@ public class ShootIndexer extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (m_indexerSubsystem.getDetectedColor(m_indexerSubsystem.upperSensor, 1) != null)
+    if (getBallStatus(1) != BallStatus.kempty)
       m_indexerSubsystem.spinBelt(Constants.Indexer.beltSpeed);
-    if (m_indexerSubsystem.getDetectedColor(m_indexerSubsystem.lowerSensor, 0), != null)
+    if (getBallStatus(0), != BallStatus.kempty)
       m_indexerSubsystem.spinTransition(Constants.Indexer.transitionSpeed);
   }
 
