@@ -7,13 +7,12 @@ package frc.robot.commands.climber;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.ClimberSubsystem;
 
-public class ElevatorDown extends CommandBase {
-  /** Creates a new ElevatorDown. */
-  private ClimberSubsystem m_climberSubsystem;
+public class Calibrate extends CommandBase {
+  /** Creates a new Calibrate. */
+  public ClimberSubsystem m_climberSubsystem;
 
-  public ElevatorDown(ClimberSubsystem climberSubsystem) {
-    // Use addRequirements() here to declare subsystem dependencies.
-    m_climberSubsystem = climberSubsystem;
+  public Calibrate(ClimberSubsystem climbSubsystem) {
+    m_climberSubsystem = climbSubsystem;
     addRequirements(m_climberSubsystem);
   }
 
@@ -21,7 +20,7 @@ public class ElevatorDown extends CommandBase {
   @Override
   public void initialize() {
     super.initialize();
-    m_climberSubsystem.descend();
+    m_climberSubsystem.setSoftLimits();
   }
 
   // Called every time the scheduler runs while the command is scheduled.

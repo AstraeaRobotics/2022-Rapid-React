@@ -14,11 +14,6 @@ public class ElevatorUp extends CommandBase {
   public ElevatorUp(ClimberSubsystem climbsubsystem) {
     m_climberSubsystem = climbsubsystem;
     addRequirements(m_climberSubsystem);
-    // if (!m_climberSubsystem.isFullyRetracted()) {
-    // m_climberSubsystem.setSpeed(speed);
-    // } else {
-    // m_climberSubsystem.setSpeed(0);
-    // }
   }
 
   // Called when the command is initially scheduled.
@@ -37,6 +32,7 @@ public class ElevatorUp extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     m_climberSubsystem.stop();
+    m_climberSubsystem.reset();
   }
 
   // Returns true when the command should end.
