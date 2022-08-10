@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.RunIndexer;
 import frc.robot.commands.auto.DriveToDistance;
+import frc.robot.commands.climber.Calibrate;
 import frc.robot.commands.climber.ElevatorDown;
 import frc.robot.commands.climber.ElevatorUp;
 import frc.robot.commands.drive.SimDrive;
@@ -60,6 +61,7 @@ public class RobotContainer {
     CommandScheduler
         .getInstance()
         .schedule(new ToggleLED(m_ledSubsystem, true));
+    CommandScheduler.getInstance().schedule(false, new Calibrate(m_climberSubsystem));
     m_shooterSubsystem.setDefaultCommand(new ManualShoot(m_shooterSubsystem, 40, 40));
     m_driveSubsystem.setDefaultCommand(
         new SimDrive(

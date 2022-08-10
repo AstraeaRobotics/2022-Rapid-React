@@ -7,6 +7,7 @@ package frc.robot.commands.climber;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.ClimberSubsystem;
 
+// for making the elevator raise up
 public class ElevatorUp extends CommandBase {
   /** Creates a new Elevator. */
   private ClimberSubsystem m_climberSubsystem;

@@ -12,6 +12,7 @@ import com.revrobotics.RelativeEncoder;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.Climber;
+import frc.robot.commands.climber.Calibrate;
 
 public class ClimberSubsystem extends SubsystemBase {
   /** Creates a new ClimberSubsystem. */
@@ -57,7 +58,7 @@ public class ClimberSubsystem extends SubsystemBase {
   }
 
   public void reset() {
-    m_climberMotor.restoreFactoryDefaults();
+    m_encoder.setPosition(0);
   }
 
   public void climb() {
