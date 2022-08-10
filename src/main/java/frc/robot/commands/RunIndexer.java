@@ -26,6 +26,7 @@ public class RunIndexer extends CommandBase {
   @Override
   public void execute() {
     m_indexerSubsystem.spinTransition(0.5);
+    m_indexerSubsystem.spinBelt(0.5);
 
     SmartDashboard.putNumber("Indexer Ball Proximity", m_indexerSubsystem.getProximity());
     SmartDashboard.putString("Indexer Ball Color", m_indexerSubsystem.getDetectedColor().toString());
@@ -35,11 +36,14 @@ public class RunIndexer extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     m_indexerSubsystem.spinTransition(0.0);
+    m_indexerSubsystem.spinBelt(0.0);
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
+    if (upperBall == null && lowerBall == null)
+      return true;
     return false;
   }
 }
