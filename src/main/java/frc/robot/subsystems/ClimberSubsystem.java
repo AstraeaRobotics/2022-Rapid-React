@@ -20,16 +20,12 @@ public class ClimberSubsystem extends SubsystemBase {
   private DigitalInput m_limitSwitch;
   public double m_climbSpeed;
   private final RelativeEncoder m_encoder;
-  private final float climbUpLimit;
-  private final float climbDownLimit;
 
   public ClimberSubsystem() {
-    m_climberMotor = new CANSparkMax(Climber.CLIMBER_MOTOR_PORT, MotorType.kBrushless);
-    m_limitSwitch = new DigitalInput(Climber.LIMIT_SWITCH_PORT);
+    m_climberMotor = new CANSparkMax(Climber.kClimberMotor_Port, MotorType.kBrushless);
+    m_limitSwitch = new DigitalInput(Climber.kLimitSwitch_Port);
     m_encoder = m_climberMotor.getEncoder();
     m_encoder.setPosition(0);
-    climbUpLimit = Climber.kUpperLimit - Float.valueOf(String.valueOf(m_encoder.getPosition()));
-    climbDownLimit = Climber.kLowerLimit - Float.valueOf(String.valueOf(m_encoder.getPosition()));
     m_climbSpeed = Climber.kElevatorSpeed;
   }
 
@@ -49,8 +45,8 @@ public class ClimberSubsystem extends SubsystemBase {
   public void setSoftLimits() {
     m_climberMotor.enableSoftLimit(SoftLimitDirection.kForward, true);
     m_climberMotor.enableSoftLimit(SoftLimitDirection.kReverse, true);
-    m_climberMotor.setSoftLimit(SoftLimitDirection.kForward, climbUpLimit); // 15
-    m_climberMotor.setSoftLimit(SoftLimitDirection.kReverse, climbDownLimit); // 0
+    m_climberMotor.setSoftLimit(SoftLimitDirection.kForward, Climber.kUpperLimit); // 15
+    m_climberMotor.setSoftLimit(SoftLimitDirection.kReverse, Climber.kLowerLimit); // 0
   }
 
   public void setSpeed(double speed) {

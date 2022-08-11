@@ -22,12 +22,12 @@ public class ElevatorDown extends CommandBase {
   @Override
   public void initialize() {
     super.initialize();
-    m_climberSubsystem.descend();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    m_climberSubsystem.descend();
   }
 
   // Called once the command ends or is interrupted.
