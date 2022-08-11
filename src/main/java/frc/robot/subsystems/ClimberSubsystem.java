@@ -10,7 +10,9 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.RelativeEncoder;
 
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.RobotContainer;
 import frc.robot.Constants.Climber;
 import frc.robot.commands.climber.Calibrate;
 
@@ -20,6 +22,7 @@ public class ClimberSubsystem extends SubsystemBase {
   private DigitalInput m_limitSwitch;
   public double m_climbSpeed;
   private final RelativeEncoder m_encoder;
+  private boolean buttonPressed;
 
   public ClimberSubsystem() {
     m_climberMotor = new CANSparkMax(Climber.kClimberMotor_Port, MotorType.kBrushless);
@@ -27,6 +30,7 @@ public class ClimberSubsystem extends SubsystemBase {
     m_encoder = m_climberMotor.getEncoder();
     m_encoder.setPosition(0);
     m_climbSpeed = Climber.kElevatorSpeed;
+    buttonPressed = false;
   }
 
   public boolean isFullyRetracted() {
@@ -40,6 +44,11 @@ public class ClimberSubsystem extends SubsystemBase {
     } else {
       m_climberMotor.set(0);
     }
+  }
+
+  public boolean buttonPressed(boolean pressed) {
+    buttonPressed = pressed;
+    return buttonPressed;
   }
 
   public void setSoftLimits() {
