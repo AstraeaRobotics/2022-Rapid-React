@@ -12,24 +12,17 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.status.Status;
 import frc.robot.status.Status.IntakeStatus;
-import com.revrobotics.ColorSensorV3;
-import edu.wpi.first.wpilibj.I2C;
-import edu.wpi.first.wpilibj.I2C.Port;
+
+import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.networktables.NetworkTableInstance;
 
 
 public class IndexerSubsystem extends SubsystemBase {
   /** Creates a new IndexerSubsystem. */
-  public ColorSensorV3 lowerSensor;
-  public ColorSensorV3 upperSensor;
-  public static I2C.Port I2C;
-
   CANSparkMax belt = new CANSparkMax(9, MotorType.kBrushless);
   CANSparkMax transition = new CANSparkMax(8, MotorType.kBrushless);
 
-  public IndexerSubsystem() {
-    lowerSensor = new ColorSensorV3(Port.kOnboard);
-    upperSensor = new ColorSensorV3(Port.kOnboard);
-  }
+  public IndexerSubsystem() {}
 
   public void spinBelt(double speed) {
     belt.set(-speed);
@@ -43,10 +36,13 @@ public class IndexerSubsystem extends SubsystemBase {
    * @param sensor upper or lower sensor
    * @param ballNumber 0 for lower ball, 1 for upper ball
   */
-  public void getDetectedColor(ColorSensorV3 sensor, int ballNumber) {
-    int red = sensor.getRed();
-    int blue = sensor.getBlue();
-    if (getProximity(sensor) < Constants.Indexer.sensorDist) { //If the ball is too far away, or under the distance value, return null
+  public void getDetectedColor(int sensorID, int ballNumber) {
+    NetworkTableEntry colorEntry = NetworkTableInstance.getDefault().getEntry("/rawcolor" + sensorID);
+
+    double red = colorEntry.getDoubleArray(new double[]{0, 0, 0, 0})[0];
+    double blue = colorEntry.getDoubleArray(new double[]{0, 0, 0, 0})[2];
+
+    if (getProximity(sensorID) < Constants.Indexer.sensorDist) {
       Status.logBallStatus(ballNumber, Status.BallStatus.kEmpty);
     } else if (red > blue) {
       Status.logBallStatus(ballNumber, Status.BallStatus.kRed);
@@ -57,14 +53,14 @@ public class IndexerSubsystem extends SubsystemBase {
     }
   }
 
-  public int getProximity(ColorSensorV3 sensor) {
-    return sensor.getProximity();
+  public double getProximity(int sensorID) {
+    return NetworkTableInstance.getDefault().getEntry("/prox" + sensorID).getDouble(0);
   }
 
   @Override
   public void periodic() {
-    getDetectedColor(upperSensor, 1);
-    getDetectedColor(lowerSensor, 0);
+    getDetectedColor(0, 1);
+    getDetectedColor(1, 0);
     if(Status.getIntakeStatus() == IntakeStatus.kExtended) {
       transition.set(0.5);
     } else {
