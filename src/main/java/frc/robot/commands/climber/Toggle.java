@@ -10,9 +10,10 @@ import frc.robot.subsystems.ClimberSubsystem;
 public class Toggle extends CommandBase {
   /** Creates a new Toggle. */
   private ClimberSubsystem m_climberSubsystem;
+
   public Toggle(ClimberSubsystem climberSubsystem) {
     addRequirements(m_climberSubsystem);
-
+    m_climberSubsystem.setIsRising(true);
   }
 
   // Called when the command is initially scheduled.
@@ -24,20 +25,20 @@ public class Toggle extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    boolean x = true;
-    if (x) {
+    if (m_climberSubsystem.getButtonPressed() == false) {
+      m_climberSubsystem.stop();
+    } else if (m_climberSubsystem.getIsRising() && m_climberSubsystem.getButtonPressed()) {
       m_climberSubsystem.climb();
-      x = false;
-    } else if (x = false) {
+    } else if (m_climberSubsystem.getIsRising() == false && m_climberSubsystem.getButtonPressed()) {
       m_climberSubsystem.descend();
-      x = true;
     }
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-
+    m_climberSubsystem.stop();
+    m_climberSubsystem.reset();
   }
 
   // Returns true when the command should end.
