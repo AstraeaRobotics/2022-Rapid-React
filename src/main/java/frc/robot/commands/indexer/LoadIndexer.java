@@ -5,14 +5,17 @@
 package frc.robot.commands.indexer;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Constants;
+import frc.robot.status.Status;
+import frc.robot.status.Status.BallStatus;
 import frc.robot.subsystems.IndexerSubsystem;
 
-public class DefaultIndexer extends CommandBase {
+public class LoadIndexer extends CommandBase {
 
   IndexerSubsystem m_indexerSubsystem;
 
   /** Creates a new DefaultIndexer. */
-  public DefaultIndexer(IndexerSubsystem indexerSubsystem) {
+  public LoadIndexer(IndexerSubsystem indexerSubsystem) {
     addRequirements(indexerSubsystem);
     m_indexerSubsystem = indexerSubsystem;
     // Use addRequirements() here to declare subsystem dependencies.
@@ -27,7 +30,7 @@ public class DefaultIndexer extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (getBallStatus(0) != BallStatus.kempty && getBallStatus(1) != BallStatus.kempty)
+    if (Status.getBallStatus(0) != BallStatus.kEmpty && Status.getBallStatus(1) != BallStatus.kEmpty)
       m_indexerSubsystem.spinTransition(0.0);
     else
       m_indexerSubsystem.spinTransition(Constants.Indexer.transitionSpeed);

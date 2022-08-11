@@ -4,20 +4,17 @@
 
 package frc.robot.subsystems;
 
-import java.util.NavigableMap;
-import java.util.TreeMap;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 import frc.robot.status.Status;
 import frc.robot.status.Status.IntakeStatus;
-import frc.robot.util.SparkMax;
 import com.revrobotics.ColorSensorV3;
 import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.I2C.Port;
-import edu.wpi.first.wpilibj.util.Color;
 
 
 public class IndexerSubsystem extends SubsystemBase {
@@ -50,13 +47,13 @@ public class IndexerSubsystem extends SubsystemBase {
     int red = sensor.getRed();
     int blue = sensor.getBlue();
     if (getProximity(sensor) < Constants.Indexer.sensorDist) { //If the ball is too far away, or under the distance value, return null
-      logBallStatus(ballNumber, Static.BallStatus.kEmpty);
+      Status.logBallStatus(ballNumber, Status.BallStatus.kEmpty);
     } else if (red > blue) {
-      logBallStatus(ballNumber, Static.BallStatus.kRed);
+      Status.logBallStatus(ballNumber, Status.BallStatus.kRed);
     } else if (red < blue) {
-      logBallStatus(ballNumber, Static.BallStatus.kBlue);
+      Status.logBallStatus(ballNumber, Status.BallStatus.kBlue);
     } else {
-      logBallStatus(ballNumber, Static.BallStatus.kEmpty);
+      Status.logBallStatus(ballNumber, Status.BallStatus.kEmpty);
     }
   }
 
@@ -66,8 +63,8 @@ public class IndexerSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
-    m_indexerSubsystem.getDetectedColor(upperSensor, 1);
-    m_indexerSubsystem.getDetectedColor(lowerSensor, 0);
+    getDetectedColor(upperSensor, 1);
+    getDetectedColor(lowerSensor, 0);
     if(Status.getIntakeStatus() == IntakeStatus.kExtended) {
       transition.set(0.5);
     } else {

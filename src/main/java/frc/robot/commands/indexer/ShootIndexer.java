@@ -5,6 +5,8 @@
 package frc.robot.commands.indexer;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Constants;
+import frc.robot.status.Status;
 import frc.robot.subsystems.IndexerSubsystem;
 
 public class ShootIndexer extends CommandBase {
@@ -25,9 +27,9 @@ public class ShootIndexer extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (getBallStatus(1) != BallStatus.kempty)
+    if (Status.getBallStatus(1) != Status.BallStatus.kEmpty)
       m_indexerSubsystem.spinBelt(Constants.Indexer.beltSpeed);
-    if (getBallStatus(0), != BallStatus.kempty)
+    if (Status.getBallStatus(0) != Status.BallStatus.kEmpty)
       m_indexerSubsystem.spinTransition(Constants.Indexer.transitionSpeed);
   }
 

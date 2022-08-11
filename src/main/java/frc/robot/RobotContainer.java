@@ -8,7 +8,6 @@ import edu.wpi.first.wpilibj.PS4Controller;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import frc.robot.commands.indexer.RunIndexer;
 import frc.robot.commands.indexer.ShootIndexer;
 import frc.robot.commands.indexer.LoadIndexer;
 import frc.robot.commands.auto.DriveToDistance;
@@ -79,7 +78,7 @@ public class RobotContainer {
     triangleButton.whileHeld(new AutoAimTurret(m_turretSubsystem, 0.05));
     m_circleButton.whenPressed(new ToggleIntake(m_intakeSubsystem));
     X_BUTTON.whileHeld(new ShootIndexer(m_indexerSubsystem));
-    Square_Button.whileHeld(new LoadIndexer(m_indexerSubsystem))
+    Square_Button.whileHeld(new LoadIndexer(m_indexerSubsystem));
   }
 
   public Command getAutonomousCommand() {
