@@ -32,11 +32,13 @@ public class IntakeSubsystem extends SubsystemBase {
 
     m_motor = new CANSparkMax(7, CANSparkMaxLowLevel.MotorType.kBrushless);
 
-    ShuffleboardTab dashboard = Shuffleboard.getTab("Dashboard");
-    dashboard.add("Left Intake Status", left);
-    dashboard.add("Right Intake Status", right);
-    // dashboard.add("Pneumatics Extended", isExtended()).withWidget(BuiltInWidgets.kToggleButton);
+    ShuffleboardTab driveTab = Shuffleboard.getTab("Dashboard");
+    driveTab.add("Intake Status", left);
+    // driveTab.add("Intake Status", isExtended()).withWidget(BuiltInWidgets.kBooleanBox);
 
+    ShuffleboardTab testTab = Shuffleboard.getTab("Testing");
+    testTab.add("Left Intake Status", left);
+    testTab.add("Right Intake Status", right);
   }
 
   public void toggleIntake() {

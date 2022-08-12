@@ -19,6 +19,8 @@ import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.util.sendable.Sendable;
+import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
@@ -34,8 +36,9 @@ import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.RobotMap;
 import frc.robot.status.Status;
 import frc.robot.util.Logger;
+import edu.wpi.first.cameraserver.CameraServer;
 
-public class DriveSubsystem extends SubsystemBase {
+public class DriveSubsystem extends SubsystemBase implements Sendable {
 
     private AHRS gyro = new AHRS(SPI.Port.kMXP);
 
@@ -123,14 +126,29 @@ public class DriveSubsystem extends SubsystemBase {
         ShuffleboardTab driveTab = Shuffleboard.getTab("Dashboard");
         driveTab.add("Gyro", gyro).withWidget(BuiltInWidgets.kGyro);
         driveTab.add("Field View", m_field).withWidget("Field");
-        // driveTab.add("Left Speed", m_leftMotors.get()).withWidget(BuiltInWidgets.kNumberSlider);
-        // driveTab.add("Right Speed", m_rightMotors.get()).withWidget(BuiltInWidgets.kNumberSlider);
         driveTab.add("Differential Drive", m_drive);
 
-    }
+        ShuffleboardTab testTab = Shuffleboard.getTab("Testing");
+        testTab.add("Wheel Speeds", this);
 
+
+        CameraServer.startAutomaticCapture("Camera Stream", 0);
+
+    }
+    
+    @Override
+    public void initSendable(SendableBuilder builder) {
+      builder.setSmartDashboardType("Motor Speeds");
+      builder.addDoubleProperty("Left Motor 1", m_leftMotor1::get, null);
+      builder.addDoubleProperty("Left Motor 2", m_leftMotor2::get, null);
+      builder.addDoubleProperty("Left Motor 3", m_leftMotor3::get, null);
+      builder.addDoubleProperty("Right Motor 1", m_rightMotor1::get, null);
+      builder.addDoubleProperty("Right Motor 2", m_rightMotor2::get, null);
+      builder.addDoubleProperty("Right Motor 3", m_rightMotor3::get, null);
+
+    }
     /**
-     * Gets the motors in the subsystem
+     * Gets the motors in the subsystems
      *
      * @return the motors
      */
