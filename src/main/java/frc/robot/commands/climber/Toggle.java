@@ -29,7 +29,7 @@ public class Toggle extends CommandBase {
       m_climberSubsystem.stop();
     } else if (m_climberSubsystem.getIsRising() && m_climberSubsystem.getButtonPressed()) {
       m_climberSubsystem.climb();
-    } else if (m_climberSubsystem.getIsRising() == false && m_climberSubsystem.getButtonPressed()) {
+    } else if (!m_climberSubsystem.getIsRising() && m_climberSubsystem.getButtonPressed()) {
       m_climberSubsystem.descend();
     }
   }
