@@ -7,16 +7,22 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.shuffleboard.WidgetType;
+import edu.wpi.first.util.sendable.Sendable;
+import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
+
+import java.util.Map;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel;
 
-public class IntakeSubsystem extends SubsystemBase {
+public class IntakeSubsystem extends SubsystemBase implements Sendable {
 
   DoubleSolenoid left;
   DoubleSolenoid right;
@@ -33,13 +39,24 @@ public class IntakeSubsystem extends SubsystemBase {
     m_motor = new CANSparkMax(7, CANSparkMaxLowLevel.MotorType.kBrushless);
 
     ShuffleboardTab driveTab = Shuffleboard.getTab("Dashboard");
-    driveTab.add("Intake Status", left);
+    driveTab.add("Intake Status", this);
+    driveTab.getLayout("Intake Status", BuiltInLayouts.kGrid).withProperties(Map.of("Label position", "HIDDEN"));
+
     // driveTab.add("Intake Status", isExtended()).withWidget(BuiltInWidgets.kBooleanBox);
 
     ShuffleboardTab testTab = Shuffleboard.getTab("Testing");
-    testTab.add("Left Intake Status", left);
-    testTab.add("Right Intake Status", right);
+    // testTab.add("Intake Status", this).withWidget(BuiltInWidgets.kBooleanBox);
+    testTab.add("Intake Status", this);
+    testTab.getLayout("Intake Status", BuiltInLayouts.kGrid);
   }
+
+  @Override
+  public void initSendable(SendableBuilder builder) {
+    builder.setSmartDashboardType("Led State");
+    builder.addBooleanProperty("Left", this::isExtendedLeft, null);
+    builder.addBooleanProperty("Right", this::isExtended, null);
+  }
+
 
   public void toggleIntake() {
     left.toggle();
@@ -52,5 +69,9 @@ public class IntakeSubsystem extends SubsystemBase {
 
   public boolean isExtended() {
     return right.get() == Value.kForward;
+  }
+
+  public boolean isExtendedLeft() {
+    return left.get() == Value.kForward;
   }
 }
