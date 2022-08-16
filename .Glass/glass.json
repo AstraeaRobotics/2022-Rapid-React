@@ -1,9 +1,23 @@
 {
   "NetworkTables": {
+    "Shuffleboard": {
+      ".metadata": {
+        "Dashboard": {
+          "open": true
+        }
+      },
+      "Dashboard": {
+        "open": true
+      },
+      "open": true
+    },
     "SmartDashboard": {
       "DB": {
         "open": true
       },
+      "open": true
+    },
+    "indexer": {
       "open": true
     },
     "types": {
@@ -16,6 +30,7 @@
       "/LiveWindow/Ungrouped/PIDController[4]": "PIDController",
       "/LiveWindow/Ungrouped/Scheduler": "Scheduler",
       "/LiveWindow/Ungrouped/navX-Sensor[4]": "Gyro",
+      "/Shuffleboard/Dashboard/Differential Drive": "DifferentialDrive",
       "/Shuffleboard/Dashboard/Field View": "Field2d",
       "/Shuffleboard/Dashboard/Gyro": "Gyro"
     }
@@ -97,7 +112,7 @@
     "Plot <2>": {
       "plots": [
         {
-          "height": 427,
+          "height": -18,
           "series": [
             {
               "color": [
@@ -115,7 +130,7 @@
     "Plot <3>": {
       "plots": [
         {
-          "height": 435,
+          "height": -18,
           "series": [
             {
               "color": [
