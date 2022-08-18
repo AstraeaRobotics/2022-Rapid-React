@@ -5,6 +5,7 @@
 package frc.robot.commands.AutoCommands;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.util.Ramsete;
 import frc.robot.util.Traj;
@@ -15,14 +16,11 @@ import frc.robot.util.Traj;
 public class TwoBall extends SequentialCommandGroup {
   /** Creates a new TwoBall. */
   public TwoBall(DriveSubsystem drive) {
-    // Add your commands in the addCommands() call, e.g.
-    // addCommands(new FooCommand(), new BarCommand());
-    drive.resetOdometry(Traj.createNewTrajectoryFromJSON("TwoBall-1").getInitialPose());
+    drive.resetOdometry(Traj.createNewTrajectoryFromJSON("2Ball-1").getInitialPose());
     addCommands(
-      Ramsete.createRamseteCommand(Traj.createNewTrajectoryFromJSON("TwoBall-1"), drive, true),
-      //Intake
-      Ramsete.createRamseteCommand(Traj.createNewTrajectoryFromJSON("TwoBall-2"), drive, true)
-      //Shoot
+      Ramsete.createRamseteCommand(Traj.createNewTrajectoryFromJSON("2Ball-1"), drive, true),
+      new WaitCommand(1),
+      Ramsete.createRamseteCommand(Traj.createNewTrajectoryFromJSON("2Ball-2"), drive, true)
     );
   }
 }
