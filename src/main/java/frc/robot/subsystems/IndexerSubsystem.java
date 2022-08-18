@@ -31,10 +31,11 @@ public class IndexerSubsystem extends SubsystemBase {
 
   public IndexerSubsystem() {
     sensor = new ColorSensorV3(Port.kOnboard);
+    belt.setInverted(true);
   }
 
   public void spinBelt(double speed) {
-    belt.set(-speed);
+    belt.set(speed);
   }
 
   public void spinTransition(double speed) {
@@ -51,7 +52,7 @@ public class IndexerSubsystem extends SubsystemBase {
     double red = colorEntry[0]; //Prevent errors with calling entries that don't exist, which there are 4
     double blue = colorEntry[2];
 
-    if (getProximity(sensorID) < Constants.Indexer.sensorDist) {
+    if (getProximity(sensorID) < Constants.Indexer.proximityThreshold) {
       Status.logBallStatus(ballNumber, Status.BallStatus.kEmpty);
     } else if (red > blue) {
       Status.logBallStatus(ballNumber, Status.BallStatus.kRed);
@@ -67,7 +68,7 @@ public class IndexerSubsystem extends SubsystemBase {
     int blue = sensor.getBlue();
     int proximity = sensor.getProximity();
 
-    if (proximity < Constants.Indexer.sensorDist) {
+    if (proximity < Constants.Indexer.proximityThreshold) {
       Status.logBallStatus(ballNumber, Status.BallStatus.kEmpty);
     } else if (red > blue) {
       Status.logBallStatus(ballNumber, Status.BallStatus.kRed);
@@ -84,7 +85,6 @@ public class IndexerSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
-    System.out.println("p" + getProximity(1));
     getDetectedColorRio(0);
     getDetectedColor(1, 1);
     if(Status.getIntakeStatus() == IntakeStatus.kExtended) {

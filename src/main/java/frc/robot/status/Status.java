@@ -38,7 +38,7 @@ public class Status {
     public enum IndexerStatus {
         kLoading,
         kShooting,
-        kStoppeds
+        kStopped
     }
 
     /* DEFAULT STATUS */

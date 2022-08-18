@@ -39,8 +39,8 @@ public class RobotContainer {
     PS4Controller.Button.kTriangle.value
   );
 
-  private static final JoystickButton X_BUTTON = new JoystickButton(driverGamepad, PS4Controller.Button.kCross.value);
-  private static final JoystickButton Square_Button = new JoystickButton(driverGamepad, PS4Controller.Button.kSquare.value);
+  private static final JoystickButton m_crossButton = new JoystickButton(driverGamepad, PS4Controller.Button.kCross.value);
+  private static final JoystickButton m_squareButton = new JoystickButton(driverGamepad, PS4Controller.Button.kSquare.value);
 
   private final DriveSubsystem m_driveSubsystem = new DriveSubsystem();
   private final LEDSubsystem m_ledSubsystem = new LEDSubsystem();
@@ -59,7 +59,7 @@ public class RobotContainer {
     CommandScheduler
       .getInstance()
       .schedule(new ToggleLED(m_ledSubsystem, true));
-    //m_shooterSubsystem.setDefaultCommand(new ManualShoot(m_shooterSubsystem, 40, 40));
+    m_shooterSubsystem.setDefaultCommand(new ManualShoot(m_shooterSubsystem, 40, 40));
     m_driveSubsystem.setDefaultCommand(
       new SimDrive(
         m_driveSubsystem,
@@ -77,7 +77,7 @@ public class RobotContainer {
   private void configureButtonBindings() {
     triangleButton.whileHeld(new AutoAimTurret(m_turretSubsystem, 0.05));
     m_circleButton.whenPressed(new ToggleIntake(m_intakeSubsystem));
-    X_BUTTON.whileHeld(new ShootIndexer(m_indexerSubsystem));
+    m_crossButton.whileHeld(new ShootIndexer(m_indexerSubsystem));
   }
 
   public Command getAutonomousCommand() {

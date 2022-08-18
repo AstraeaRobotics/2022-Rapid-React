@@ -18,13 +18,6 @@ public class LoadIndexer extends CommandBase {
   public LoadIndexer(IndexerSubsystem indexerSubsystem) {
     addRequirements(indexerSubsystem);
     m_indexerSubsystem = indexerSubsystem;
-    // Use addRequirements() here to declare subsystem dependencies.
-  }
-
-  // Called when the command is initially scheduled.
-  @Override
-  public void initialize() {
-    
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -68,11 +61,5 @@ public class LoadIndexer extends CommandBase {
   public void end(boolean interrupted) {
     m_indexerSubsystem.spinTransition(0);
     m_indexerSubsystem.spinBelt(0);
-  }
-
-  // Returns true when the command should end.
-  @Override
-  public boolean isFinished() {
-    return false;
   }
 }
