@@ -9,10 +9,11 @@ import com.revrobotics.CANSparkMax.SoftLimitDirection;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.RelativeEncoder;
 
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.Climber;
-import frc.robot.commands.climber.Calibrate;
 
 public class ClimberSubsystem extends SubsystemBase {
   /** Creates a new ClimberSubsystem. */
@@ -20,10 +21,13 @@ public class ClimberSubsystem extends SubsystemBase {
   private DigitalInput m_limitSwitch;
   public double m_climbSpeed;
   private final RelativeEncoder m_encoder;
+  PIDController pid;
 
   public ClimberSubsystem() {
     m_climberMotor = new CANSparkMax(Climber.kClimberMotor_Port, MotorType.kBrushless);
     m_limitSwitch = new DigitalInput(Climber.kLimitSwitch_Port);
+    pid = new PIDController(Climber.kP, Climber.kI, Climber.kD);
+    // pid.calculate(1, 0.3);
     m_encoder = m_climberMotor.getEncoder();
     m_encoder.setPosition(0);
     m_climbSpeed = Climber.kElevatorSpeed;
@@ -35,11 +39,11 @@ public class ClimberSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
-    if (!isFullyRetracted()) {
-      m_climberMotor.set(-m_climbSpeed);
-    } else {
-      m_climberMotor.set(0);
-    }
+    // if (!isFullyRetracted()) {
+    // m_climberMotor.set(-m_climbSpeed);
+    // } else {
+    // m_climberMotor.set(0);
+    // }
   }
 
   public void setSoftLimits() {
@@ -67,5 +71,11 @@ public class ClimberSubsystem extends SubsystemBase {
 
   public void stop() {
     m_climberMotor.set(0);
+  }
+
+  public void log() {
+    SmartDashboard.putNumber("Current Position", Double.valueOf(String.valueOf(m_climberMotor.getEncoder())));
+    SmartDashboard.putNumber("Upper Limit", Climber.kUpperLimit);
+    SmartDashboard.putNumber("Lower Limit", Climber.kLowerLimit);
   }
 }
