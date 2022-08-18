@@ -49,6 +49,15 @@ public class LEDSubsystem extends SubsystemBase {
     m_rainbowFirstPixelHue += 3;
     m_rainbowFirstPixelHue %= 180;
   }
+  
+  
+  public void rainbowFlash() {
+    for (int i = 0; i < m_ledBuffer.getLength(); i++) {
+      m_ledBuffer.setHSV(i, m_rainbowFirstPixelHue, 255, 128);
+    }
+    m_rainbowFirstPixelHue += 1;
+    m_rainbowFirstPixelHue %= 180;
+  }
 
   public void flash(int r, int g, int b) {
     long currentTime = System.currentTimeMillis();
