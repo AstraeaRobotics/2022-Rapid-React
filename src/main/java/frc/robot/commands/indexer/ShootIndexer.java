@@ -4,8 +4,6 @@
 
 package frc.robot.commands.indexer;
 
-import java.lang.Thread.State;
-
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 import frc.robot.status.Status;
