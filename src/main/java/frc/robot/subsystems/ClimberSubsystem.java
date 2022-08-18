@@ -36,11 +36,11 @@ public class ClimberSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
-    if (!isFullyRetracted()) {
-      m_climberMotor.set(-m_climbSpeed);
-    } else {
-      m_climberMotor.set(0);
-    }
+    // if (!isFullyRetracted()) {
+    // m_climberMotor.set(-m_climbSpeed);
+    // } else {
+    // m_climberMotor.set(0);
+    // }
   }
 
   public boolean setIsRising(boolean rising) {
@@ -76,7 +76,7 @@ public class ClimberSubsystem extends SubsystemBase {
     m_encoder.setPosition(0);
   }
 
-  public void climb() {
+  public void ascend() {
     m_climberMotor.set(Climber.kElevatorSpeed);
   }
 

@@ -28,7 +28,7 @@ public class Toggle extends CommandBase {
     if (m_climberSubsystem.getButtonPressed() == false) {
       m_climberSubsystem.stop();
     } else if (m_climberSubsystem.getIsRising() && m_climberSubsystem.getButtonPressed()) {
-      m_climberSubsystem.climb();
+      m_climberSubsystem.ascend();
     } else if (!m_climberSubsystem.getIsRising() && m_climberSubsystem.getButtonPressed()) {
       m_climberSubsystem.descend();
     }
