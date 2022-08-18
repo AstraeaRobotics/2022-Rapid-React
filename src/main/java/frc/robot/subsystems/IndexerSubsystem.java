@@ -46,14 +46,11 @@ public class IndexerSubsystem extends SubsystemBase {
    * @param ballNumber 0 for lower ball, 1 for upper ball
   */
   private void getDetectedColor(int sensorID, int ballNumber) {
-    NetworkTableEntry colorEntry = NetworkTableInstance.getDefault().getEntry("rawcolor" + sensorID);
+    double[] colorEntry = NetworkTableInstance.getDefault().getTable("").getEntry("rawcolor" + sensorID).getDoubleArray(new double[]{0, 0, 0, 0});
 
-    double red = colorEntry.getDoubleArray(new double[]{0, 0, 0, 0})[0]; //Prevent errors with calling entries that don't exist, which there are 4
-    double blue = colorEntry.getDoubleArray(new double[]{0, 0, 0, 0})[2];
+    double red = colorEntry[0]; //Prevent errors with calling entries that don't exist, which there are 4
+    double blue = colorEntry[2];
 
-    System.out.println("r" + red);
-    System.out.println("b" + blue);
-    System.out.println("p" + getProximity(sensorID));
     if (getProximity(sensorID) < Constants.Indexer.sensorDist) {
       Status.logBallStatus(ballNumber, Status.BallStatus.kEmpty);
     } else if (red > blue) {
@@ -82,7 +79,7 @@ public class IndexerSubsystem extends SubsystemBase {
   }
 
   public double getProximity(int sensorID) {
-    return NetworkTableInstance.getDefault().getEntry("proximity1").getDouble(0);
+    return NetworkTableInstance.getDefault().getTable("").getEntry("proximity" + sensorID).getDouble(0);
   }
 
   @Override

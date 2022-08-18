@@ -59,7 +59,7 @@ public class RobotContainer {
     CommandScheduler
       .getInstance()
       .schedule(new ToggleLED(m_ledSubsystem, true));
-    m_shooterSubsystem.setDefaultCommand(new ManualShoot(m_shooterSubsystem, 40, 40));
+    //m_shooterSubsystem.setDefaultCommand(new ManualShoot(m_shooterSubsystem, 40, 40));
     m_driveSubsystem.setDefaultCommand(
       new SimDrive(
         m_driveSubsystem,
@@ -71,14 +71,13 @@ public class RobotContainer {
       )
     );
     m_intakeSubsystem.setDefaultCommand(new IntakeRun(m_intakeSubsystem));
-    //m_indexerSubsystem.setDefaultCommand(new RunIndexer(m_indexerSubsystem));
+    m_indexerSubsystem.setDefaultCommand(new LoadIndexer(m_indexerSubsystem));
   }
 
   private void configureButtonBindings() {
     triangleButton.whileHeld(new AutoAimTurret(m_turretSubsystem, 0.05));
     m_circleButton.whenPressed(new ToggleIntake(m_intakeSubsystem));
     X_BUTTON.whileHeld(new ShootIndexer(m_indexerSubsystem));
-    Square_Button.whileHeld(new LoadIndexer(m_indexerSubsystem));
   }
 
   public Command getAutonomousCommand() {

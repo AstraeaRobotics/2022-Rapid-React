@@ -30,16 +30,32 @@ public class LoadIndexer extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (Status.getBallStatus(0) != BallStatus.kEmpty && Status.getBallStatus(1) != BallStatus.kEmpty)
-      m_indexerSubsystem.spinTransition(0.0);
-    else
+    if (Status.getBallStatus(0) == BallStatus.kEmpty && Status.getBallStatus(1) == BallStatus.kEmpty)
+    {
       m_indexerSubsystem.spinTransition(Constants.Indexer.transitionSpeed);
+      m_indexerSubsystem.spinBelt(Constants.Indexer.beltSpeed);
+    }
+    else if (Status.getBallStatus(0) != BallStatus.kEmpty && Status.getBallStatus(1) == BallStatus.kEmpty)
+    {
+      m_indexerSubsystem.spinTransition(Constants.Indexer.transitionSpeed);
+      m_indexerSubsystem.spinBelt(Constants.Indexer.beltSpeed);
+    }
+    else if (Status.getBallStatus(0) == BallStatus.kEmpty && Status.getBallStatus(1) != BallStatus.kEmpty)
+    {
+      m_indexerSubsystem.spinTransition(Constants.Indexer.transitionSpeed);
+      m_indexerSubsystem.spinBelt(0);
+    }
+    else
+    {
+      m_indexerSubsystem.spinTransition(0);
+      m_indexerSubsystem.spinBelt(0);
+    }
       /*
-      if both hubs have no balls, spin
-      else if upper hub has ball, and lower hub has no ball, spin
-      else if upper hub has no ball, and lower hub has ball, spin
+      if both hubs have no balls, spin both
+      else if upper hub has ball, and lower hub has no ball, spin ONLY transition
+      else if upper hub has no ball, and lower hub has ball, spin both
 
-      else, both hubs have balls, no spin
+      else, both hubs have balls, no spin on both
 
       in shoot indexer, spin both the transition and belt to launch (easy launch ig)
 
@@ -50,7 +66,8 @@ public class LoadIndexer extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_indexerSubsystem.spinTransition(0.0);
+    m_indexerSubsystem.spinTransition(0);
+    m_indexerSubsystem.spinBelt(0);
   }
 
   // Returns true when the command should end.

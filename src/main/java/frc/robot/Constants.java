@@ -117,6 +117,6 @@ public final class Constants {
     public static final class Indexer {
         public static final int sensorDist = 200; //[0, 2047]
         public static final double transitionSpeed = 0.5;
-        public static final double beltSpeed = 0.5;
+        public static final double beltSpeed = 0.1;
     }
 }
