@@ -25,21 +25,25 @@ public class LoadIndexer extends CommandBase {
   public void execute() {
     if (Status.getBallStatus(0) == BallStatus.kEmpty && Status.getBallStatus(1) == BallStatus.kEmpty)
     {
+      Status.logIndexerStatus(Status.IndexerStatus.kLoading);
       m_indexerSubsystem.spinTransition(Constants.Indexer.transitionSpeed);
       m_indexerSubsystem.spinBelt(Constants.Indexer.beltSpeed);
     }
     else if (Status.getBallStatus(0) != BallStatus.kEmpty && Status.getBallStatus(1) == BallStatus.kEmpty)
     {
+      Status.logIndexerStatus(Status.IndexerStatus.kLoading);
       m_indexerSubsystem.spinTransition(Constants.Indexer.transitionSpeed);
       m_indexerSubsystem.spinBelt(Constants.Indexer.beltSpeed);
     }
     else if (Status.getBallStatus(0) == BallStatus.kEmpty && Status.getBallStatus(1) != BallStatus.kEmpty)
     {
+      Status.logIndexerStatus(Status.IndexerStatus.kLoading);
       m_indexerSubsystem.spinTransition(Constants.Indexer.transitionSpeed);
       m_indexerSubsystem.spinBelt(0);
     }
     else
     {
+      Status.logIndexerStatus(Status.IndexerStatus.kStopped);
       m_indexerSubsystem.spinTransition(0);
       m_indexerSubsystem.spinBelt(0);
     }

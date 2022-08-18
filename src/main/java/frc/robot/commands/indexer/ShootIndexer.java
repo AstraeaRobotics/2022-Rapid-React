@@ -4,6 +4,8 @@
 
 package frc.robot.commands.indexer;
 
+import java.lang.Thread.State;
+
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 import frc.robot.status.Status;
@@ -29,6 +31,7 @@ public class ShootIndexer extends CommandBase {
   public void execute() {
     m_indexerSubsystem.spinBelt(Constants.Indexer.beltSpeed);
     m_indexerSubsystem.spinTransition(Constants.Indexer.transitionSpeed);
+    Status.logIndexerStatus(Status.IndexerStatus.kShooting);
   }
 
   // Called once the command ends or is interrupted.
