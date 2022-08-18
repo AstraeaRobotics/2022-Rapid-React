@@ -27,7 +27,6 @@ public class ClimberSubsystem extends SubsystemBase {
     m_climberMotor = new CANSparkMax(Climber.kClimberMotor_Port, MotorType.kBrushless);
     m_limitSwitch = new DigitalInput(Climber.kLimitSwitch_Port);
     pid = new PIDController(Climber.kP, Climber.kI, Climber.kD);
-    // pid.calculate(1, 0.3);
     m_encoder = m_climberMotor.getEncoder();
     m_encoder.setPosition(0);
     m_climbSpeed = Climber.kElevatorSpeed;
@@ -55,6 +54,10 @@ public class ClimberSubsystem extends SubsystemBase {
 
   public void setSpeed(double speed) {
     m_climberMotor.set(speed);
+  }
+
+  public void setPIDSpeed() {
+    m_climberMotor.set(pid.calculate(encoder.getDistance(), 0.3));
   }
 
   public void reset() {
