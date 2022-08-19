@@ -131,9 +131,11 @@ public class DriveSubsystem extends SubsystemBase implements Sendable {
         ShuffleboardTab testTab = Shuffleboard.getTab("Testing");
         testTab.add("Wheel Speeds", this);
 
-        CameraServer.startAutomaticCapture("Camera Stream", 0);
-
+        // CameraServer.startAutomaticCapture("Camera Stream", 0);
+        CameraServer.startAutomaticCapture();
+        // CameraServer.startAutomaticCapture(0);
     }
+
     
     @Override
     public void initSendable(SendableBuilder builder) {
