@@ -26,7 +26,7 @@ public class IndexerSubsystem extends SubsystemBase {
   CANSparkMax belt = new CANSparkMax(9, MotorType.kBrushless);
   CANSparkMax transition = new CANSparkMax(8, MotorType.kBrushless);
 
-  private static ColorSensorV3 sensor;
+  private ColorSensorV3 sensor;
   private static I2C.Port I2C;
 
   public IndexerSubsystem() {
