@@ -26,11 +26,10 @@ public class IndexerSubsystem extends SubsystemBase {
   CANSparkMax belt = new CANSparkMax(9, MotorType.kBrushless);
   CANSparkMax transition = new CANSparkMax(8, MotorType.kBrushless);
 
-  private ColorSensorV3 sensor;
-  private static I2C.Port I2C;
+  private ColorSensorV3 onboardSensor;
 
   public IndexerSubsystem() {
-    sensor = new ColorSensorV3(Port.kOnboard);
+    onboardSensor = new ColorSensorV3(Port.kOnboard);
     belt.setInverted(true);
   }
 
@@ -64,9 +63,9 @@ public class IndexerSubsystem extends SubsystemBase {
   }
 
   private void getDetectedColorRio(int ballNumber) {
-    int red = sensor.getRed();
-    int blue = sensor.getBlue();
-    int proximity = sensor.getProximity();
+    int red = onboardSensor.getRed();
+    int blue = onboardSensor.getBlue();
+    int proximity = onboardSensor.getProximity();
 
     if (proximity < Constants.Indexer.proximityThreshold) {
       Status.logBallStatus(ballNumber, Status.BallStatus.kEmpty);
