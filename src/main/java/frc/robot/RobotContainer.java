@@ -6,15 +6,12 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.PS4Controller;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.RunIndexer;
-import frc.robot.commands.auto.DriveToDistance;
 import frc.robot.commands.drive.SimDrive;
 import frc.robot.commands.drive.TurnToAngle;
 import frc.robot.commands.intake.IntakeRun;
 import frc.robot.commands.intake.ToggleIntake;
-import frc.robot.commands.led.ToggleLED;
 import frc.robot.commands.shooter.ManualShoot;
 import frc.robot.commands.turret.AutoAimTurret;
 import frc.robot.subsystems.DriveSubsystem;
