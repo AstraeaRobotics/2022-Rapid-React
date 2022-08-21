@@ -26,19 +26,16 @@ import frc.robot.subsystems.TurretSubsystem;
 public class RobotContainer {
 
   /* GAMEPADS */
-  private static final PS4Controller driverGamepad = new PS4Controller(
-    Constants.RobotMap.kDriverControllerPort
-  );
-  private static final PS4Controller operatorGamepad = new PS4Controller(
-    Constants.RobotMap.kOperatorControllerPort
-  );
+  private static final PS4Controller driverGamepad =
+      new PS4Controller(Constants.RobotMap.kDriverControllerPort);
+  private static final PS4Controller operatorGamepad =
+      new PS4Controller(Constants.RobotMap.kOperatorControllerPort);
 
-  private static final JoystickButton triangleButton = new JoystickButton(
-    operatorGamepad,
-    PS4Controller.Button.kTriangle.value
-  );
+  private static final JoystickButton triangleButton =
+      new JoystickButton(operatorGamepad, PS4Controller.Button.kTriangle.value);
 
-  private static final JoystickButton X_BUTTON = new JoystickButton(driverGamepad, PS4Controller.Button.kCross.value);
+  private static final JoystickButton X_BUTTON =
+      new JoystickButton(driverGamepad, PS4Controller.Button.kCross.value);
 
   private final DriveSubsystem m_driveSubsystem = new DriveSubsystem();
   private final LEDSubsystem m_ledSubsystem = new LEDSubsystem();
@@ -47,27 +44,21 @@ public class RobotContainer {
   private final IntakeSubsystem m_intakeSubsystem = new IntakeSubsystem();
   private final IndexerSubsystem m_indexerSubsystem = new IndexerSubsystem();
 
-  private final JoystickButton m_circleButton = new JoystickButton(
-    driverGamepad,
-    PS4Controller.Button.kCircle.value
-  );
+  private final JoystickButton m_circleButton =
+      new JoystickButton(driverGamepad, PS4Controller.Button.kCircle.value);
 
   public RobotContainer() {
     configureButtonBindings();
-    CommandScheduler
-      .getInstance()
-      .schedule(new ToggleLED(m_ledSubsystem, true));
+    CommandScheduler.getInstance().schedule(new ToggleLED(m_ledSubsystem, true));
     m_shooterSubsystem.setDefaultCommand(new ManualShoot(m_shooterSubsystem, 40, 40));
     m_driveSubsystem.setDefaultCommand(
-      new SimDrive(
-        m_driveSubsystem,
-        2,
-        driverGamepad::getR2Axis,
-        driverGamepad::getL2Axis,
-        driverGamepad::getLeftX,
-        driverGamepad::getRightX
-      )
-    );
+        new SimDrive(
+            m_driveSubsystem,
+            2,
+            driverGamepad::getR2Axis,
+            driverGamepad::getL2Axis,
+            driverGamepad::getLeftX,
+            driverGamepad::getRightX));
     m_intakeSubsystem.setDefaultCommand(new IntakeRun(m_intakeSubsystem));
   }
 

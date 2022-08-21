@@ -9,7 +9,6 @@ import frc.robot.subsystems.DriveSubsystem;
 
 public class DriveToDistance extends CommandBase {
 
-
   private final DriveSubsystem m_DriveSubsystem;
   private final double distanceMeters;
 

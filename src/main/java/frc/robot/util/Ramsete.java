@@ -7,18 +7,18 @@ import frc.robot.subsystems.DriveSubsystem;
 
 public class Ramsete {
 
-    public static RamseteCommand createRamseteCommand(Trajectory trajectory, DriveSubsystem driveSubsystem, boolean setPose) {
-        return new RamseteCommand(
-            trajectory,
-            driveSubsystem::getPose,
-            new RamseteController(2, 0.7),
-            driveSubsystem.getFeedforward(),
-            driveSubsystem.getKinematics(),
-            driveSubsystem::getSpeeds,
-            driveSubsystem.getLeftPIDController(),
-            driveSubsystem.getRightPIDController(),
-            driveSubsystem::setOutput,
-            driveSubsystem
-        );
-    }
+  public static RamseteCommand createRamseteCommand(
+      Trajectory trajectory, DriveSubsystem driveSubsystem, boolean setPose) {
+    return new RamseteCommand(
+        trajectory,
+        driveSubsystem::getPose,
+        new RamseteController(2, 0.7),
+        driveSubsystem.getFeedforward(),
+        driveSubsystem.getKinematics(),
+        driveSubsystem::getSpeeds,
+        driveSubsystem.getLeftPIDController(),
+        driveSubsystem.getRightPIDController(),
+        driveSubsystem::setOutput,
+        driveSubsystem);
+  }
 }

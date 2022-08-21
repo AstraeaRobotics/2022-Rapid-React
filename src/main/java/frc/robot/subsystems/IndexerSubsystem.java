@@ -6,11 +6,9 @@ package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
-
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.status.Status;
 import frc.robot.status.Status.IntakeStatus;
-import frc.robot.util.SparkMax;
 
 public class IndexerSubsystem extends SubsystemBase {
   /** Creates a new IndexerSubsystem. */
@@ -19,7 +17,6 @@ public class IndexerSubsystem extends SubsystemBase {
   CANSparkMax belt = new CANSparkMax(9, MotorType.kBrushless);
   CANSparkMax transition = new CANSparkMax(8, MotorType.kBrushless);
 
-
   public void spinMotors(double speed) {
     belt.set(-speed);
     transition.set(speed);
@@ -27,7 +24,7 @@ public class IndexerSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
-    if(Status.getIntakeStatus() == IntakeStatus.kExtended) {
+    if (Status.getIntakeStatus() == IntakeStatus.kExtended) {
       transition.set(0.5);
     } else {
       transition.set(0.0);

@@ -4,12 +4,11 @@
 
 package frc.robot.commands.drive;
 
-import java.util.function.DoubleSupplier;
-
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.subsystems.DriveSubsystem;
+import java.util.function.DoubleSupplier;
 
 public class SimDrive extends CommandBase {
 
@@ -23,20 +22,21 @@ public class SimDrive extends CommandBase {
 
   /**
    * Construct a new Sim Drive command
-   * 
-   * @param subsystem               Subsystem to require
-   * @param rateLimit               Maximum rate of change of controller inputs
-   * @param forwardsSupplier        Supplier to get forwards input value, likely
-   *                                from a trigger axis
-   * @param backwardsSupplier       Supplier to get backwards input value, likely
-   *                                from a trigger axis
-   * @param curveAxisSupplier       Supplier to get curve drive input value,
-   *                                likely from a joystick axis
-   * @param turnInPlaceAxisSupplier Supplier to get turn in place input value,
-   *                                likely from a joystick axis
+   *
+   * @param subsystem Subsystem to require
+   * @param rateLimit Maximum rate of change of controller inputs
+   * @param forwardsSupplier Supplier to get forwards input value, likely from a trigger axis
+   * @param backwardsSupplier Supplier to get backwards input value, likely from a trigger axis
+   * @param curveAxisSupplier Supplier to get curve drive input value, likely from a joystick axis
+   * @param turnInPlaceAxisSupplier Supplier to get turn in place input value, likely from a
+   *     joystick axis
    */
-  public SimDrive(DriveSubsystem subsystem, double rateLimit, DoubleSupplier forwardsSupplier,
-      DoubleSupplier backwardsSupplier, DoubleSupplier curveAxisSupplier,
+  public SimDrive(
+      DriveSubsystem subsystem,
+      double rateLimit,
+      DoubleSupplier forwardsSupplier,
+      DoubleSupplier backwardsSupplier,
+      DoubleSupplier curveAxisSupplier,
       DoubleSupplier turnInPlaceAxisSupplier) {
     m_subsystem = subsystem;
     m_slewRateLimiter = new SlewRateLimiter(rateLimit);
@@ -53,16 +53,16 @@ public class SimDrive extends CommandBase {
 
     double valetSpeed = 1;
 
-    double speed = (m_forwardsSupplier.getAsDouble() - m_backwardsSupplier.getAsDouble()) * valetSpeed * (-1);
+    double speed =
+        (m_forwardsSupplier.getAsDouble() - m_backwardsSupplier.getAsDouble()) * valetSpeed * (-1);
     double adjustedSpeed = m_slewRateLimiter.calculate(speed);
 
     m_subsystem.curveDrive(adjustedSpeed, m_curveSupplier.getAsDouble(), false);
 
     double slowTurnSpeed = m_turnSupplier.getAsDouble();
     if (Math.abs(slowTurnSpeed) > DriveConstants.kDeadzone) {
-      m_subsystem.tankDriveRaw(slowTurnSpeed * DriveConstants.kTurnSpeed,
-          -slowTurnSpeed * DriveConstants.kTurnSpeed);
+      m_subsystem.tankDriveRaw(
+          slowTurnSpeed * DriveConstants.kTurnSpeed, -slowTurnSpeed * DriveConstants.kTurnSpeed);
     }
   }
-
 }

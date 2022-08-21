@@ -22,8 +22,7 @@ public class AutoAimTurret extends CommandBase {
 
   @Override
   public void execute() {
-    if (Math.abs(Limelight.getTx()) < TurretConstants.kVisionThreshold)
-    {
+    if (Math.abs(Limelight.getTx()) < TurretConstants.kVisionThreshold) {
       m_turretSubsystem.runTurret(0);
       return;
     }
