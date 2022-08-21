@@ -4,6 +4,7 @@
 
 package frc.robot.commands.drive;
 
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.PIDCommand;
 import frc.robot.subsystems.DriveSubsystem;
@@ -14,12 +15,10 @@ public class TurnToAngle extends PIDCommand {
     super(
       new PIDController(.05, 0, 0),
       drive::getHeading,
-      targetAngleDegrees,
-      output -> drive.setOutput(output, -output),
+      drive.getHeading() + targetAngleDegrees,
+      output -> drive.setOutput(MathUtil.clamp(output, -10, 10), -MathUtil.clamp(output, -10, 10)),
       drive
       );
-      
-    drive.resetGyro();
     getController().enableContinuousInput(-180, 180);
     getController().setTolerance(1, 2);
   }
