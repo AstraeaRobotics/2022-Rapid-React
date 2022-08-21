@@ -27,8 +27,8 @@ public class ShootIndexer extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_indexerSubsystem.spinBelt(Constants.Indexer.beltSpeed);
-    m_indexerSubsystem.spinTransition(Constants.Indexer.transitionSpeed);
+    m_indexerSubsystem.spinBelt(Constants.Indexer.kBeltSpeed);
+    m_indexerSubsystem.spinTransition(Constants.Indexer.kTransitionSpeed);
     Status.logIndexerStatus(Status.IndexerStatus.kShooting);
   }
 

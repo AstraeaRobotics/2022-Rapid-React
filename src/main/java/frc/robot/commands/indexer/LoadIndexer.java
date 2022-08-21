@@ -23,22 +23,16 @@ public class LoadIndexer extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (Status.getBallStatus(0) == BallStatus.kEmpty && Status.getBallStatus(1) == BallStatus.kEmpty)
+    if (Status.getBallStatus(1) == BallStatus.kEmpty)
     {
       Status.logIndexerStatus(Status.IndexerStatus.kLoading);
-      m_indexerSubsystem.spinTransition(Constants.Indexer.transitionSpeed);
-      m_indexerSubsystem.spinBelt(Constants.Indexer.beltSpeed);
-    }
-    else if (Status.getBallStatus(0) != BallStatus.kEmpty && Status.getBallStatus(1) == BallStatus.kEmpty)
-    {
-      Status.logIndexerStatus(Status.IndexerStatus.kLoading);
-      m_indexerSubsystem.spinTransition(Constants.Indexer.transitionSpeed);
-      m_indexerSubsystem.spinBelt(Constants.Indexer.beltSpeed);
+      m_indexerSubsystem.spinTransition(Constants.Indexer.kTransitionSpeed);
+      m_indexerSubsystem.spinBelt(Constants.Indexer.kBeltSpeed);
     }
     else if (Status.getBallStatus(0) == BallStatus.kEmpty && Status.getBallStatus(1) != BallStatus.kEmpty)
     {
       Status.logIndexerStatus(Status.IndexerStatus.kLoading);
-      m_indexerSubsystem.spinTransition(Constants.Indexer.transitionSpeed);
+      m_indexerSubsystem.spinTransition(Constants.Indexer.kTransitionSpeed);
       m_indexerSubsystem.spinBelt(0);
     }
     else

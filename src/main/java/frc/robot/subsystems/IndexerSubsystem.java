@@ -51,7 +51,7 @@ public class IndexerSubsystem extends SubsystemBase {
     double red = colorEntry[0]; //Prevent errors with calling entries that don't exist, which there are 4
     double blue = colorEntry[2];
 
-    if (getProximity(sensorID) < Constants.Indexer.proximityThreshold) {
+    if (getProximity(sensorID) < Constants.Indexer.kProximityThreshold) {
       Status.logBallStatus(ballNumber, Status.BallStatus.kEmpty);
     } else if (red > blue) {
       Status.logBallStatus(ballNumber, Status.BallStatus.kRed);
@@ -67,7 +67,7 @@ public class IndexerSubsystem extends SubsystemBase {
     int blue = onboardSensor.getBlue();
     int proximity = onboardSensor.getProximity();
 
-    if (proximity < Constants.Indexer.proximityThreshold) {
+    if (proximity < Constants.Indexer.kProximityThreshold) {
       Status.logBallStatus(ballNumber, Status.BallStatus.kEmpty);
     } else if (red > blue) {
       Status.logBallStatus(ballNumber, Status.BallStatus.kRed);
@@ -87,7 +87,7 @@ public class IndexerSubsystem extends SubsystemBase {
     getDetectedColorRio(0);
     getDetectedColor(1, 1);
     if(Status.getIntakeStatus() == IntakeStatus.kExtended) {
-      transition.set(Constants.Indexer.transitionSpeed);
+      transition.set(Constants.Indexer.kTransitionSpeed);
     } else {
       transition.set(0.0);
     }

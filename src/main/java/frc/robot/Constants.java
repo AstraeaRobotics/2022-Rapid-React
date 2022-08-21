@@ -115,8 +115,8 @@ public final class Constants {
     }
 
     public static final class Indexer {
-        public static final int proximityThreshold = 200; //[0, 2047]
-        public static final double transitionSpeed = 0.5;
-        public static final double beltSpeed = 0.1;
+        public static final int kProximityThreshold = 200; //[0, 2047]
+        public static final double kTransitionSpeed = 0.5;
+        public static final double kBeltSpeed = 0.1;
     }
 }
