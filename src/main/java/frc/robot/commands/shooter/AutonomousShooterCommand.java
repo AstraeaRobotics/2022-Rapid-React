@@ -40,8 +40,8 @@ public class AutonomousShooterCommand extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    double feederVelocity = m_shooterSubsystem.getFeederSensorVelocity();
-    double flywheelVelocity = m_shooterSubsystem.getFlywheelSensorVelocity();
+    double feederVelocity = 0;
+    double flywheelVelocity = 0;
     if (highPassFilter.calculate(feederVelocity) > 0.75) { //Magic value for now
       return true;
     }

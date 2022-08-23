@@ -14,7 +14,7 @@ import frc.robot.commands.drive.SimDrive;
 import frc.robot.commands.intake.IntakeRun;
 import frc.robot.commands.intake.ToggleIntake;
 import frc.robot.commands.led.ToggleLED;
-import frc.robot.commands.shooter.ManualShoot;
+import frc.robot.commands.shooter.BangBangControl;
 import frc.robot.commands.turret.AutoAimTurret;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.IndexerSubsystem;
@@ -57,7 +57,7 @@ public class RobotContainer {
     CommandScheduler
       .getInstance()
       .schedule(new ToggleLED(m_ledSubsystem, true));
-    m_shooterSubsystem.setDefaultCommand(new ManualShoot(m_shooterSubsystem, 40, 40));
+    m_shooterSubsystem.setDefaultCommand(new BangBangControl(m_shooterSubsystem, 500, 500));
     m_driveSubsystem.setDefaultCommand(
       new SimDrive(
         m_driveSubsystem,
@@ -69,7 +69,7 @@ public class RobotContainer {
       )
     );
     m_intakeSubsystem.setDefaultCommand(new IntakeRun(m_intakeSubsystem));
-    m_shooterSubsystem.setDefaultCommand(new ManualShoot(m_shooterSubsystem, 50, 50));
+    // m_shooterSubsystem.setDefaultCommand(new ManualShoot(m_shooterSubsystem, 50, 50));
   }
 
   private void configureButtonBindings() {

@@ -37,6 +37,6 @@ public class ShooterSpeeds {
      * @return Max speed scaled by percent
      */
     public static double getSpeedPercent(double percent) {
-        return Constants.Shooter.kMaxSpeed * percent / 100;
+        return 0 * percent / 100;
     }
 }
