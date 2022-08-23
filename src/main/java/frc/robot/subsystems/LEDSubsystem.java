@@ -18,6 +18,7 @@ import edu.wpi.first.wpilibj.AddressableLEDBuffer;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+import edu.wpi.first.wpilibj.simulation.AddressableLEDSim;
 import edu.wpi.first.wpilibj.util.Color;
 
 public class LEDSubsystem extends SubsystemBase implements Sendable{
@@ -28,6 +29,7 @@ public class LEDSubsystem extends SubsystemBase implements Sendable{
 
   private final AddressableLED m_led;
   private final AddressableLEDBuffer m_ledBuffer;
+  private final AddressableLEDSim m_ledSim;
 
   private long m_previousTimeFlash = 0;
 
@@ -37,13 +39,20 @@ public class LEDSubsystem extends SubsystemBase implements Sendable{
   public LEDSubsystem() {
     m_led = new AddressableLED(LEDConstants.kPwmPort);
     m_ledBuffer = new AddressableLEDBuffer(LEDConstants.kLength);
+    m_ledSim = new AddressableLEDSim(m_led);
+
     m_led.setLength(m_ledBuffer.getLength());
     m_led.setData(m_ledBuffer);
     m_led.start();
     
     ShuffleboardTab dashboard = Shuffleboard.getTab("Dashboard");
-    dashboard.add("LEDStatus", this).withSize(2, 1).withPosition(8, 4);
+    dashboard.addRaw("LED Status", this::getData).withWidget("Addressable LED").withSize(2, 1).withPosition(8, 4);
   }
+
+  private byte[] getData() {
+    return m_ledSim.getData();
+  }
+
 
   @Override
   public void initSendable(SendableBuilder builder) {
