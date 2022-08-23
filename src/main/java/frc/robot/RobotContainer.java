@@ -84,6 +84,6 @@ public class RobotContainer {
   }
 
   public Command getAutonomousCommand() {
-    return new DriveToDistance(m_driveSubsystem, 2);
+    return new ElevatorUp(m_climberSubsystem);
   }
 }

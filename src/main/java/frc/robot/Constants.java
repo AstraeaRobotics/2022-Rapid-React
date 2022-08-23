@@ -121,7 +121,7 @@ public final class Constants {
         public static final double kElevatorSpeed = 0.2;
         public static final int kLimitSwitch_Port = 0; // unknown
         public static final int kClimberMotor_Port = 11;
-        public static final double kP = 0.0;
+        public static final double kP = 1; // proportional to distance to target
         public static final double kI = 0.0;
         public static final double kD = 0.0;
     }

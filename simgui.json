@@ -2,9 +2,15 @@
   "NTProvider": {
     "types": {
       "/FMSInfo": "FMSInfo",
+      "/LiveWindow/ClimberSubsystem": "Subsystem",
       "/LiveWindow/DriveSubsystem": "Subsystem",
+      "/LiveWindow/IndexerSubsystem": "Subsystem",
+      "/LiveWindow/IntakeSubsystem": "Subsystem",
       "/LiveWindow/LEDSubsystem": "Subsystem",
+      "/LiveWindow/ShooterSubsystem": "Subsystem",
+      "/LiveWindow/TurretSubsystem": "Subsystem",
       "/LiveWindow/Ungrouped/DifferentialDrive[1]": "DifferentialDrive",
+      "/LiveWindow/Ungrouped/DigitalInput[0]": "Digital Input",
       "/LiveWindow/Ungrouped/PIDController[1]": "PIDController",
       "/LiveWindow/Ungrouped/PIDController[2]": "PIDController",
       "/LiveWindow/Ungrouped/PIDController[3]": "PIDController",
@@ -12,11 +18,16 @@
       "/LiveWindow/Ungrouped/Scheduler": "Scheduler",
       "/LiveWindow/Ungrouped/navX-Sensor[4]": "Gyro",
       "/Shuffleboard/Dashboard/Field View": "Field2d",
-      "/Shuffleboard/Dashboard/Gyro": "Gyro"
+      "/Shuffleboard/Dashboard/Gyro": "Gyro",
+      "/SmartDashboard/Elevator Sim": "Mechanism2d"
     },
     "windows": {
       "/Shuffleboard/Dashboard/Field View": {
-        "image": "/Users/siddharthlohani/Downloads/2022-field.png",
+        "window": {
+          "visible": true
+        }
+      },
+      "/SmartDashboard/Elevator Sim": {
         "window": {
           "visible": true
         }
@@ -27,7 +38,9 @@
     "Shuffleboard": {
       "Dashboard": {
         "open": true
-      },
+      }
+    },
+    "SmartDashboard": {
       "open": true
     },
     "status": {

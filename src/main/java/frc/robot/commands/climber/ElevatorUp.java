@@ -20,8 +20,6 @@ public class ElevatorUp extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_climberSubsystem.reset();
-    super.initialize();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -34,7 +32,6 @@ public class ElevatorUp extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     m_climberSubsystem.stop();
-    m_climberSubsystem.reset();
   }
 
   // Returns true when the command should end.
