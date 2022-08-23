@@ -124,15 +124,18 @@ public class DriveSubsystem extends SubsystemBase implements Sendable {
         m_drive = new DifferentialDrive(m_leftMotors, m_rightMotors);
 
         ShuffleboardTab driveTab = Shuffleboard.getTab("Dashboard");
-        driveTab.add("Gyro", gyro).withWidget(BuiltInWidgets.kGyro);
-        driveTab.add("Field View", m_field).withWidget("Field");
-        driveTab.add("Differential Drive", m_drive);
+        driveTab.add("Field View", m_field).withWidget("Field").withSize(6, 4).withPosition(0, 0);
+        driveTab.add("Differential Drive", m_drive).withSize(3, 2).withPosition(0, 4);
+        driveTab.add("Gyro", gyro).withWidget(BuiltInWidgets.kGyro).withSize(2, 2).withPosition(3, 4);
 
         ShuffleboardTab testTab = Shuffleboard.getTab("Testing");
-        testTab.add("Wheel Speeds", this);
+        testTab.add("Wheel Speeds", this).withSize(3, 2).withPosition(0, 0);
 
         // CameraServer.startAutomaticCapture("Camera Stream", 0);
         CameraServer.startAutomaticCapture();
+
+        driveTab.add("Camera View", CameraServer.getServer().getSource()).withWidget(BuiltInWidgets.kCameraStream)
+                .withSize(6, 4).withPosition(6, 0);
         // CameraServer.startAutomaticCapture(0);
     }
 

@@ -41,8 +41,9 @@ public class ShooterSubsystem extends SubsystemBase {
     flywheel.config_kD(Shooter.kPIDLoopIDx, Shooter.kGains_VelocitkD, Shooter.kTimeoutMs);
 
     ShuffleboardTab dashboard = Shuffleboard.getTab("Dashboard");
-    dashboard.add("Shooter Status", this);
-  }
+    dashboard.add("Shooter Status", this).withSize(3, 2).withPosition(5, 4);
+    // dashboard.getLayout("Shooter Status").withSize(3, 2).withPosition(5, 4);
+}
 
   @Override
   public void initSendable(SendableBuilder builder) {

@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.shuffleboard.WidgetType;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.util.sendable.Sendable;
 import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
@@ -40,13 +41,10 @@ public class IntakeSubsystem extends SubsystemBase implements Sendable {
 
     ShuffleboardTab driveTab = Shuffleboard.getTab("Dashboard");
     driveTab.add("Intake Status", this);
-    driveTab.getLayout("Intake Status", BuiltInLayouts.kGrid).withProperties(Map.of("Label position", "HIDDEN"));
-
-    // driveTab.add("Intake Status", isExtended()).withWidget(BuiltInWidgets.kBooleanBox);
+    driveTab.getLayout("Intake Status", BuiltInLayouts.kGrid).withSize(1, 1).withPosition(10, 4).withProperties(Map.of("Label position", "HIDDEN"));
 
     ShuffleboardTab testTab = Shuffleboard.getTab("Testing");
-    // testTab.add("Intake Status", this).withWidget(BuiltInWidgets.kBooleanBox);
-    testTab.add("Intake Status", this);
+    testTab.add("Intake Status", this).withSize(2, 1).withPosition(3, 0);
     testTab.getLayout("Intake Status", BuiltInLayouts.kGrid);
   }
 

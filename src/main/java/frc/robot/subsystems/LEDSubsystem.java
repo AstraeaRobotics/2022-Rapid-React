@@ -42,7 +42,7 @@ public class LEDSubsystem extends SubsystemBase implements Sendable{
     m_led.start();
     
     ShuffleboardTab dashboard = Shuffleboard.getTab("Dashboard");
-    dashboard.add("LEDStatus", this);
+    dashboard.add("LEDStatus", this).withSize(2, 1).withPosition(8, 4);
   }
 
   @Override
