@@ -15,6 +15,7 @@ import frc.robot.commands.intake.IntakeRun;
 import frc.robot.commands.intake.ToggleIntake;
 import frc.robot.commands.led.ToggleLED;
 import frc.robot.commands.shooter.BangBangControl;
+import frc.robot.commands.shooter.PureFeedForwardControl;
 import frc.robot.commands.turret.AutoAimTurret;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.IndexerSubsystem;
@@ -57,7 +58,7 @@ public class RobotContainer {
     CommandScheduler
       .getInstance()
       .schedule(new ToggleLED(m_ledSubsystem, true));
-    m_shooterSubsystem.setDefaultCommand(new BangBangControl(m_shooterSubsystem, 500, 500));
+    m_shooterSubsystem.setDefaultCommand(new PureFeedForwardControl(m_shooterSubsystem, 500, 500));
     m_driveSubsystem.setDefaultCommand(
       new SimDrive(
         m_driveSubsystem,
