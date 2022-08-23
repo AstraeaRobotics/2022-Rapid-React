@@ -46,7 +46,7 @@ public class ShooterSubsystem extends SubsystemBase {
   
   /**
   * Changes the flywheel setpoint
-  * @param speed the percent of max speed to change setpoint to (between 0 and 100)
+  * @param setpoint the percent of max speed to change setpoint to (between 0 and 100)
   */
  public void setFlywheelSetpoint(double setpoint) {
    m_flywheelSetpoint = setpoint;
@@ -54,7 +54,7 @@ public class ShooterSubsystem extends SubsystemBase {
 
   /**
    * Changes the feeder setpoint
-   * @param speed the percent of max speed to change setpoint to (between 0 and 100)
+   * @param setpoint the percent of max speed to change setpoint to (between 0 and 100)
    */
   public void setFeederSetpoint(double setpoint) {
     m_feederSetpoint = setpoint;
@@ -102,10 +102,10 @@ public class ShooterSubsystem extends SubsystemBase {
     if (RobotBase.isReal()) {
       Logger.log("Shooter", "Flywheel RPM", getFlywheelRPM());
       Logger.log("Shooter", "Feeder RPM", getFeederRPM());
-    } else {
-      Logger.log("Shooter", "Flywheel RPM", flywheelSim.getAngularVelocityRPM());
-      Logger.log("Shooter", "Feeder RPM", feederSim.getAngularVelocityRPM());
+      return;
     }
+    Logger.log("Shooter", "Flywheel RPM", flywheelSim.getAngularVelocityRPM());
+    Logger.log("Shooter", "Feeder RPM", feederSim.getAngularVelocityRPM());
   }
 
   @Override

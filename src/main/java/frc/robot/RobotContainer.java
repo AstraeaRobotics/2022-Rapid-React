@@ -69,7 +69,6 @@ public class RobotContainer {
       )
     );
     m_intakeSubsystem.setDefaultCommand(new IntakeRun(m_intakeSubsystem));
-    // m_shooterSubsystem.setDefaultCommand(new ManualShoot(m_shooterSubsystem, 50, 50));
   }
 
   private void configureButtonBindings() {
