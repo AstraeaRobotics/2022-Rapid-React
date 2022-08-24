@@ -23,7 +23,7 @@
       "/Shuffleboard/Dashboard/Gyro": "Gyro"
     },
     "windows": {
-      "/LiveWindow/Ungrouped/PIDController[4]": {
+      "/LiveWindow/Ungrouped/PIDController[5]": {
         "window": {
           "visible": true
         }

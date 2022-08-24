@@ -9,22 +9,22 @@ import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.ShooterSubsystem;
 
-public class PureFeedForwardControl extends CommandBase {
+public class BLARGHHHHH extends CommandBase {
   ShooterSubsystem m_ShooterSubsystem;
-  double flywheelSetpoint;
-  double feederSetpoint;
+  PIDController flywheelPID = new PIDController(0, 0, 0);
+  // PIDController feederPID = new PIDController(0, 0, 0);
 
-  SimpleMotorFeedforward flywheelFeedForward = new SimpleMotorFeedforward(0, 0.0018, 0.0029);
-  SimpleMotorFeedforward feederFeedForward = new SimpleMotorFeedforward(0, 0.18, 0.29);
+  SimpleMotorFeedforward flywheelFeedForward = new SimpleMotorFeedforward(0, 0.18, 0.29);
+  // SimpleMotorFeedforward feederFeedForward = new SimpleMotorFeedforward(0, 0, 0);
 
   /** Creates a new ShooterPIDCommand. */
-  public PureFeedForwardControl(ShooterSubsystem shooterSubsystem, double flywheelSetpoint, double feederSetpoint) {
+  public BLARGHHHHH(ShooterSubsystem shooterSubsystem, double flywheelSetpoint, double feederSetpoint) {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(shooterSubsystem);
     m_ShooterSubsystem = shooterSubsystem;
-    this.flywheelSetpoint = flywheelSetpoint;
-    this.feederSetpoint = feederSetpoint;
 
+    flywheelPID.setSetpoint(flywheelSetpoint);
+    // feederPID.setSetpoint(feederSetpoint);
     m_ShooterSubsystem.setFlywheelSetpoint(flywheelSetpoint);
     m_ShooterSubsystem.setFeederSetpoint(feederSetpoint);
   }
@@ -36,16 +36,12 @@ public class PureFeedForwardControl extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_ShooterSubsystem.setFlyWheelInputVoltage(flywheelFeedForward.calculate(flywheelSetpoint));
-    m_ShooterSubsystem.setFeederInputVoltage(feederFeedForward.calculate(m_ShooterSubsystem.getFeederRPM(), feederSetpoint, 0.020));
+    m_ShooterSubsystem.setFlyWheelInputVoltage(flywheelFeedForward.calculate(m_ShooterSubsystem.getFlywheelRPM(), 500, 0.019) + flywheelPID.calculate(m_ShooterSubsystem.getFlywheelRPM()));
   }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {
-    m_ShooterSubsystem.setFlyWheelInputVoltage(0);
-    m_ShooterSubsystem.setFeederInputVoltage(0);
-  }
+  public void end(boolean interrupted) {}
 
   // Returns true when the command should end.
   @Override
