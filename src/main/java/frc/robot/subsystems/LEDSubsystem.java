@@ -9,8 +9,6 @@ import frc.robot.Constants.LEDConstants;
 import frc.robot.status.Status;
 import frc.robot.status.Status.IntakeStatus;
 
-import com.fasterxml.jackson.annotation.JsonTypeInfo.None;
-
 import edu.wpi.first.util.sendable.Sendable;
 import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj.AddressableLED;
@@ -46,7 +44,7 @@ public class LEDSubsystem extends SubsystemBase implements Sendable{
     m_led.start();
     
     ShuffleboardTab dashboard = Shuffleboard.getTab("Dashboard");
-    dashboard.addRaw("LED Status", this::getData).withWidget("Addressable LED").withSize(2, 1).withPosition(8, 4);
+    dashboard.addRaw("LED Status", this::getData).withWidget("Addressable LED").withSize(2, 1).withPosition(10, 2);
   }
 
   private byte[] getData() {

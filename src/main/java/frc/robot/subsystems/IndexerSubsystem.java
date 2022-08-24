@@ -10,7 +10,6 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.status.Status;
 import frc.robot.status.Status.IntakeStatus;
-import frc.robot.util.SparkMax;
 
 public class IndexerSubsystem extends SubsystemBase {
   /** Creates a new IndexerSubsystem. */

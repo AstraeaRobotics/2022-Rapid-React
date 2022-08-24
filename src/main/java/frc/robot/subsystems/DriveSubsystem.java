@@ -124,19 +124,12 @@ public class DriveSubsystem extends SubsystemBase implements Sendable {
         m_drive = new DifferentialDrive(m_leftMotors, m_rightMotors);
 
         ShuffleboardTab driveTab = Shuffleboard.getTab("Dashboard");
-        driveTab.add("Field View", m_field).withWidget("Field").withSize(6, 4).withPosition(0, 0);
-        driveTab.add("Differential Drive", m_drive).withSize(3, 2).withPosition(0, 4);
-        driveTab.add("Gyro", gyro).withWidget(BuiltInWidgets.kGyro).withSize(2, 2).withPosition(3, 4);
+        driveTab.add("Field View", m_field).withWidget("Field").withSize(5, 3).withPosition(0, 0);
+        driveTab.add("Differential Drive", m_drive).withSize(3, 2).withPosition(0, 3);
+        driveTab.add("Gyro", gyro).withWidget(BuiltInWidgets.kGyro).withSize(2, 2).withPosition(3, 3);
 
         ShuffleboardTab testTab = Shuffleboard.getTab("Testing");
         testTab.add("Wheel Speeds", this).withSize(3, 2).withPosition(0, 0);
-
-        // CameraServer.startAutomaticCapture("Camera Stream", 0);
-        CameraServer.startAutomaticCapture();
-
-        driveTab.add("Camera View", CameraServer.getServer().getSource()).withWidget(BuiltInWidgets.kCameraStream)
-                .withSize(6, 4).withPosition(6, 0);
-        // CameraServer.startAutomaticCapture(0);
     }
 
     
@@ -150,7 +143,20 @@ public class DriveSubsystem extends SubsystemBase implements Sendable {
       builder.addDoubleProperty("Right Motor 2", m_rightMotor2::get, null);
       builder.addDoubleProperty("Right Motor 3", m_rightMotor3::get, null);
 
+    //   builder.setSmartDashboardType("Encoder Positions");
+    //   builder.addDoubleProperty("Left Encoder 1", m_leftEncoder1::getPosition, null);
+    //   builder.addDoubleProperty("Left Encoder 2", m_leftEncoder2::getPosition, null);
+    //   builder.addDoubleProperty("Left Encoder 3", m_leftEncoder3::getPosition, null);
+    //   builder.addDoubleProperty("Right Encoder 1", m_rightEncoder1::getPosition, null);
+    //   builder.addDoubleProperty("Right Encoder 2", m_rightEncoder2::getPosition, null);
+    //   builder.addDoubleProperty("Right Encoder 3", m_rightEncoder3::getPosition, null);
+
     }
+    // :)
+    // (#-_-)P
+    // /shrug
+    // Y(^v^)Y 
+
     /**
      * Gets the motors in the subsystems
      *

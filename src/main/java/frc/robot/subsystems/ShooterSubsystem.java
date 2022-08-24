@@ -41,8 +41,7 @@ public class ShooterSubsystem extends SubsystemBase {
     flywheel.config_kD(Shooter.kPIDLoopIDx, Shooter.kGains_VelocitkD, Shooter.kTimeoutMs);
 
     ShuffleboardTab dashboard = Shuffleboard.getTab("Dashboard");
-    dashboard.add("Shooter Status", this).withSize(3, 2).withPosition(5, 4);
-    // dashboard.getLayout("Shooter Status").withSize(3, 2).withPosition(5, 4);
+    dashboard.add("Shooter Status", this).withSize(3, 2).withPosition(10, 0);
 }
 
   @Override
@@ -50,8 +49,8 @@ public class ShooterSubsystem extends SubsystemBase {
     builder.setSmartDashboardType("Shooter State");
     builder.addStringProperty("Feeder Percentage", this::getFeederOutputPercent, null);
     builder.addStringProperty("Flywheel Percentage", this::getFlywheelOutputPercent, null);
-    builder.addDoubleProperty("Feeder velocity", feeder::getSelectedSensorVelocity, null);
-    builder.addDoubleProperty("Flywheel velocity", flywheel::getSelectedSensorVelocity, null);
+    builder.addDoubleProperty("Feeder Velocity", feeder::getSelectedSensorVelocity, null);
+    builder.addDoubleProperty("Flywheel Velocity", flywheel::getSelectedSensorVelocity, null);
   }
 
   private String getFeederOutputPercent() {
