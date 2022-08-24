@@ -64,11 +64,23 @@ public class ClimberSubsystem extends SubsystemBase {
   public void toggle() {
     if (!x) {
       climb();
+      while (m_climberMotor.getSoftLimit(SoftLimitDirection.kForward) > 0) {
+        climb();
+      }
       x = true;
     } else {
-      descend();
+      while (!fullyRetracted()) {
+        descend();
+      }
       x = false;
     }
+  }
+
+  public boolean toggleFinished() {
+    if (m_climberMotor.getSoftLimit(SoftLimitDirection.kForward) <= 0 || fullyRetracted()) {
+      return true;
+    } else
+      return false;
   }
 
   public boolean fullyRetracted() {

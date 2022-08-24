@@ -13,6 +13,7 @@ import frc.robot.commands.auto.DriveToDistance;
 import frc.robot.commands.climber.Calibrate;
 import frc.robot.commands.climber.ElevatorDown;
 import frc.robot.commands.climber.ElevatorUp;
+import frc.robot.commands.climber.Toggle;
 import frc.robot.commands.drive.SimDrive;
 import frc.robot.commands.intake.IntakeRun;
 import frc.robot.commands.intake.ToggleIntake;
@@ -81,6 +82,7 @@ public class RobotContainer {
     X_BUTTON.whileHeld(new RunIndexer(m_indexerSubsystem));
     m_optionButton.whileHeld(new ElevatorUp(m_climberSubsystem)); // Elevator Up
     m_shareButton.whileHeld(new ElevatorDown(m_climberSubsystem)); // Elevator Down
+    m_squareButton.whenPressed(new Toggle(m_climberSubsystem));
   }
 
   public Command getAutonomousCommand() {
