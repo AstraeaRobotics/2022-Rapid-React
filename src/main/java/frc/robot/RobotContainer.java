@@ -96,9 +96,9 @@ public class RobotContainer {
 
     CameraServer.startAutomaticCapture();
     dash.add("Camera", CameraServer.getServer().getSource()).withWidget(BuiltInWidgets.kCameraStream)
-                .withSize(5, 3).withPosition(5, 0).withProperties(Map.of("Show Crosshair", false, "Show Controls", false));
+                .withSize(5, 3).withPosition(5, 3).withProperties(Map.of("Show Crosshair", false, "Show Controls", false));
     HttpCamera limelight = new HttpCamera("limelight", "http://limelight.local:5801/stream.mjpg");
     dash.add("Limelight", limelight).withWidget(BuiltInWidgets.kCameraStream)
-                .withSize(5, 3).withPosition(5, 3).withProperties(Map.of("Show Crosshair", true, "Show Controls", false));
+                .withSize(5, 3).withPosition(5, 0).withProperties(Map.of("Show Crosshair", true, "Show Controls", false));
   }
 }

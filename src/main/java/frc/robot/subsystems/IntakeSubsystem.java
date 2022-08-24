@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.util.sendable.Sendable;
 import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
@@ -26,6 +27,8 @@ public class IntakeSubsystem extends SubsystemBase implements Sendable {
 
   CANSparkMax m_motor;
 
+  NetworkTableEntry m_intakeEntry;
+
   /** Creates a new IntakeSubsystem. */
   public IntakeSubsystem() {
     left = new DoubleSolenoid(15, PneumaticsModuleType.REVPH, 15, 14); // port numbers are random
@@ -36,8 +39,8 @@ public class IntakeSubsystem extends SubsystemBase implements Sendable {
     m_motor = new CANSparkMax(7, CANSparkMaxLowLevel.MotorType.kBrushless);
 
     ShuffleboardTab driveTab = Shuffleboard.getTab("Dashboard");
-    driveTab.add("Intake Status", this);
-    driveTab.getLayout("Intake Status", BuiltInLayouts.kGrid).withSize(1, 1).withPosition(12, 2).withProperties(Map.of("Label position", "HIDDEN"));
+    m_intakeEntry = driveTab.add("Intake Status", isExtended()).withSize(3, 1).withPosition(10, 2).getEntry();
+    // driveTab.getLayout("Intake Status", BuiltInLayouts.kGrid).withSize(3, 1).withPosition(10, 2).withProperties(Map.of("Label position", "HIDDEN"));
 
     ShuffleboardTab testTab = Shuffleboard.getTab("Testing");
     testTab.add("Intake Status", this);
@@ -46,7 +49,7 @@ public class IntakeSubsystem extends SubsystemBase implements Sendable {
 
   @Override
   public void initSendable(SendableBuilder builder) {
-    builder.setSmartDashboardType("Led State");
+    builder.setSmartDashboardType("Intake State");
     builder.addBooleanProperty("Left", this::isExtendedLeft, null);
     builder.addBooleanProperty("Right", this::isExtended, null);
   }
@@ -55,6 +58,8 @@ public class IntakeSubsystem extends SubsystemBase implements Sendable {
   public void toggleIntake() {
     left.toggle();
     right.toggle();
+
+    m_intakeEntry.setBoolean(isExtended());
   }
 
   public void setMotor(double speed) {
