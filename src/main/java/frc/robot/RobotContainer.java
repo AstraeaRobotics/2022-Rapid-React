@@ -4,10 +4,17 @@
 
 package frc.robot;
 
+import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.PS4Controller;
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.button.NetworkButton;
 import frc.robot.commands.RunIndexer;
 import frc.robot.commands.auto.DriveToDistance;
 import frc.robot.commands.drive.SimDrive;
@@ -27,16 +34,13 @@ public class RobotContainer {
 
   /* GAMEPADS */
   private static final PS4Controller driverGamepad = new PS4Controller(
-    Constants.RobotMap.kDriverControllerPort
-  );
+      Constants.RobotMap.kDriverControllerPort);
   private static final PS4Controller operatorGamepad = new PS4Controller(
-    Constants.RobotMap.kOperatorControllerPort
-  );
+      Constants.RobotMap.kOperatorControllerPort);
 
   private static final JoystickButton triangleButton = new JoystickButton(
-    operatorGamepad,
-    PS4Controller.Button.kTriangle.value
-  );
+      operatorGamepad,
+      PS4Controller.Button.kTriangle.value);
 
   private static final JoystickButton X_BUTTON = new JoystickButton(driverGamepad, PS4Controller.Button.kCross.value);
 
@@ -48,27 +52,37 @@ public class RobotContainer {
   private final IndexerSubsystem m_indexerSubsystem = new IndexerSubsystem();
 
   private final JoystickButton m_circleButton = new JoystickButton(
-    driverGamepad,
-    PS4Controller.Button.kCircle.value
-  );
+      driverGamepad,
+      PS4Controller.Button.kCircle.value);
+
+  private final JoystickButton m_squareButton = new JoystickButton(driverGamepad, PS4Controller.Button.kSquare.value);
+
+  private final NetworkTable m_networkTable = NetworkTableInstance.getDefault().getTable("Network Table");
+
+  private final NetworkTableEntry m_networkTableEntry = Shuffleboard.getTab("Dashboard")
+      .add("Som Another LED Button", false)
+      .withWidget(BuiltInWidgets.kCommand).getEntry();
 
   public RobotContainer() {
     configureButtonBindings();
-    CommandScheduler
-      .getInstance()
-      .schedule(new ToggleLED(m_ledSubsystem, true));
-    // m_shooterSubsystem.setDefaultCommand(new ManualShoot(m_shooterSubsystem, 40, 40));
+    // CommandScheduler
+    // .getInstance()
+    // .schedule(new ToggleLED(m_ledSubsystem, true));
+    // m_shooterSubsystem.setDefaultCommand(new ManualShoot(m_shooterSubsystem, 40,
+    // 40));
+    m_ledSubsystem.setDefaultCommand(new ToggleLED(m_ledSubsystem));
     m_driveSubsystem.setDefaultCommand(
-      new SimDrive(
-        m_driveSubsystem,
-        2,
-        driverGamepad::getR2Axis,
-        driverGamepad::getL2Axis,
-        driverGamepad::getLeftX,
-        driverGamepad::getRightX
-      )
-    );
+        new SimDrive(
+            m_driveSubsystem,
+            2,
+            driverGamepad::getR2Axis,
+            driverGamepad::getL2Axis,
+            driverGamepad::getLeftX,
+            driverGamepad::getRightX));
     m_intakeSubsystem.setDefaultCommand(new IntakeRun(m_intakeSubsystem));
+    // Shuffleboard.getTab("Dashboard").add("Toggle LED", new
+    // ToggleLED(m_ledSubsystem))
+    // .withWidget(BuiltInWidgets.kCommand);
   }
 
   private void configureButtonBindings() {
@@ -78,6 +92,7 @@ public class RobotContainer {
   }
 
   public Command getAutonomousCommand() {
+    m_networkTableEntry.setBoolean(true);
     return new DriveToDistance(m_driveSubsystem, 2);
   }
 }

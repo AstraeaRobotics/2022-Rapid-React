@@ -10,17 +10,22 @@ import frc.robot.subsystems.LEDSubsystem;
 public class ToggleLED extends CommandBase {
 
   LEDSubsystem m_ledSubsystem;
-  boolean enable;
 
-  public ToggleLED(LEDSubsystem ledSubsystem, boolean enable) {
+  public ToggleLED(LEDSubsystem ledSubsystem) {
     addRequirements(ledSubsystem);
-    this.enable = enable;
     this.m_ledSubsystem = ledSubsystem;
+    System.out.println("IM HERE TOO");
   }
 
   @Override
   public void initialize() {
-    m_ledSubsystem.setIsEnabled(true);
+    m_ledSubsystem.toggleLED();
+    System.out.println("HI I AM SOM");
+  }
+
+  @Override
+  public void execute() {
+    System.out.println("hello");
   }
 
   @Override

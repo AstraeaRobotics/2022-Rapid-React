@@ -3,7 +3,11 @@
     "types": {
       "/FMSInfo": "FMSInfo",
       "/LiveWindow/DriveSubsystem": "Subsystem",
+      "/LiveWindow/IndexerSubsystem": "Subsystem",
+      "/LiveWindow/IntakeSubsystem": "Subsystem",
       "/LiveWindow/LEDSubsystem": "Subsystem",
+      "/LiveWindow/ShooterSubsystem": "Subsystem",
+      "/LiveWindow/TurretSubsystem": "Subsystem",
       "/LiveWindow/Ungrouped/DifferentialDrive[1]": "DifferentialDrive",
       "/LiveWindow/Ungrouped/PIDController[1]": "PIDController",
       "/LiveWindow/Ungrouped/PIDController[2]": "PIDController",
@@ -16,7 +20,6 @@
     },
     "windows": {
       "/Shuffleboard/Dashboard/Field View": {
-        "image": "/Users/siddharthlohani/Downloads/2022-field.png",
         "window": {
           "visible": true
         }
