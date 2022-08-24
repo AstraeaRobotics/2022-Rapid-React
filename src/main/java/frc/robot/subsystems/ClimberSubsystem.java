@@ -68,34 +68,22 @@ public class ClimberSubsystem extends SubsystemBase {
     SmartDashboard.putBoolean("Limit Switch", fullyRetracted());
   }
 
-  public void toggle() {
-    if (m_elevatorSimulation.getPositionMeters() == 0) {
+  public void getPosition() {
+    if (m_elevatorSimulation.getPositionMeters() == 0.01) {
       isBottom = true;
       atTop = false;
     } else if (m_elevatorSimulation.getPositionMeters() == 1) {
       isBottom = false;
       atTop = true;
     }
-    if (isBottom) {
-      climb();
-      stop();
-    } else if (atTop) {
-      descend();
-      stop();
-    }
-    // if (m_elevatorSimulation.getPositionMeters() >= 0) {
-    // climb();
-    // if (m_elevatorSimulation.getPositionMeters() == 0.99) {
-    // stop();
-    // }
-    // } else if (m_elevatorSimulation.getPositionMeters() == 0.99) {
-    // descend();
-    // if (m)
-    // }
   }
 
   public boolean isAtBottom() {
     return isBottom;
+  }
+
+  public boolean isAtTop() {
+    return atTop;
   }
 
   public boolean fullyRetracted() {

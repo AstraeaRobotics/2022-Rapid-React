@@ -25,8 +25,11 @@ public class Toggle extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    m_climberSubsystem.getPosition();
     if (m_climberSubsystem.isAtBottom()) {
-
+      m_climberSubsystem.climb();
+    } else if (m_climberSubsystem.isAtTop()) {
+      m_climberSubsystem.descend();
     }
   }
 
