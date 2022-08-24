@@ -36,6 +36,7 @@ public class ClimberSubsystem extends SubsystemBase {
   private final Mechanism2d m_mech2d;
   private final MechanismRoot2d m_mech2dRoot;
   private final MechanismLigament2d m_elevatorMech2d;
+  private boolean x;
 
   public ClimberSubsystem() {
     m_climberMotor = new CANSparkMax(Climber.kClimberMotor_Port, MotorType.kBrushless);
@@ -51,12 +52,23 @@ public class ClimberSubsystem extends SubsystemBase {
     m_elevatorMech2d = m_mech2dRoot.append(
         new MechanismLigament2d("Elevator", Units.metersToInches(m_elevatorSimulation.getPositionMeters()), 90));
     SmartDashboard.putData("Elevator Sim", m_mech2d);
+    x = false;
   }
 
   @Override
   public void periodic() {
     // setSpeed(0.2);
     SmartDashboard.putNumber("Elevator Sim Position", m_elevatorSimulation.getPositionMeters());
+  }
+
+  public void toggle() {
+    if (!x) {
+      climb();
+      x = true;
+    } else {
+      descend();
+      x = false;
+    }
   }
 
   public boolean fullyRetracted() {
