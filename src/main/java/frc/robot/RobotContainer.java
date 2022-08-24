@@ -57,6 +57,8 @@ public class RobotContainer {
   private final JoystickButton m_optionButton = new JoystickButton(driverGamepad, PS4Controller.Button.kOptions.value);
   private final JoystickButton m_shareButton = new JoystickButton(driverGamepad, PS4Controller.Button.kShare.value);
   private final JoystickButton m_squareButton = new JoystickButton(driverGamepad, PS4Controller.Button.kSquare.value);
+  private final JoystickButton m_l1Button = new JoystickButton(driverGamepad, PS4Controller.Button.kL1.value);
+  private final JoystickButton m_r1Button = new JoystickButton(driverGamepad, PS4Controller.Button.kR1.value);
 
   public RobotContainer() {
     configureButtonBindings();
@@ -82,7 +84,9 @@ public class RobotContainer {
     X_BUTTON.whileHeld(new RunIndexer(m_indexerSubsystem));
     m_optionButton.whileHeld(new ElevatorUp(m_climberSubsystem)); // Elevator Up
     m_shareButton.whileHeld(new ElevatorDown(m_climberSubsystem)); // Elevator Down
-    m_squareButton.whenPressed(new Toggle(m_climberSubsystem));
+    m_squareButton.toggleWhenPressed(new Toggle(m_climberSubsystem));
+    m_l1Button.toggleWhenPressed(new ElevatorDown(m_climberSubsystem));
+    m_r1Button.toggleWhenPressed(new ElevatorUp(m_climberSubsystem));
   }
 
   public Command getAutonomousCommand() {

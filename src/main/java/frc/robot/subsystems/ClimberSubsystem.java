@@ -22,6 +22,7 @@ import edu.wpi.first.wpilibj.smartdashboard.MechanismLigament2d;
 import edu.wpi.first.wpilibj.smartdashboard.MechanismRoot2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Constants.Climber;
 
 public class ClimberSubsystem extends SubsystemBase {
@@ -36,7 +37,9 @@ public class ClimberSubsystem extends SubsystemBase {
   private final Mechanism2d m_mech2d;
   private final MechanismRoot2d m_mech2dRoot;
   private final MechanismLigament2d m_elevatorMech2d;
-  private boolean x;
+  boolean isBottom;
+  boolean atTop;
+  boolean toggleLimit;
 
   public ClimberSubsystem() {
     m_climberMotor = new CANSparkMax(Climber.kClimberMotor_Port, MotorType.kBrushless);
@@ -52,35 +55,47 @@ public class ClimberSubsystem extends SubsystemBase {
     m_elevatorMech2d = m_mech2dRoot.append(
         new MechanismLigament2d("Elevator", Units.metersToInches(m_elevatorSimulation.getPositionMeters()), 90));
     SmartDashboard.putData("Elevator Sim", m_mech2d);
-    x = false;
+    isBottom = true;
+    atTop = false;
   }
 
   @Override
   public void periodic() {
     // setSpeed(0.2);
     SmartDashboard.putNumber("Elevator Sim Position", m_elevatorSimulation.getPositionMeters());
+    SmartDashboard.putNumber("Soft Limits (Forward)", m_climberMotor.getSoftLimit(SoftLimitDirection.kForward));
+    SmartDashboard.putNumber("Soft Limits (Reverse)", m_climberMotor.getSoftLimit(SoftLimitDirection.kReverse));
+    SmartDashboard.putBoolean("Limit Switch", fullyRetracted());
   }
 
   public void toggle() {
-    if (!x) {
-      climb();
-      while (m_climberMotor.getSoftLimit(SoftLimitDirection.kForward) > 0) {
-        climb();
-      }
-      x = true;
-    } else {
-      while (!fullyRetracted()) {
-        descend();
-      }
-      x = false;
+    if (m_elevatorSimulation.getPositionMeters() == 0) {
+      isBottom = true;
+      atTop = false;
+    } else if (m_elevatorSimulation.getPositionMeters() == 1) {
+      isBottom = false;
+      atTop = true;
     }
+    if (isBottom) {
+      climb();
+      stop();
+    } else if (atTop) {
+      descend();
+      stop();
+    }
+    // if (m_elevatorSimulation.getPositionMeters() >= 0) {
+    // climb();
+    // if (m_elevatorSimulation.getPositionMeters() == 0.99) {
+    // stop();
+    // }
+    // } else if (m_elevatorSimulation.getPositionMeters() == 0.99) {
+    // descend();
+    // if (m)
+    // }
   }
 
-  public boolean toggleFinished() {
-    if (m_climberMotor.getSoftLimit(SoftLimitDirection.kForward) <= 0 || fullyRetracted()) {
-      return true;
-    } else
-      return false;
+  public boolean isAtBottom() {
+    return isBottom;
   }
 
   public boolean fullyRetracted() {
@@ -112,7 +127,7 @@ public class ClimberSubsystem extends SubsystemBase {
   }
 
   public void descend() {
-    setPIDSpeed(0);
+    setPIDSpeed(-1);
   }
 
   public void stop() {

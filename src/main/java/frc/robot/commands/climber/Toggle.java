@@ -10,6 +10,7 @@ import frc.robot.subsystems.ClimberSubsystem;
 public class Toggle extends CommandBase {
   /** Creates a new Toggle. */
   ClimberSubsystem m_climberSubsystem;
+  boolean y;
 
   public Toggle(ClimberSubsystem climbSubsystem) {
     m_climberSubsystem = climbSubsystem;
@@ -24,7 +25,9 @@ public class Toggle extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_climberSubsystem.toggle();
+    if (m_climberSubsystem.isAtBottom()) {
+
+    }
   }
 
   // Called once the command ends or is interrupted.
