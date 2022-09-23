@@ -56,7 +56,9 @@ public class RobotContainer {
             driverGamepad::getR2Axis,
             driverGamepad::getL2Axis,
             driverGamepad::getLeftX,
-            driverGamepad::getRightX));
+            driverGamepad::getRightX,
+            driverGamepad::getTriangleButton
+            ));
     m_intakeSubsystem.setDefaultCommand(new IntakeRun(m_intakeSubsystem));
   }
 

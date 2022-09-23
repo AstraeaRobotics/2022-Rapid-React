@@ -4,6 +4,7 @@
 
 package frc.robot.commands.drive;
 
+import java.util.function.BooleanSupplier;
 import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.math.filter.SlewRateLimiter;
@@ -20,6 +21,7 @@ public class SimDrive extends CommandBase {
   private DoubleSupplier m_backwardsSupplier;
   private DoubleSupplier m_curveSupplier;
   private DoubleSupplier m_turnSupplier;
+  private BooleanSupplier m_nitroSupplier;
 
   /**
    * Construct a new Sim Drive command
@@ -34,26 +36,27 @@ public class SimDrive extends CommandBase {
    *                                likely from a joystick axis
    * @param turnInPlaceAxisSupplier Supplier to get turn in place input value,
    *                                likely from a joystick axis
+   * @param toggleNitroSupplier     Supplier to get nitro toggle value - NITROOOOO
    */
   public SimDrive(DriveSubsystem subsystem, double rateLimit, DoubleSupplier forwardsSupplier,
       DoubleSupplier backwardsSupplier, DoubleSupplier curveAxisSupplier,
-      DoubleSupplier turnInPlaceAxisSupplier) {
+      DoubleSupplier turnInPlaceAxisSupplier, BooleanSupplier toggleNitroSupplier) {
     m_subsystem = subsystem;
     m_slewRateLimiter = new SlewRateLimiter(rateLimit);
     m_forwardsSupplier = forwardsSupplier;
     m_backwardsSupplier = backwardsSupplier;
     m_curveSupplier = curveAxisSupplier;
     m_turnSupplier = turnInPlaceAxisSupplier;
+    m_nitroSupplier = toggleNitroSupplier;
 
     addRequirements(m_subsystem);
   }
 
   @Override
   public void execute() {
-
     double valetSpeed = 1;
 
-    double speed = (m_forwardsSupplier.getAsDouble() - m_backwardsSupplier.getAsDouble()) * valetSpeed * (-1);
+    double speed = (m_forwardsSupplier.getAsDouble() - m_backwardsSupplier.getAsDouble()) * valetSpeed * (-1) * ((m_nitroSupplier.getAsBoolean()) ? 1 : DriveConstants.kDecreasePercent);
     double adjustedSpeed = m_slewRateLimiter.calculate(speed);
 
     m_subsystem.curveDrive(adjustedSpeed, m_curveSupplier.getAsDouble(), false);

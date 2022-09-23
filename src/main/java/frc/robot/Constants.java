@@ -41,6 +41,7 @@ public final class Constants {
 
     public static final class DriveConstants {
         public static final double kDriveSpeed = 0.6;
+        public static double kDecreasePercent = 0.5;
         public static final double kTurnSpeed = 1;
         public static final double kWheelDiameterInches = 6;
         public static final double kWheelDiameterMeters = Units.inchesToMeters(kWheelDiameterInches);
