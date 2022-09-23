@@ -41,6 +41,9 @@
       }
     },
     "SmartDashboard": {
+      "Elevator Sim": {
+        "open": true
+      },
       "open": true
     },
     "status": {

@@ -32,11 +32,14 @@ public class ClimberSubsystem extends SubsystemBase {
   public double m_climbSpeed;
   private final RelativeEncoder m_encoder;
   PIDController pid;
+
   ElevatorSim m_elevatorSimulation;
   EncoderSim m_encoderSimulation;
+
   private final Mechanism2d m_mech2d;
   private final MechanismRoot2d m_mech2dRoot;
   private final MechanismLigament2d m_elevatorMech2d;
+
   boolean isBottom;
   boolean atTop;
   boolean toggleLimit;
@@ -44,17 +47,30 @@ public class ClimberSubsystem extends SubsystemBase {
   public ClimberSubsystem() {
     m_climberMotor = new CANSparkMax(Climber.kClimberMotor_Port, MotorType.kBrushless);
     m_limitSwitch = new DigitalInput(Climber.kLimitSwitch_Port);
+
     pid = new PIDController(Climber.kP, Climber.kI, Climber.kD);
+
     m_encoder = m_climberMotor.getEncoder();
     m_encoder.setPosition(0);
+
     m_climbSpeed = Climber.kElevatorSpeed;
-    m_elevatorSimulation = new ElevatorSim(DCMotor.getNEO(1), 100, 45, Units.inchesToMeters(2), 0, 1);
+
+    m_elevatorSimulation = new ElevatorSim(DCMotor.getNEO(1),
+                                  100,
+                           45,
+                                          Units.inchesToMeters(2),
+                          0,
+                          1);
+
     m_encoderSimulation = new EncoderSim(new Encoder(1, 2));
+    
     m_mech2d = new Mechanism2d(20, 50);
     m_mech2dRoot = m_mech2d.getRoot("Elevator Root", 10, 2);
     m_elevatorMech2d = m_mech2dRoot.append(
         new MechanismLigament2d("Elevator", Units.metersToInches(m_elevatorSimulation.getPositionMeters()), 90));
+
     SmartDashboard.putData("Elevator Sim", m_mech2d);
+
     isBottom = true;
     atTop = false;
   }
