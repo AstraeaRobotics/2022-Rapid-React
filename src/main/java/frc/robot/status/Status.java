@@ -89,6 +89,7 @@ public class Status {
         logStatus(StatusConstants.kIndexer, status.name(), "ball " + ballNumber);
     }
 
+    //0 will always be the lower ball
     public static BallStatus getBallStatus(int ballNumber) {
         return BallStatus.valueOf(checkStatus(StatusConstants.kIndexer, "kEmpty", "ball " + ballNumber));
     }

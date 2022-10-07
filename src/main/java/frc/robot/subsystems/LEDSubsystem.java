@@ -1,17 +1,21 @@
-// Copyright (c) FIRST and other WPILib contributors.
-// Open Source Software; you can modify and/or share it under the terms of
-// the WPILib BSD license file in the root directory of this project.
-
+/********************************************************************************
+*                                                                               *
+*   Copyright (c) Astraea Robotics, FIRST, and other WPILib contributors        *
+*                                                                               *
+*   Open Source Software; you can modify and/or share it under the terms of     *
+*   the license file in the root directory of this project.                     *
+*                                                                               *
+********************************************************************************/
 package frc.robot.subsystems;
 
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants.LEDConstants;
-import frc.robot.status.Status;
-import frc.robot.status.Status.IntakeStatus;
 import edu.wpi.first.wpilibj.AddressableLED;
 import edu.wpi.first.wpilibj.AddressableLEDBuffer;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.util.Color;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants.LEDConstants;
+import frc.robot.status.Status;
+import frc.robot.status.Status.IntakeStatus;
 
 public class LEDSubsystem extends SubsystemBase {
 
@@ -100,10 +104,10 @@ public class LEDSubsystem extends SubsystemBase {
       // flash(0,0,255);
       // glow(0,0,255);
     } else {
-      if(Status.getIntakeStatus() == IntakeStatus.kExtended) {
+      if (Status.getIntakeStatus() == IntakeStatus.kExtended) {
         flash(255, 0, 0);
       } else {
-        flash(0,0,255);
+        flash(0, 0, 255);
       }
     }
     m_led.setData(m_ledBuffer);
