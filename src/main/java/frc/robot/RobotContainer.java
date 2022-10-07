@@ -5,12 +5,19 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.PS4Controller;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.indexer.ShootIndexer;
 import frc.robot.commands.indexer.LoadIndexer;
 import frc.robot.commands.auto.DriveToDistance;
+import frc.robot.commands.auto.FourBall;
+import frc.robot.commands.auto.OneBall;
+import frc.robot.commands.auto.StraightPath;
+import frc.robot.commands.auto.ThreeBall;
+import frc.robot.commands.auto.TwoBall;
 import frc.robot.commands.drive.SimDrive;
 import frc.robot.commands.intake.IntakeRun;
 import frc.robot.commands.intake.ToggleIntake;
@@ -49,6 +56,8 @@ public class RobotContainer {
   private final IntakeSubsystem m_intakeSubsystem = new IntakeSubsystem();
   private final IndexerSubsystem m_indexerSubsystem = new IndexerSubsystem();
 
+  SendableChooser<Command> m_chooser = new SendableChooser<>();
+
   private final JoystickButton m_circleButton = new JoystickButton(
     driverGamepad,
     PS4Controller.Button.kCircle.value
@@ -72,6 +81,13 @@ public class RobotContainer {
     );
     m_intakeSubsystem.setDefaultCommand(new IntakeRun(m_intakeSubsystem));
     m_indexerSubsystem.setDefaultCommand(new LoadIndexer(m_indexerSubsystem));
+
+    m_chooser.setDefaultOption("StraightPath", new StraightPath(m_driveSubsystem));
+    m_chooser.addOption("OneBall", new OneBall(m_shooterSubsystem));
+    m_chooser.addOption("TwoBall", new TwoBall(m_driveSubsystem, m_shooterSubsystem, m_intakeSubsystem));
+    m_chooser.addOption("ThreeBall", new ThreeBall(m_driveSubsystem, m_shooterSubsystem, m_intakeSubsystem));
+    m_chooser.addOption("FourBall", new FourBall(m_driveSubsystem, m_shooterSubsystem, m_intakeSubsystem));
+    SmartDashboard.putData(m_chooser);
   }
 
   private void configureButtonBindings() {
@@ -81,7 +97,7 @@ public class RobotContainer {
   }
 
   public Command getAutonomousCommand() {
-    return new DriveToDistance(m_driveSubsystem, 2);
+    return m_chooser.getSelected();
   }
 
 

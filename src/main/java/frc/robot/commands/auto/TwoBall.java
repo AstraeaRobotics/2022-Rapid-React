@@ -29,18 +29,8 @@ public class TwoBall extends SequentialCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-      new ResetOdometry(drive, Traj.createNewTrajectoryFromJSON("TwoBall-1")),
-      Ramsete.createRamseteCommand(Traj.createNewTrajectoryFromJSON("TwoBall-1"), drive, true),
-      new ParallelCommandGroup(
-        new ToggleIntake(intake),
-        new DriveToDistance(drive, 0.5)
-      ),
-      new ParallelCommandGroup(
-        new ToggleIntake(intake),
-        new DriveToDistance(drive, 0.5)
-      ),
-      Ramsete.createRamseteCommand(Traj.createNewTrajectoryFromJSON("TwoBall-2"), drive, true),
-      new ParallelDeadlineGroup(new WaitCommand(1), new ManualShoot(shooter, 50, 50))
+      new DriveToDistance(drive, 2),
+      new DriveToDistance(drive, -1)
     );
   }
 }

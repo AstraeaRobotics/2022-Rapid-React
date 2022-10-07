@@ -14,26 +14,47 @@ import frc.robot.subsystems.DriveSubsystem;
 public class DriveToDistance extends CommandBase {
 
   private final DriveSubsystem m_DriveSubsystem;
-  private final double distanceMeters;
+  private double distanceMeters;
+  private final int reverseFactor;
+
+  private final double desiredDistance;
 
   public DriveToDistance(DriveSubsystem driveSubsystem, double distanceMeters) {
     addRequirements(driveSubsystem);
     this.m_DriveSubsystem = driveSubsystem;
-    this.distanceMeters = distanceMeters + m_DriveSubsystem.getEncoderPosition();
+    this.reverseFactor = distanceMeters > 0 ? 1 : -1;
+    this.desiredDistance = distanceMeters;
   }
 
   @Override
   public void execute() {
-    m_DriveSubsystem.tankDrive(.4, .4);
+    //FIXME: .4 is magic number
+    m_DriveSubsystem.tankDrive(.4 * reverseFactor, .4 * reverseFactor);
+  }
+
+  @Override
+  public void initialize() {
+    distanceMeters = desiredDistance + m_DriveSubsystem.getEncoderPosition();
   }
 
   @Override
   public void end(boolean interrupted) {
     m_DriveSubsystem.tankDrive(0, 0);
+    System.out.println("done");
   }
+
+  /*
+   * If distanceMeters is positive, then the robot will drive forward. 
+   *    To end the command, the robot must have driven forward, and the distance in meters must be greater by distancemeters or more
+   * If distanceMeters is negative, then the robot will drive backward. Same thing for less
+   */
 
   @Override
   public boolean isFinished() {
-    return m_DriveSubsystem.getEncoderPosition() > distanceMeters;
+    if (reverseFactor == 1) {
+      return distanceMeters <= m_DriveSubsystem.getEncoderPosition();
+    }
+    //Moving Backwards
+    return distanceMeters >= m_DriveSubsystem.getEncoderPosition();
   }
 }
