@@ -8,6 +8,8 @@
 ********************************************************************************/
 package frc.robot.commands.drive;
 
+import java.util.function.BooleanSupplier;
+import java.util.function.DoubleSupplier;
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants.DriveConstants;
@@ -23,6 +25,7 @@ public class SimDrive extends CommandBase {
   private DoubleSupplier m_backwardsSupplier;
   private DoubleSupplier m_curveSupplier;
   private DoubleSupplier m_turnSupplier;
+  private BooleanSupplier m_nitroSupplier;
 
   /**
    * Construct a new Sim Drive command
@@ -48,17 +51,16 @@ public class SimDrive extends CommandBase {
     m_backwardsSupplier = backwardsSupplier;
     m_curveSupplier = curveAxisSupplier;
     m_turnSupplier = turnInPlaceAxisSupplier;
+    m_nitroSupplier = toggleNitroSupplier;
 
     addRequirements(m_subsystem);
   }
 
   @Override
   public void execute() {
-
     double valetSpeed = 1;
 
-    double speed =
-        (m_forwardsSupplier.getAsDouble() - m_backwardsSupplier.getAsDouble()) * valetSpeed * (-1);
+    double speed = (m_forwardsSupplier.getAsDouble() - m_backwardsSupplier.getAsDouble()) * valetSpeed * (-1) * ((m_nitroSupplier.getAsBoolean()) ? 1 : DriveConstants.kDecreasePercent);
     double adjustedSpeed = m_slewRateLimiter.calculate(speed);
 
     m_subsystem.curveDrive(adjustedSpeed, m_curveSupplier.getAsDouble(), false);
