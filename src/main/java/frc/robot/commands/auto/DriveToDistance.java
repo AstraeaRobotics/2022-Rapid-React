@@ -40,7 +40,6 @@ public class DriveToDistance extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     m_DriveSubsystem.tankDrive(0, 0);
-    System.out.println("done");
   }
 
   /*

@@ -119,4 +119,13 @@ public final class Constants {
         public static final double kTransitionSpeed = 0.5;
         public static final double kBeltSpeed = 0.1;
     }
+
+    public static final class Autonomous {
+        public static final double kHubToBall = 2.950718;
+        public static final double kTolerance = 0.2;
+
+        public static final double kBallToShoot = 0.2;
+        public static final double kRobotLength = 0.974;
+
+    }
 }
