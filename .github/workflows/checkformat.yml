@@ -1,6 +1,6 @@
 # This is a basic workflow to build robot code.
 
-name: FRC Build & Test
+name: Check Formatting
 
 # Controls when the action will run. Triggers the workflow on push or pull request
 # events but only for the main branch.
@@ -30,5 +30,5 @@ jobs:
       run: chmod +x gradlew
 
     # Runs a single command using the runners shell
-    - name: Compile and run tests on robot code
-      run: ./gradlew build -x spotlessCheck
+    - name: Check Formatting
+      run: ./gradlew spotlessCheck

@@ -7,7 +7,9 @@ package frc.robot;
 import edu.wpi.first.wpilibj.PS4Controller;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import frc.robot.commands.RunIndexer;
+import frc.robot.commands.indexer.ShootIndexer;
+import frc.robot.commands.indexer.LoadIndexer;
+import frc.robot.commands.auto.DriveToDistance;
 import frc.robot.commands.drive.SimDrive;
 import frc.robot.commands.drive.TurnToAngle;
 import frc.robot.commands.intake.IntakeRun;
@@ -35,9 +37,8 @@ public class RobotContainer {
   private static final JoystickButton m_crossButton = new JoystickButton(
       driverGamepad, PS4Controller.Button.kCross.value);
 
-  private static final JoystickButton triangleButton = new JoystickButton(
-      operatorGamepad,
-      PS4Controller.Button.kTriangle.value);
+  private static final JoystickButton m_crossButton = new JoystickButton(driverGamepad, PS4Controller.Button.kCross.value);
+  private static final JoystickButton m_squareButton = new JoystickButton(driverGamepad, PS4Controller.Button.kSquare.value);
 
   private final DriveSubsystem m_driveSubsystem = new DriveSubsystem();
   private final LEDSubsystem m_ledSubsystem = new LEDSubsystem();
@@ -60,15 +61,18 @@ public class RobotContainer {
             driverGamepad::getTriangleButton
             ));
     m_intakeSubsystem.setDefaultCommand(new IntakeRun(m_intakeSubsystem));
+    m_indexerSubsystem.setDefaultCommand(new LoadIndexer(m_indexerSubsystem));
   }
 
   private void configureButtonBindings() {
     triangleButton.whileHeld(new AutoAimTurret(m_turretSubsystem, 0.05));
     m_circleButton.whenPressed(new ToggleIntake(m_intakeSubsystem));
-    m_crossButton.whileHeld(new RunIndexer(m_indexerSubsystem));
+    m_crossButton.whileHeld(new ShootIndexer(m_indexerSubsystem));
   }
 
   public Command getAutonomousCommand() {
     return new TurnToAngle(180, m_driveSubsystem);
   }
+
+
 }
