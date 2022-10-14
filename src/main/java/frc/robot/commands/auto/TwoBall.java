@@ -44,7 +44,7 @@ public class TwoBall extends SequentialCommandGroup {
         new DriveToDistance(drive, Constants.Autonomous.kTolerance),
         new IntakeRun(intake)
       ),
-      new TurnToAngle(180, drive),
+      new TurnToAngle(165, drive),
       new DriveToDistance(drive, Constants.Autonomous.kBallToShoot + Constants.Autonomous.kTolerance),
 
       new ParallelDeadlineGroup(

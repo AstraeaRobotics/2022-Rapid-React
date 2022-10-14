@@ -30,6 +30,13 @@
     },
     "windows": {
       "/Shuffleboard/Dashboard/Field View": {
+        "Robot": {
+          "length": 0.8220000267028809,
+          "width": 0.6850000023841858
+        },
+        "height": 8.229999542236328,
+        "image": "C:\\Users\\Aiden\\Downloads\\2022-field.png",
+        "width": 16.459999084472656,
         "window": {
           "visible": true
         }
