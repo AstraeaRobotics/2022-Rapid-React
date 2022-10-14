@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
+import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import frc.robot.commands.auto.DriveToDistance;
 import frc.robot.commands.drive.TurnToAngle;
 import frc.robot.Constants;
@@ -32,15 +33,24 @@ public class TwoBall extends SequentialCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-      new ManualShoot(shooter, 50, 50),
+      new ParallelDeadlineGroup(
+        new WaitCommand(3),
+        new ManualShoot(shooter, 50, 50)
+      ),
+
       new TurnToAngle(180, drive),
       new DriveToDistance(drive, Constants.Autonomous.kHubToBall),
-      new ParallelCommandGroup( //To intake the ball, we'll drive forwards and run the intake at the same time.
+      new ParallelRaceGroup( //To intake the ball, we'll drive forwards and run the intake at the same time.
         new DriveToDistance(drive, Constants.Autonomous.kTolerance),
         new IntakeRun(intake)
       ),
       new TurnToAngle(180, drive),
-      new DriveToDistance(drive, Constants.Autonomous.kBallToShoot + Constants.Autonomous.kTolerance)
+      new DriveToDistance(drive, Constants.Autonomous.kBallToShoot + Constants.Autonomous.kTolerance),
+
+      new ParallelDeadlineGroup(
+        new WaitCommand(3),
+        new ManualShoot(shooter, 50, 50)
+      )
     );
   }
 }

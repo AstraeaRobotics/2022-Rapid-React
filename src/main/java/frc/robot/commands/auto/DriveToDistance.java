@@ -9,6 +9,7 @@
 package frc.robot.commands.auto;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Constants;
 import frc.robot.subsystems.DriveSubsystem;
 
 public class DriveToDistance extends CommandBase {
@@ -29,7 +30,7 @@ public class DriveToDistance extends CommandBase {
   @Override
   public void execute() {
     //FIXME: .4 is magic number
-    m_DriveSubsystem.tankDrive(.4 * reverseFactor, .4 * reverseFactor);
+    m_DriveSubsystem.tankDrive(Constants.Autonomous.kMaxSpeed * reverseFactor, Constants.Autonomous.kMaxSpeed * reverseFactor);
   }
 
   @Override
