@@ -121,12 +121,13 @@ public final class Constants {
     }
 
     public static final class Autonomous {
-        public static final double kHubToBall = 1.75;
-        public static final double kTolerance = 0.05;
+        public static final double kHubToBall = 1.72;
+        public static final double kTolerance = 0.02;
 
         public static final double kBallToShoot = 0.075;
+        public static final double kShootToReturn = 0.025;
         public static final double kRobotLength = 0.974;
         
-        public static final double kMaxSpeed = 1;
+        public static final double kMaxSpeed = 1.1;
     }
 }
