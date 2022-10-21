@@ -129,5 +129,7 @@ public final class Constants {
         public static final double kRobotLength = 0.974;
         
         public static final double kMaxSpeed = 1.1;
+
+        public static final double kShootDuration = 1.5;
     }
 }

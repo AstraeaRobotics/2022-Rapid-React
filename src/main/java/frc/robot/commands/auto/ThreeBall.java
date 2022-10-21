@@ -73,7 +73,7 @@ public class ThreeBall extends SequentialCommandGroup {
       new DriveToDistance(drive, Constants.Autonomous.kBallToShoot + Constants.Autonomous.kTolerance),
 
       new ParallelDeadlineGroup(
-        new WaitCommand(3),
+        new WaitCommand(Constants.Autonomous.kShootDuration),
         new ManualShoot(shooter, 50, 50)
       ),
 
@@ -87,9 +87,10 @@ public class ThreeBall extends SequentialCommandGroup {
       new DriveToDistance(drive, Constants.Autonomous.kBallToShoot + Constants.Autonomous.kTolerance),
 
       new ParallelDeadlineGroup(
-        new WaitCommand(3),
+        new WaitCommand(Constants.Autonomous.kShootDuration),
         new ManualShoot(shooter, 50, 50)
       )
+
     );
 
   }
