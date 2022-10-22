@@ -57,7 +57,7 @@ public class FourBall extends SequentialCommandGroup {
 
       new WaitCommand(1),
 
-      Ramsete.createRamseteCommand(Traj.createNewTrajectoryFromJSON("4Ball V1.0 Part2"), drive, true),
+      Ramsete.createRamseteCommand(Traj.createNewTrajectoryFromJSON("4Ball V1.0 Part4"), drive, true),
 
       new ParallelDeadlineGroup(
         new WaitCommand(Constants.Autonomous.kShootDuration),
