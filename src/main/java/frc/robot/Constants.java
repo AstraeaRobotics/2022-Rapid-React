@@ -33,7 +33,7 @@ public final class Constants {
         public static final int kLeftDriveCAN1 = 4;
         public static final int kLeftDriveCAN2 = 5;
         public static final int kLeftDriveCAN3 = 6;
-        
+
         public static final int kFeederCAN = 10;
         public static final int kFlywheelCAN = 11;
         public static final int kTurretCANId = 20;
@@ -65,7 +65,7 @@ public final class Constants {
     }
 
     public static final class LEDConstants {
-        public static final int kPwmPort = 0; 
+        public static final int kPwmPort = 0;
         public static final int kLength = 144;
         public static final double kInterval = Units.secondsToMilliseconds(0.1);
         public static final double kIntervalTrail = Units.secondsToMilliseconds(0.1);
@@ -82,11 +82,13 @@ public final class Constants {
         public static final String kShooter = "shooter";
         public static final String kIntake = "intake";
     }
+
     public static final class TurretConstants {
         public static final double kVisionThreshold = 5;
 
         public static final double kMaxSpeed = 0.05;
     }
+
     public static final class Limelight {
         public static final double kLimeLightMountAngleDegrees = 25.0;
         public static final double kLimelightLensHeightInches = 20.0;
@@ -95,13 +97,13 @@ public final class Constants {
 
     public static final class Shooter {
         public static final int kPIDLoopIDx = 0;
-        public static final double kGains_VelocitkF = 0.048973143759; //Feed Forward
+        public static final double kGains_VelocitkF = 0.048973143759; // Feed Forward
         public static final double kGains_VelocitkP = 0.085035;
         public static final double kGains_VelocitkI = 0.00035;
         public static final double kGains_VelocitkD = 0;
-        public static final double kConversionFactor = 2048/600;
+        public static final double kConversionFactor = 2048 / 600;
         public static final int kTimeoutMs = 0;
-        
+
         public static final int kMaxSpeed = 20000;
 
         public static final double kFlywheelA = 0;
@@ -111,7 +113,17 @@ public final class Constants {
         public static final double kFeederA = 0;
         public static final double kFeederB = 1;
         public static final double kFeederC = 0;
+    }
 
+    public static final class Climber {
+        public static final float kUpperLimit = 500; // unknown
+        public static final float kLowerLimit = 0; // unknown
+        public static final double kElevatorSpeed = 0.2;
+        public static final int kLimitSwitch_Port = 0; // unknown
+        public static final int kClimberMotor_Port = 11;
+        public static final double kP = 1; // proportional to distance to target
+        public static final double kI = 0.0;
+        public static final double kD = 0.0;
     }
 
     public static final class Indexer {

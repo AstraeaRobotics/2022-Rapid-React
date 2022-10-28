@@ -11,6 +11,9 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.indexer.ShootIndexer;
 import frc.robot.commands.indexer.LoadIndexer;
 import frc.robot.commands.auto.DriveToDistance;
+import frc.robot.commands.climber.Calibrate;
+import frc.robot.commands.climber.ElevatorDown;
+import frc.robot.commands.climber.ElevatorUp;
 import frc.robot.commands.drive.SimDrive;
 import frc.robot.commands.intake.IntakeRun;
 import frc.robot.commands.intake.ToggleIntake;
@@ -23,21 +26,19 @@ import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.LEDSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.TurretSubsystem;
+import frc.robot.subsystems.ClimberSubsystem;
 
 public class RobotContainer {
 
   /* GAMEPADS */
   private static final PS4Controller driverGamepad = new PS4Controller(
-    Constants.RobotMap.kDriverControllerPort
-  );
+      Constants.RobotMap.kDriverControllerPort);
   private static final PS4Controller operatorGamepad = new PS4Controller(
-    Constants.RobotMap.kOperatorControllerPort
-  );
+      Constants.RobotMap.kOperatorControllerPort);
 
   private static final JoystickButton triangleButton = new JoystickButton(
-    operatorGamepad,
-    PS4Controller.Button.kTriangle.value
-  );
+      operatorGamepad,
+      PS4Controller.Button.kTriangle.value);
 
   private static final JoystickButton m_crossButton = new JoystickButton(driverGamepad, PS4Controller.Button.kCross.value);
   private static final JoystickButton m_squareButton = new JoystickButton(driverGamepad, PS4Controller.Button.kSquare.value);
@@ -48,28 +49,33 @@ public class RobotContainer {
   private final TurretSubsystem m_turretSubsystem = new TurretSubsystem();
   private final IntakeSubsystem m_intakeSubsystem = new IntakeSubsystem();
   private final IndexerSubsystem m_indexerSubsystem = new IndexerSubsystem();
+  private final ClimberSubsystem m_climberSubsystem = new ClimberSubsystem();
 
   private final JoystickButton m_circleButton = new JoystickButton(
-    driverGamepad,
-    PS4Controller.Button.kCircle.value
-  );
+      driverGamepad,
+      PS4Controller.Button.kCircle.value);
+
+  private final JoystickButton m_optionButton = new JoystickButton(driverGamepad, PS4Controller.Button.kOptions.value);
+  private final JoystickButton m_shareButton = new JoystickButton(driverGamepad, PS4Controller.Button.kShare.value);
+  // private final JoystickButton m_squareButton = new JoystickButton(driverGamepad, PS4Controller.Button.kSquare.value);
+  private final JoystickButton m_l1Button = new JoystickButton(driverGamepad, PS4Controller.Button.kL1.value);
+  private final JoystickButton m_r1Button = new JoystickButton(driverGamepad, PS4Controller.Button.kR1.value);
 
   public RobotContainer() {
     configureButtonBindings();
     CommandScheduler
-      .getInstance()
-      .schedule(new ToggleLED(m_ledSubsystem, true));
+        .getInstance()
+        .schedule(new ToggleLED(m_ledSubsystem, true));
+    CommandScheduler.getInstance().schedule(false, new Calibrate(m_climberSubsystem));
     m_shooterSubsystem.setDefaultCommand(new ManualShoot(m_shooterSubsystem, 40, 40));
     m_driveSubsystem.setDefaultCommand(
-      new SimDrive(
-        m_driveSubsystem,
-        2,
-        driverGamepad::getR2Axis,
-        driverGamepad::getL2Axis,
-        driverGamepad::getLeftX,
-        driverGamepad::getRightX
-      )
-    );
+        new SimDrive(
+            m_driveSubsystem,
+            2,
+            driverGamepad::getR2Axis,
+            driverGamepad::getL2Axis,
+            driverGamepad::getLeftX,
+            driverGamepad::getRightX));
     m_intakeSubsystem.setDefaultCommand(new IntakeRun(m_intakeSubsystem));
     m_indexerSubsystem.setDefaultCommand(new LoadIndexer(m_indexerSubsystem));
   }
@@ -77,11 +83,16 @@ public class RobotContainer {
   private void configureButtonBindings() {
     triangleButton.whileHeld(new AutoAimTurret(m_turretSubsystem, 0.05));
     m_circleButton.whenPressed(new ToggleIntake(m_intakeSubsystem));
+    // X_BUTTON.whileHeld(new RunIndexer(m_indexerSubsystem));
+    m_optionButton.whileHeld(new ElevatorUp(m_climberSubsystem)); // Elevator Up
+    m_shareButton.whileHeld(new ElevatorDown(m_climberSubsystem)); // Elevator Down
+    m_l1Button.toggleWhenPressed(new ElevatorDown(m_climberSubsystem));
+    m_r1Button.toggleWhenPressed(new ElevatorUp(m_climberSubsystem));
     m_crossButton.whileHeld(new ShootIndexer(m_indexerSubsystem));
   }
 
   public Command getAutonomousCommand() {
-    return new DriveToDistance(m_driveSubsystem, 2);
+    return new ElevatorUp(m_climberSubsystem);
   }
 
 
