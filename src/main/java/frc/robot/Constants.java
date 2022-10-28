@@ -100,6 +100,7 @@ public final class Constants {
         public static final double kGains_VelocitkI = 0.00035;
         public static final double kGains_VelocitkD = 0;
         public static final int kTimeoutMs = 0;
+        public static final double kMaxSpeed = 20000;
 
         public static final int kManualFlywheelSetpointRPM = 5000;
         public static final int kManualFeederSetpointRPM = 5000;

@@ -20,6 +20,7 @@ import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.RobotMap;
 import frc.robot.util.Logger;
+import frc.robot.Constants;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
@@ -47,18 +48,18 @@ public class ShooterSubsystem extends SubsystemBase {
     flywheel.setNeutralMode(NeutralMode.Coast);
 
     feeder.configSelectedFeedbackSensor(
-        TalonFXFeedbackDevice.IntegratedSensor, Shooter.kPIDLoopIDx, Shooter.kTimeoutMs);
-    feeder.config_kF(Shooter.kPIDLoopIDx, Shooter.kGains_VelocitkF, Shooter.kTimeoutMs);
-    feeder.config_kP(Shooter.kPIDLoopIDx, Shooter.kGains_VelocitkP, Shooter.kTimeoutMs);
-    feeder.config_kI(Shooter.kPIDLoopIDx, Shooter.kGains_VelocitkI, Shooter.kTimeoutMs);
-    feeder.config_kD(Shooter.kPIDLoopIDx, Shooter.kGains_VelocitkD, Shooter.kTimeoutMs);
+        TalonFXFeedbackDevice.IntegratedSensor, Constants.Shooter.kPIDLoopIDx, Constants.Shooter.kTimeoutMs);
+    feeder.config_kF(Constants.Shooter.kPIDLoopIDx, Constants.Shooter.kGains_VelocitkF, Constants.Shooter.kTimeoutMs);
+    feeder.config_kP(Constants.Shooter.kPIDLoopIDx, Constants.Shooter.kGains_VelocitkP, Constants.Shooter.kTimeoutMs);
+    feeder.config_kI(Constants.Shooter.kPIDLoopIDx, Constants.Shooter.kGains_VelocitkI, Constants.Shooter.kTimeoutMs);
+    feeder.config_kD(Constants.Shooter.kPIDLoopIDx, Constants.Shooter.kGains_VelocitkD, Constants.Shooter.kTimeoutMs);
 
     flywheel.configSelectedFeedbackSensor(
-        TalonFXFeedbackDevice.IntegratedSensor, Shooter.kPIDLoopIDx, Shooter.kTimeoutMs);
-    flywheel.config_kF(Shooter.kPIDLoopIDx, Shooter.kGains_VelocitkF, Shooter.kTimeoutMs);
-    flywheel.config_kP(Shooter.kPIDLoopIDx, Shooter.kGains_VelocitkP, Shooter.kTimeoutMs);
-    flywheel.config_kI(Shooter.kPIDLoopIDx, Shooter.kGains_VelocitkI, Shooter.kTimeoutMs);
-    flywheel.config_kD(Shooter.kPIDLoopIDx, Shooter.kGains_VelocitkD, Shooter.kTimeoutMs);
+        TalonFXFeedbackDevice.IntegratedSensor, Constants.Shooter.kPIDLoopIDx, Constants.Shooter.kTimeoutMs);
+    flywheel.config_kF(Constants.Shooter.kPIDLoopIDx, Constants.Shooter.kGains_VelocitkF, Constants.Shooter.kTimeoutMs);
+    flywheel.config_kP(Constants.Shooter.kPIDLoopIDx, Constants.Shooter.kGains_VelocitkP, Constants.Shooter.kTimeoutMs);
+    flywheel.config_kI(Constants.Shooter.kPIDLoopIDx, Constants.Shooter.kGains_VelocitkI, Constants.Shooter.kTimeoutMs);
+    flywheel.config_kD(Constants.Shooter.kPIDLoopIDx, Constants.Shooter.kGains_VelocitkD, Constants.Shooter.kTimeoutMs);
   }
 
   public void stopMotors() {
