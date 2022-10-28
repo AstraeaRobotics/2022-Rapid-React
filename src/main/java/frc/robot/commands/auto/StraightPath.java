@@ -4,6 +4,7 @@
 
 package frc.robot.commands.auto;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.ResetOdometry;
 import frc.robot.subsystems.DriveSubsystem;
@@ -15,11 +16,13 @@ import frc.robot.util.Traj;
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class StraightPath extends SequentialCommandGroup {
   /** Creates a new StraightPath. */
+  double distance = SmartDashboard.getNumber("AutoDistance", 0);
 
   public StraightPath(DriveSubsystem drive) {
+  // SmartDashboard.putNumber("AUTO - Straight Path Speed", 10);
+    System.out.println("Distance: " + SmartDashboard.getNumber("AutoDistance", 2));
     addCommands(
-      new ResetOdometry(drive, Traj.createNewTrajectoryFromJSON("StraightPath")),
-      Ramsete.createRamseteCommand(Traj.createNewTrajectoryFromJSON("StraightPath"), drive, true)
+      new DriveToDistance(drive, distance)
     );
   }
 }

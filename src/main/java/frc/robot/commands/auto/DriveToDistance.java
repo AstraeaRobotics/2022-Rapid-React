@@ -21,15 +21,15 @@ public class DriveToDistance extends CommandBase {
   private final double desiredDistance;
 
   public DriveToDistance(DriveSubsystem driveSubsystem, double distanceMeters) {
+    System.out.println("Going distance: " + distanceMeters);
     addRequirements(driveSubsystem);
     this.m_DriveSubsystem = driveSubsystem;
-    this.reverseFactor = distanceMeters > 0 ? 1 : -1;
+    this.reverseFactor = distanceMeters > 0 ? 1 : -1; //Determines reverse speed :)
     this.desiredDistance = distanceMeters;
   }
 
   @Override
   public void execute() {
-    //FIXME: .4 is magic number
     m_DriveSubsystem.tankDrive(Constants.Autonomous.kMaxSpeed * reverseFactor, Constants.Autonomous.kMaxSpeed * reverseFactor);
   }
 

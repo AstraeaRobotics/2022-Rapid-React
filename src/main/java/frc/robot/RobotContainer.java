@@ -4,6 +4,9 @@
 
 package frc.robot;
 
+import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.PS4Controller;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -58,6 +61,16 @@ public class RobotContainer {
 
   SendableChooser<Command> m_chooser = new SendableChooser<>();
 
+  public void resetChooser() {
+    m_chooser = new SendableChooser<>();
+
+    m_chooser.setDefaultOption("StraightPath", new StraightPath(m_driveSubsystem));
+    m_chooser.addOption("OneBall", new OneBall(m_shooterSubsystem));
+    m_chooser.addOption("TwoBall", new TwoBall(m_driveSubsystem, m_shooterSubsystem, m_intakeSubsystem));
+    m_chooser.addOption("ThreeBall", new ThreeBall(m_driveSubsystem, m_shooterSubsystem, m_intakeSubsystem));
+    m_chooser.addOption("FourBall", new FourBall(m_driveSubsystem, m_shooterSubsystem, m_intakeSubsystem));
+  }
+
   private final JoystickButton m_circleButton = new JoystickButton(
     driverGamepad,
     PS4Controller.Button.kCircle.value
@@ -82,12 +95,12 @@ public class RobotContainer {
     m_intakeSubsystem.setDefaultCommand(new IntakeRun(m_intakeSubsystem));
     m_indexerSubsystem.setDefaultCommand(new LoadIndexer(m_indexerSubsystem));
 
-    m_chooser.setDefaultOption("StraightPath", new StraightPath(m_driveSubsystem));
-    m_chooser.addOption("OneBall", new OneBall(m_shooterSubsystem));
-    m_chooser.addOption("TwoBall", new TwoBall(m_driveSubsystem, m_shooterSubsystem, m_intakeSubsystem));
-    m_chooser.addOption("ThreeBall", new ThreeBall(m_driveSubsystem, m_shooterSubsystem, m_intakeSubsystem));
-    m_chooser.addOption("FourBall", new FourBall(m_driveSubsystem, m_shooterSubsystem, m_intakeSubsystem));
+    resetChooser();
+
     SmartDashboard.putData(m_chooser);
+
+    SmartDashboard.putNumber("AutoDistance", 0);
+    
   }
 
   private void configureButtonBindings() {
