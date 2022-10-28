@@ -24,12 +24,12 @@ public class DriveToDistance extends CommandBase {
 
   @Override
   public void execute() {
-    m_DriveSubsystem.tankDrive(.4, .4);
+    m_DriveSubsystem.tankDrive(.4);
   }
 
   @Override
   public void end(boolean interrupted) {
-    m_DriveSubsystem.tankDrive(0, 0);
+    m_DriveSubsystem.tankDrive(0);
   }
 
   @Override

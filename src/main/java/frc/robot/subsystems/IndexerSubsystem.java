@@ -41,6 +41,11 @@ public class IndexerSubsystem extends SubsystemBase {
     transition.set(speed);
   }
 
+  public void spinMotors(double speed) {
+    spinBelt(speed);
+    spinTransition(speed);
+  }
+
   /*
    * @param sensor upper or lower sensor
    * @param ballNumber 0 for lower ball, 1 for upper ball
