@@ -4,6 +4,7 @@
 
 package frc.robot.subsystems;
 
+
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
@@ -32,9 +33,17 @@ public class IndexerSubsystem extends SubsystemBase {
     team = DriverStation.getAlliance();
   }
 
-  public void spinMotors(double speed) {
-    belt.set(-speed);
+  public void spinBelt(double speed) {
+    belt.set(speed);
+  }
+
+  public void spinTransition(double speed) {
     transition.set(speed);
+  }
+
+  public void spinMotors(double speed) {
+    spinBelt(speed);
+    spinTransition(speed);
   }
 
   public Alliance getBallColor() {

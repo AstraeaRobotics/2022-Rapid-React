@@ -113,4 +113,10 @@ public final class Constants {
         public static final double kFeederC = 0;
 
     }
+
+    public static final class Indexer {
+        public static final int kProximityThreshold = 200; //[0, 2047]
+        public static final double kTransitionSpeed = 0.5;
+        public static final double kBeltSpeed = 0.1;
+    }
 }

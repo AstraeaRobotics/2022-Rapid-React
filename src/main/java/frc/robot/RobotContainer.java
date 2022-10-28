@@ -8,6 +8,8 @@ import edu.wpi.first.wpilibj.PS4Controller;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import frc.robot.commands.indexer.ShootIndexer;
+import frc.robot.commands.indexer.LoadIndexer;
 import frc.robot.commands.auto.DriveToDistance;
 import frc.robot.commands.drive.SimDrive;
 import frc.robot.commands.indexer.RejectBall;
@@ -36,8 +38,8 @@ public class RobotContainer {
       operatorGamepad,
       PS4Controller.Button.kTriangle.value);
 
-  // private static final JoystickButton X_BUTTON = new
-  // JoystickButton(driverGamepad, PS4Controller.Button.kCross.value);
+  private static final JoystickButton m_crossButton = new JoystickButton(driverGamepad, PS4Controller.Button.kCross.value);
+  private static final JoystickButton m_squareButton = new JoystickButton(driverGamepad, PS4Controller.Button.kSquare.value);
 
   private final DriveSubsystem m_driveSubsystem = new DriveSubsystem();
   private final LEDSubsystem m_ledSubsystem = new LEDSubsystem();
@@ -59,28 +61,28 @@ public class RobotContainer {
         .schedule(new ToggleLED(m_ledSubsystem, true));
     m_shooterSubsystem.setDefaultCommand(new ManualShoot(m_shooterSubsystem, 40, 40));
     m_driveSubsystem.setDefaultCommand(
-        new SimDrive(
-            m_driveSubsystem,
-            2,
-            driverGamepad::getR2Axis,
-            driverGamepad::getL2Axis,
-            driverGamepad::getLeftX,
-            driverGamepad::getRightX));
-
+      new SimDrive(
+        m_driveSubsystem,
+        2,
+        driverGamepad::getR2Axis,
+        driverGamepad::getL2Axis,
+        driverGamepad::getLeftX,
+        driverGamepad::getRightX
+      )
+    );
     m_intakeSubsystem.setDefaultCommand(new IntakeRun(m_intakeSubsystem, m_indexerSubsystem));
-    // m_indexerSubsystem.setDefaultCommand(new RunIndexer(m_indexerSubsystem,
-    // m_intakeSubsystem));
+    m_indexerSubsystem.setDefaultCommand(new LoadIndexer(m_indexerSubsystem));
   }
 
   private void configureButtonBindings() {
     triangleButton.whileHeld(new AutoAimTurret(m_turretSubsystem, 0.05));
     m_circleButton.whenPressed(new ToggleIntake(m_intakeSubsystem));
-    indexButton.whenPressed(new RunIndexer(m_indexerSubsystem, m_intakeSubsystem)); // x button
-    // m_squareButton.whileHeld(new RejectBall(m_intakeSubsystem,
-    // m_indexerSubsystem, 3));
+    m_crossButton.whileHeld(new ShootIndexer(m_indexerSubsystem));
   }
 
   public Command getAutonomousCommand() {
     return new DriveToDistance(m_driveSubsystem, 2);
   }
+
+
 }
