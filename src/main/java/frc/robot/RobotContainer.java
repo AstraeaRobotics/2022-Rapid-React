@@ -8,7 +8,8 @@ import edu.wpi.first.wpilibj.PS4Controller;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-// import frc.robot.commands.RunIndexer;
+import frc.robot.commands.indexer.ShootIndexer;
+import frc.robot.commands.indexer.LoadIndexer;
 import frc.robot.commands.auto.DriveToDistance;
 import frc.robot.commands.climber.Calibrate;
 import frc.robot.commands.climber.ElevatorDown;
@@ -39,7 +40,8 @@ public class RobotContainer {
       operatorGamepad,
       PS4Controller.Button.kTriangle.value);
 
-  private static final JoystickButton X_BUTTON = new JoystickButton(driverGamepad, PS4Controller.Button.kCross.value);
+  private static final JoystickButton m_crossButton = new JoystickButton(driverGamepad, PS4Controller.Button.kCross.value);
+  private static final JoystickButton m_squareButton = new JoystickButton(driverGamepad, PS4Controller.Button.kSquare.value);
 
   private final DriveSubsystem m_driveSubsystem = new DriveSubsystem();
   private final LEDSubsystem m_ledSubsystem = new LEDSubsystem();
@@ -75,6 +77,7 @@ public class RobotContainer {
             driverGamepad::getLeftX,
             driverGamepad::getRightX));
     m_intakeSubsystem.setDefaultCommand(new IntakeRun(m_intakeSubsystem));
+    m_indexerSubsystem.setDefaultCommand(new LoadIndexer(m_indexerSubsystem));
   }
 
   private void configureButtonBindings() {
@@ -85,9 +88,12 @@ public class RobotContainer {
     m_shareButton.whileHeld(new ElevatorDown(m_climberSubsystem)); // Elevator Down
     m_l1Button.toggleWhenPressed(new ElevatorDown(m_climberSubsystem));
     m_r1Button.toggleWhenPressed(new ElevatorUp(m_climberSubsystem));
+    m_crossButton.whileHeld(new ShootIndexer(m_indexerSubsystem));
   }
 
   public Command getAutonomousCommand() {
     return new ElevatorUp(m_climberSubsystem);
   }
+
+
 }
