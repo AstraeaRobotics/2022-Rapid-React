@@ -6,34 +6,39 @@
 *   the license file in the root directory of this project.                     *
 *                                                                               *
 ********************************************************************************/
-package frc.robot.commands.auto;
+package frc.robot.commands.shooter;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.subsystems.ShooterSubsystem;
+import frc.robot.util.ShooterSpeeds;
 
-public class DriveToDistance extends CommandBase {
+public class ManualShoot extends CommandBase {
 
-  private final DriveSubsystem m_DriveSubsystem;
-  private final double distanceMeters;
+  private ShooterSubsystem m_shooterSubsystem;
 
-  public DriveToDistance(DriveSubsystem driveSubsystem, double distanceMeters) {
-    addRequirements(driveSubsystem);
-    this.m_DriveSubsystem = driveSubsystem;
-    this.distanceMeters = distanceMeters + m_DriveSubsystem.getEncoderPosition();
+  private final double flywheelSpeed;
+  private final double feederSpeed;
+
+  public ManualShoot(ShooterSubsystem shooterSubsystem, double flywheelSpeed, double feederSpeed) {
+    addRequirements(shooterSubsystem);
+    this.m_shooterSubsystem = shooterSubsystem;
+    this.flywheelSpeed = flywheelSpeed;
+    this.feederSpeed = feederSpeed;
   }
 
   @Override
   public void execute() {
-    m_DriveSubsystem.tankDrive(.4, .4);
+    m_shooterSubsystem.setFlywheelSetpoint(ShooterSpeeds.getSpeedPercent(flywheelSpeed));
+    m_shooterSubsystem.setFeederSetpoint(ShooterSpeeds.getSpeedPercent(feederSpeed));
   }
 
   @Override
   public void end(boolean interrupted) {
-    m_DriveSubsystem.tankDrive(0, 0);
+    m_shooterSubsystem.stopMotors();
   }
 
   @Override
   public boolean isFinished() {
-    return m_DriveSubsystem.getEncoderPosition() > distanceMeters;
+    return false;
   }
 }
