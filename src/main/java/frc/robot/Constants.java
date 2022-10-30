@@ -7,15 +7,12 @@ package frc.robot;
 import edu.wpi.first.math.util.Units;
 
 /**
- * The Constants class provides a convenient place for teams to hold robot-wide
- * numerical or boolean
- * constants. This class should not be used for any other purpose. All constants
- * should be declared
+ * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
+ * constants. This class should not be used for any other purpose. All constants should be declared
  * globally (i.e. public static). Do not put anything functional in this class.
  *
  * <p>
- * It is advised to statically import this class (or one of its inner classes)
- * wherever the
+ * It is advised to statically import this class (or one of its inner classes) wherever the
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
@@ -27,23 +24,27 @@ public final class Constants {
         public static final int kDriverControllerPort = 0;
         public static final int kOperatorControllerPort = 1;
 
-        public static final int kRightDriveCAN1 = 1;
-        public static final int kRightDriveCAN2 = 2;
-        public static final int kRightDriveCAN3 = 3;
-        public static final int kLeftDriveCAN1 = 4;
-        public static final int kLeftDriveCAN2 = 5;
-        public static final int kLeftDriveCAN3 = 6;
-        
-        public static final int kFeederCAN = 10;
-        public static final int kFlywheelCAN = 11;
-        public static final int kTurretCANId = 20;
+        public static final int kRightDriveCAN1 = 2;
+        public static final int kRightDriveCAN2 = 3;
+        public static final int kRightDriveCAN3 = 4;
+        public static final int kLeftDriveCAN1 = 6;
+        public static final int kLeftDriveCAN2 = 7;
+        public static final int kLeftDriveCAN3 = 8;
+
+        public static final int kFeederCAN = 13;
+        public static final int kFlywheelCAN = 12;
+        public static final int kTurretCANId = 1;
+
+        public static final int kIndexerBelt = 11;
+        public static final int kIndexerTransition = 12;
     }
 
     public static final class DriveConstants {
         public static final double kDriveSpeed = 0.6;
         public static final double kTurnSpeed = 1;
         public static final double kWheelDiameterInches = 6;
-        public static final double kWheelDiameterMeters = Units.inchesToMeters(kWheelDiameterInches);
+        public static final double kWheelDiameterMeters =
+                Units.inchesToMeters(kWheelDiameterInches);
         public static final double kGearRatio = 10.81;
 
         /** Joules per kilogram per meter squared */
@@ -65,10 +66,11 @@ public final class Constants {
     }
 
     public static final class LEDConstants {
-        public static final int kPwmPort = 0; 
+        public static final int kPwmPort = 0;
         public static final int kLength = 144;
         public static final double kInterval = Units.secondsToMilliseconds(0.1);
-        public static final double kIntervalTrail = Units.secondsToMilliseconds(0.1);
+        public static final double kIntervalTrail =
+                Units.secondsToMilliseconds(0.1);
 
         public static final int kRainbowSaturation = 255;
         public static final int kRainbowValue = 150;
@@ -95,13 +97,13 @@ public final class Constants {
 
     public static final class Shooter {
         public static final int kPIDLoopIDx = 0;
-        public static final double kGains_VelocitkF = 0.048973143759; //Feed Forward
+        public static final double kGains_VelocitkF = 0.048973143759; // Feed Forward
         public static final double kGains_VelocitkP = 0.085035;
         public static final double kGains_VelocitkI = 0.00035;
         public static final double kGains_VelocitkD = 0;
-        public static final double kConversionFactor = 2048/600;
+        public static final double kConversionFactor = 2048 / 600;
         public static final int kTimeoutMs = 0;
-        
+
         public static final int kMaxSpeed = 20000;
 
         public static final double kFlywheelA = 0;
@@ -115,7 +117,7 @@ public final class Constants {
     }
 
     public static final class Indexer {
-        public static final int kProximityThreshold = 200; //[0, 2047]
+        public static final int kProximityThreshold = 200; // [0, 2047]
         public static final double kTransitionSpeed = 0.5;
         public static final double kBeltSpeed = 0.1;
     }

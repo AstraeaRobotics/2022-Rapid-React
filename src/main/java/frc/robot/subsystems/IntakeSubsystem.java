@@ -1,11 +1,8 @@
 /********************************************************************************
-*                                                                               *
-*   Copyright (c) Astraea Robotics, FIRST, and other WPILib contributors        *
-*                                                                               *
-*   Open Source Software; you can modify and/or share it under the terms of     *
-*   the license file in the root directory of this project.                     *
-*                                                                               *
-********************************************************************************/
+ * * Copyright (c) Astraea Robotics, FIRST, and other WPILib contributors * * Open Source Software;
+ * you can modify and/or share it under the terms of * the license file in the root directory of
+ * this project. * *
+ ********************************************************************************/
 package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkMax;
@@ -14,6 +11,7 @@ import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 
 public class IntakeSubsystem extends SubsystemBase {
 
@@ -29,7 +27,8 @@ public class IntakeSubsystem extends SubsystemBase {
     left.set(DoubleSolenoid.Value.kReverse); // setting as default
     right.set(DoubleSolenoid.Value.kReverse);
 
-    m_motor = new CANSparkMax(7, CANSparkMaxLowLevel.MotorType.kBrushless);
+    // TODO add 9 to robot map
+    m_motor = new CANSparkMax(9, CANSparkMaxLowLevel.MotorType.kBrushless);
   }
 
   public void toggleIntake() {

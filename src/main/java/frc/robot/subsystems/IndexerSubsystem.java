@@ -23,8 +23,10 @@ import com.revrobotics.ColorSensorV3;
 
 public class IndexerSubsystem extends SubsystemBase {
   /** Creates a new IndexerSubsystem. */
-  CANSparkMax belt = new CANSparkMax(9, MotorType.kBrushless);
-  CANSparkMax transition = new CANSparkMax(8, MotorType.kBrushless);
+  CANSparkMax belt =
+      new CANSparkMax(Constants.RobotMap.kIndexerBelt, MotorType.kBrushless);
+  CANSparkMax transition = new CANSparkMax(
+      Constants.RobotMap.kIndexerTransition, MotorType.kBrushless);
 
   private ColorSensorV3 onboardSensor;
 
@@ -43,12 +45,16 @@ public class IndexerSubsystem extends SubsystemBase {
 
   /*
    * @param sensor upper or lower sensor
+   * 
    * @param ballNumber 0 for lower ball, 1 for upper ball
-  */
+   */
   private void getDetectedColor(int sensorID, int ballNumber) {
-    double[] colorEntry = NetworkTableInstance.getDefault().getTable("").getEntry("rawcolor" + sensorID).getDoubleArray(new double[]{0, 0, 0, 0});
+    double[] colorEntry = NetworkTableInstance.getDefault().getTable("")
+        .getEntry("rawcolor" + sensorID)
+        .getDoubleArray(new double[] {0, 0, 0, 0});
 
-    double red = colorEntry[0]; //Prevent errors with calling entries that don't exist, which there are 4
+    double red = colorEntry[0]; // Prevent errors with calling entries that don't exist, which there
+                                // are 4
     double blue = colorEntry[2];
 
     if (getProximity(sensorID) < Constants.Indexer.kProximityThreshold) {
@@ -79,14 +85,15 @@ public class IndexerSubsystem extends SubsystemBase {
   }
 
   public double getProximity(int sensorID) {
-    return NetworkTableInstance.getDefault().getTable("").getEntry("proximity" + sensorID).getDouble(0);
+    return NetworkTableInstance.getDefault().getTable("")
+        .getEntry("proximity" + sensorID).getDouble(0);
   }
 
   @Override
   public void periodic() {
     getDetectedColorRio(0);
     getDetectedColor(1, 1);
-    if(Status.getIntakeStatus() == IntakeStatus.kExtended) {
+    if (Status.getIntakeStatus() == IntakeStatus.kExtended) {
       transition.set(Constants.Indexer.kTransitionSpeed);
     } else {
       transition.set(0.0);
