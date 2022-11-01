@@ -5,7 +5,6 @@
 package frc.robot.commands.climber;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Constants.Climber;
 import frc.robot.subsystems.ClimberSubsystem;
 
 // for setting soft limits
@@ -20,8 +19,7 @@ public class Calibrate extends CommandBase {
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {
-  }
+  public void initialize() {}
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
