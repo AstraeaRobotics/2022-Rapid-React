@@ -7,6 +7,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.PS4Controller;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.indexer.ShootIndexer;
 import frc.robot.commands.indexer.LoadIndexer;
@@ -17,6 +18,7 @@ import frc.robot.commands.intake.ToggleIntake;
 import frc.robot.commands.led.ToggleLED;
 import frc.robot.commands.shooter.ManualShoot;
 import frc.robot.commands.turret.AutoAimTurret;
+import frc.robot.commands.turret.ManualTurret;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.IndexerSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
@@ -26,52 +28,77 @@ import frc.robot.subsystems.TurretSubsystem;
 
 public class RobotContainer {
 
-  /* GAMEPADS */
-  private static final PS4Controller driverGamepad =
-      new PS4Controller(Constants.RobotMap.kDriverControllerPort);
-  private static final PS4Controller operatorGamepad =
-      new PS4Controller(Constants.RobotMap.kOperatorControllerPort);
+        /* GAMEPADS */
+        private static final PS4Controller driverGamepad = new PS4Controller(
+                        Constants.RobotMap.kDriverControllerPort);
+        private static final PS4Controller operatorGamepad = new PS4Controller(
+                        Constants.RobotMap.kOperatorControllerPort);
 
-  private static final JoystickButton triangleButton =
-      new JoystickButton(operatorGamepad, PS4Controller.Button.kTriangle.value);
+        private static final JoystickButton triangleButton = new JoystickButton(
+                        operatorGamepad, PS4Controller.Button.kTriangle.value);
 
-  private static final JoystickButton m_crossButton =
-      new JoystickButton(driverGamepad, PS4Controller.Button.kCross.value);
-  private static final JoystickButton m_squareButton =
-      new JoystickButton(driverGamepad, PS4Controller.Button.kSquare.value);
+        private static final JoystickButton m_crossButton = new JoystickButton(
+                        driverGamepad, PS4Controller.Button.kCross.value);
+        private static final JoystickButton m_squareButton = new JoystickButton(
+                        driverGamepad, PS4Controller.Button.kSquare.value);
 
-  private final DriveSubsystem m_driveSubsystem = new DriveSubsystem();
-  private final LEDSubsystem m_ledSubsystem = new LEDSubsystem();
-  private final ShooterSubsystem m_shooterSubsystem = new ShooterSubsystem();
-  private final TurretSubsystem m_turretSubsystem = new TurretSubsystem();
-  private final IntakeSubsystem m_intakeSubsystem = new IntakeSubsystem();
-  private final IndexerSubsystem m_indexerSubsystem = new IndexerSubsystem();
+        private static final JoystickButton m_l1_button = new JoystickButton(
+                        driverGamepad, PS4Controller.Button.kL1.value);
+        private static final JoystickButton m_r1_button = new JoystickButton(
+                        driverGamepad, PS4Controller.Button.kR1.value);
 
-  private final JoystickButton m_circleButton =
-      new JoystickButton(driverGamepad, PS4Controller.Button.kCircle.value);
+        private final DriveSubsystem m_driveSubsystem = new DriveSubsystem();
+        private final LEDSubsystem m_ledSubsystem = new LEDSubsystem();
+        private final ShooterSubsystem m_shooterSubsystem =
+                        new ShooterSubsystem();
+        private final TurretSubsystem m_turretSubsystem = new TurretSubsystem();
+        private final IntakeSubsystem m_intakeSubsystem = new IntakeSubsystem();
+        private final IndexerSubsystem m_indexerSubsystem =
+                        new IndexerSubsystem();
 
-  public RobotContainer() {
-    configureButtonBindings();
-    CommandScheduler.getInstance()
-        .schedule(new ToggleLED(m_ledSubsystem, true));
-    // m_shooterSubsystem.setDefaultCommand(new ManualShoot(m_shooterSubsystem, 40, 40));
-    m_driveSubsystem.setDefaultCommand(new SimDrive(m_driveSubsystem, 2,
-        driverGamepad::getR2Axis, driverGamepad::getL2Axis,
-        driverGamepad::getLeftX, driverGamepad::getRightX));
-    m_intakeSubsystem.setDefaultCommand(new IntakeRun(m_intakeSubsystem));
-    m_indexerSubsystem.setDefaultCommand(new LoadIndexer(m_indexerSubsystem));
-  }
+        private final JoystickButton m_circleButton = new JoystickButton(
+                        driverGamepad, PS4Controller.Button.kCircle.value);
 
-  private void configureButtonBindings() {
-    triangleButton.whileHeld(new AutoAimTurret(m_turretSubsystem, 0.05));
-    m_circleButton.whenPressed(new ToggleIntake(m_intakeSubsystem));
-    m_crossButton.whileHeld(new ShootIndexer(m_indexerSubsystem));
-    m_squareButton.whileHeld(new ManualShoot(m_shooterSubsystem, 40, 40));
-  }
+        public RobotContainer() {
+                configureButtonBindings();
+                CommandScheduler.getInstance()
+                                .schedule(new ToggleLED(m_ledSubsystem, true));
+                m_shooterSubsystem.setDefaultCommand(
+                                new ManualShoot(m_shooterSubsystem, 40, 40));
+                m_driveSubsystem.setDefaultCommand(new SimDrive(
+                                m_driveSubsystem, 2, driverGamepad::getR2Axis,
+                                driverGamepad::getL2Axis,
+                                driverGamepad::getLeftX,
+                                driverGamepad::getRightX));
+                m_intakeSubsystem.setDefaultCommand(
+                                new IntakeRun(m_intakeSubsystem));
+                // m_turretSubsystem.setDefaultCommand(new );
+                m_indexerSubsystem.setDefaultCommand(
+                new LoadIndexer(m_indexerSubsystem));
+        }
 
-  public Command getAutonomousCommand() {
-    return new DriveToDistance(m_driveSubsystem, 2);
-  }
+        private void configureButtonBindings() {
+                triangleButton.whileHeld(
+                                new AutoAimTurret(m_turretSubsystem, 0.05));
+                m_circleButton.whenPressed(new ToggleIntake(m_intakeSubsystem));
+                // m_crossButton.whileHeld(new ShootIndexer(m_indexerSubsystem));
+                // m_squareButton.whileHeld(new ManualShoot(m_shooterSubsystem, 40, 40));
+                // m_squareButton.whileHeld(
+                // new ParallelCommandGroup(new ShootIndexer(m_indexerSubsystem),
+                // new ManualShoot(m_shooterSubsystem, 40, 40)));
+                m_l1_button.whileHeld(new ManualTurret(m_turretSubsystem,
+                                Constants.TurretConstants.kMaxSpeed));
+                m_r1_button.whileHeld(new ManualTurret(m_turretSubsystem,
+                                -Constants.TurretConstants.kMaxSpeed));
+
+                m_squareButton.whileHeld(new AutoAimTurret(m_turretSubsystem,
+                                Constants.TurretConstants.kMaxSpeed));
+
+        }
+
+        public Command getAutonomousCommand() {
+                return new DriveToDistance(m_driveSubsystem, 2);
+        }
 
 
 }

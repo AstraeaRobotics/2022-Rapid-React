@@ -35,8 +35,8 @@ public final class Constants {
         public static final int kFlywheelCAN = 12;
         public static final int kTurretCANId = 1;
 
-        public static final int kIndexerBelt = 11;
-        public static final int kIndexerTransition = 12;
+        public static final int kIndexerBelt = 10;
+        public static final int kIndexerTransition = 11;
     }
 
     public static final class DriveConstants {
@@ -87,7 +87,8 @@ public final class Constants {
     public static final class TurretConstants {
         public static final double kVisionThreshold = 5;
 
-        public static final double kMaxSpeed = 0.05;
+        public static final double kMaxSpeed = 0.2;
+        public static final float kMaxRotation = 70;
     }
     public static final class Limelight {
         public static final double kLimeLightMountAngleDegrees = 25.0;
@@ -105,6 +106,7 @@ public final class Constants {
         public static final int kTimeoutMs = 0;
 
         public static final int kMaxSpeed = 20000;
+        // public static final int kMaxSpeed = 10000;
 
         public static final double kFlywheelA = 0;
         public static final double kFlywheelB = 1;
@@ -119,6 +121,6 @@ public final class Constants {
     public static final class Indexer {
         public static final int kProximityThreshold = 200; // [0, 2047]
         public static final double kTransitionSpeed = 0.5;
-        public static final double kBeltSpeed = 0.1;
+        public static final double kBeltSpeed = 1;
     }
 }

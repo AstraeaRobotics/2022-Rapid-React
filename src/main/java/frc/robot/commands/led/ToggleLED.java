@@ -24,7 +24,7 @@ public class ToggleLED extends CommandBase {
 
   @Override
   public void initialize() {
-    m_ledSubsystem.setIsEnabled(true);
+    // m_ledSubsystem.setIsEnabled(true);
   }
 
   @Override

@@ -23,6 +23,8 @@
     "types": {
       "/FMSInfo": "FMSInfo",
       "/LiveWindow/DriveSubsystem": "Subsystem",
+      "/LiveWindow/IndexerSubsystem": "Subsystem",
+      "/LiveWindow/IntakeSubsystem": "Subsystem",
       "/LiveWindow/ShooterSubsystem": "Subsystem",
       "/LiveWindow/Ungrouped/DifferentialDrive[1]": "DifferentialDrive",
       "/LiveWindow/Ungrouped/PIDController[1]": "PIDController",
@@ -33,7 +35,8 @@
       "/LiveWindow/Ungrouped/navX-Sensor[4]": "Gyro",
       "/Shuffleboard/Dashboard/Differential Drive": "DifferentialDrive",
       "/Shuffleboard/Dashboard/Field View": "Field2d",
-      "/Shuffleboard/Dashboard/Gyro": "Gyro"
+      "/Shuffleboard/Dashboard/Gyro": "Gyro",
+      "/SmartDashboard/Scheduler": "Scheduler"
     }
   },
   "NetworkTables Settings": {

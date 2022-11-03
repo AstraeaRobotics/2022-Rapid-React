@@ -1,11 +1,8 @@
 /********************************************************************************
-*                                                                               *
-*   Copyright (c) Astraea Robotics, FIRST, and other WPILib contributors        *
-*                                                                               *
-*   Open Source Software; you can modify and/or share it under the terms of     *
-*   the license file in the root directory of this project.                     *
-*                                                                               *
-********************************************************************************/
+ * * Copyright (c) Astraea Robotics, FIRST, and other WPILib contributors * * Open Source Software;
+ * you can modify and/or share it under the terms of * the license file in the root directory of
+ * this project. * *
+ ********************************************************************************/
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
@@ -28,19 +25,28 @@ public class ShooterSubsystem extends SubsystemBase {
     feeder.setNeutralMode(NeutralMode.Coast);
     flywheel.setNeutralMode(NeutralMode.Coast);
 
-    feeder.configSelectedFeedbackSensor(
-        TalonFXFeedbackDevice.IntegratedSensor, Shooter.kPIDLoopIDx, Shooter.kTimeoutMs);
-    feeder.config_kF(Shooter.kPIDLoopIDx, Shooter.kGains_VelocitkF, Shooter.kTimeoutMs);
-    feeder.config_kP(Shooter.kPIDLoopIDx, Shooter.kGains_VelocitkP, Shooter.kTimeoutMs);
-    feeder.config_kI(Shooter.kPIDLoopIDx, Shooter.kGains_VelocitkI, Shooter.kTimeoutMs);
-    feeder.config_kD(Shooter.kPIDLoopIDx, Shooter.kGains_VelocitkD, Shooter.kTimeoutMs);
+    feeder.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor,
+        Shooter.kPIDLoopIDx, Shooter.kTimeoutMs);
+    feeder.config_kF(Shooter.kPIDLoopIDx, Shooter.kGains_VelocitkF,
+        Shooter.kTimeoutMs);
+    feeder.config_kP(Shooter.kPIDLoopIDx, Shooter.kGains_VelocitkP,
+        Shooter.kTimeoutMs);
+    feeder.config_kI(Shooter.kPIDLoopIDx, Shooter.kGains_VelocitkI,
+        Shooter.kTimeoutMs);
+    feeder.config_kD(Shooter.kPIDLoopIDx, Shooter.kGains_VelocitkD,
+        Shooter.kTimeoutMs);
 
     flywheel.configSelectedFeedbackSensor(
-        TalonFXFeedbackDevice.IntegratedSensor, Shooter.kPIDLoopIDx, Shooter.kTimeoutMs);
-    flywheel.config_kF(Shooter.kPIDLoopIDx, Shooter.kGains_VelocitkF, Shooter.kTimeoutMs);
-    flywheel.config_kP(Shooter.kPIDLoopIDx, Shooter.kGains_VelocitkP, Shooter.kTimeoutMs);
-    flywheel.config_kI(Shooter.kPIDLoopIDx, Shooter.kGains_VelocitkI, Shooter.kTimeoutMs);
-    flywheel.config_kD(Shooter.kPIDLoopIDx, Shooter.kGains_VelocitkD, Shooter.kTimeoutMs);
+        TalonFXFeedbackDevice.IntegratedSensor, Shooter.kPIDLoopIDx,
+        Shooter.kTimeoutMs);
+    flywheel.config_kF(Shooter.kPIDLoopIDx, Shooter.kGains_VelocitkF,
+        Shooter.kTimeoutMs);
+    flywheel.config_kP(Shooter.kPIDLoopIDx, Shooter.kGains_VelocitkP,
+        Shooter.kTimeoutMs);
+    flywheel.config_kI(Shooter.kPIDLoopIDx, Shooter.kGains_VelocitkI,
+        Shooter.kTimeoutMs);
+    flywheel.config_kD(Shooter.kPIDLoopIDx, Shooter.kGains_VelocitkD,
+        Shooter.kTimeoutMs);
   }
 
   public void stopMotors() {
@@ -56,7 +62,7 @@ public class ShooterSubsystem extends SubsystemBase {
    * @param speed the percent of max speed to change setpoint to (between 0 and 100)
    */
   public void setFlywheelSetpoint(double speed) {
-    m_shooterSpeeds.setTopVelocity(speed);
+    m_shooterSpeeds.setTopVelocity(-speed);
   }
 
   /**
