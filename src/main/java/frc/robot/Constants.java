@@ -83,11 +83,13 @@ public final class Constants {
         public static final String kIndexer = "indexer";
         public static final String kShooter = "shooter";
         public static final String kIntake = "intake";
+        public static final String kClimber = "climber";
     }
     public static final class TurretConstants {
         public static final double kVisionThreshold = 5;
 
         public static final double kMaxSpeed = 0.2;
+        public static final double kMaxManualSpeed = 0.5;
         public static final float kMaxRotation = 70;
     }
     public static final class Limelight {
@@ -120,7 +122,18 @@ public final class Constants {
 
     public static final class Indexer {
         public static final int kProximityThreshold = 200; // [0, 2047]
-        public static final double kTransitionSpeed = 0.5;
+        public static final double kTransitionSpeed = 0.3;
         public static final double kBeltSpeed = 1;
+    }
+
+    public static final class Climber {
+        public static final float kUpperLimit = 10; // unknown
+        public static final float kLowerLimit = 0; // unknown
+        public static final double kElevatorSpeed = 0.5;
+        public static final int kLimitSwitch_Port = 0; // unknown
+        public static final int kClimberMotor_Port = 5;
+        public static final double kP = 1; // proportional to distance to target
+        public static final double kI = 0.0;
+        public static final double kD = 0.0;
     }
 }

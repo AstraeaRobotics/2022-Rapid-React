@@ -8,17 +8,27 @@ import edu.wpi.first.wpilibj.PS4Controller;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.indexer.ShootIndexer;
 import frc.robot.commands.indexer.LoadIndexer;
+import frc.robot.commands.ReverseAll;
 import frc.robot.commands.auto.DriveToDistance;
+import frc.robot.commands.climber.Calibrate;
+import frc.robot.commands.climber.RunClimber;
 import frc.robot.commands.drive.SimDrive;
 import frc.robot.commands.intake.IntakeRun;
 import frc.robot.commands.intake.ToggleIntake;
 import frc.robot.commands.led.ToggleLED;
 import frc.robot.commands.shooter.ManualShoot;
 import frc.robot.commands.turret.AutoAimTurret;
+import frc.robot.commands.turret.CenterTurret;
 import frc.robot.commands.turret.ManualTurret;
+import frc.robot.commands.turret.RecalibrateTurret;
+import frc.robot.commands.turret.ToggleTurretLock;
+import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.IndexerSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
@@ -47,24 +57,50 @@ public class RobotContainer {
         private static final JoystickButton m_r1_button = new JoystickButton(
                         driverGamepad, PS4Controller.Button.kR1.value);
 
+
+        private static final JoystickButton m_operator_r2_button =
+                        new JoystickButton(operatorGamepad,
+                                        PS4Controller.Button.kR2.value);
+        private static final JoystickButton m_operator_l2_button =
+                        new JoystickButton(operatorGamepad,
+                                        PS4Controller.Button.kL2.value);
+
+        private static final JoystickButton m_operator_circle_button =
+                        new JoystickButton(operatorGamepad,
+                                        PS4Controller.Button.kCircle.value);
+
+        private static final JoystickButton m_operator_triangle_button =
+                        new JoystickButton(operatorGamepad,
+                                        PS4Controller.Button.kTriangle.value);
+
         private final DriveSubsystem m_driveSubsystem = new DriveSubsystem();
-        private final LEDSubsystem m_ledSubsystem = new LEDSubsystem();
         private final ShooterSubsystem m_shooterSubsystem =
                         new ShooterSubsystem();
         private final TurretSubsystem m_turretSubsystem = new TurretSubsystem();
+        private final LEDSubsystem m_ledSubsystem = new LEDSubsystem();
         private final IntakeSubsystem m_intakeSubsystem = new IntakeSubsystem();
         private final IndexerSubsystem m_indexerSubsystem =
                         new IndexerSubsystem();
+        private final ClimberSubsystem m_climberSubsystem =
+                        new ClimberSubsystem();
 
-        private final JoystickButton m_circleButton = new JoystickButton(
-                        driverGamepad, PS4Controller.Button.kCircle.value);
+        private final JoystickButton m_operator_squareButton =
+                        new JoystickButton(operatorGamepad,
+                                        PS4Controller.Button.kSquare.value);
+
+        private final JoystickButton m_operator_cross_Button =
+                        new JoystickButton(operatorGamepad,
+                                        PS4Controller.Button.kCross.value);
+
+        private final JoystickButton m_driver_PS_Button = new JoystickButton(
+                        driverGamepad, PS4Controller.Button.kPS.value);
+
+
 
         public RobotContainer() {
                 configureButtonBindings();
-                CommandScheduler.getInstance()
-                                .schedule(new ToggleLED(m_ledSubsystem, true));
                 m_shooterSubsystem.setDefaultCommand(
-                                new ManualShoot(m_shooterSubsystem, 40, 40));
+                                new ManualShoot(m_shooterSubsystem, 30, 40));
                 m_driveSubsystem.setDefaultCommand(new SimDrive(
                                 m_driveSubsystem, 2, driverGamepad::getR2Axis,
                                 driverGamepad::getL2Axis,
@@ -72,33 +108,51 @@ public class RobotContainer {
                                 driverGamepad::getRightX));
                 m_intakeSubsystem.setDefaultCommand(
                                 new IntakeRun(m_intakeSubsystem));
-                // m_turretSubsystem.setDefaultCommand(new );
-                m_indexerSubsystem.setDefaultCommand(
-                new LoadIndexer(m_indexerSubsystem));
+                m_turretSubsystem.setDefaultCommand(new AutoAimTurret(
+                                m_turretSubsystem,
+                                Constants.TurretConstants.kMaxSpeed));
         }
 
         private void configureButtonBindings() {
-                triangleButton.whileHeld(
-                                new AutoAimTurret(m_turretSubsystem, 0.05));
-                m_circleButton.whenPressed(new ToggleIntake(m_intakeSubsystem));
-                // m_crossButton.whileHeld(new ShootIndexer(m_indexerSubsystem));
-                // m_squareButton.whileHeld(new ManualShoot(m_shooterSubsystem, 40, 40));
-                // m_squareButton.whileHeld(
-                // new ParallelCommandGroup(new ShootIndexer(m_indexerSubsystem),
-                // new ManualShoot(m_shooterSubsystem, 40, 40)));
-                m_l1_button.whileHeld(new ManualTurret(m_turretSubsystem,
-                                Constants.TurretConstants.kMaxSpeed));
-                m_r1_button.whileHeld(new ManualTurret(m_turretSubsystem,
-                                -Constants.TurretConstants.kMaxSpeed));
 
-                m_squareButton.whileHeld(new AutoAimTurret(m_turretSubsystem,
-                                Constants.TurretConstants.kMaxSpeed));
+                /* DRIVER CONTROLS */
+                m_squareButton.whileHeld(new ShootIndexer(m_indexerSubsystem));
+                m_l1_button.whileHeld(new ManualTurret(m_turretSubsystem,
+                                -Constants.TurretConstants.kMaxManualSpeed));
+                m_r1_button.whileHeld(new ManualTurret(m_turretSubsystem,
+                                Constants.TurretConstants.kMaxManualSpeed));
+                m_driver_PS_Button.whenPressed(
+                                new ToggleTurretLock(m_turretSubsystem));
+
+
+                /* OPERATOR CONTROLS */
+                m_operator_l2_button.whileHeld(new RunClimber(
+                                m_climberSubsystem,
+                                -Constants.Climber.kElevatorSpeed));
+                m_operator_r2_button.whileHeld(new RunClimber(
+                                m_climberSubsystem,
+                                Constants.Climber.kElevatorSpeed));
+                m_operator_squareButton.whenPressed(
+                                new ToggleIntake(m_intakeSubsystem));
+                m_operator_circle_button.whileHeld(new ReverseAll(
+                                m_intakeSubsystem, m_indexerSubsystem));
+                m_operator_triangle_button.whileHeld(
+                                new RecalibrateTurret(m_turretSubsystem));
+                m_operator_cross_Button
+                                .whileHeld(new CenterTurret(m_turretSubsystem));
 
         }
 
         public Command getAutonomousCommand() {
-                return new DriveToDistance(m_driveSubsystem, 2);
+                // return new DriveToDistance(m_driveSubsystem, 5);
+                return new SequentialCommandGroup(
+                                new ToggleTurretLock(m_turretSubsystem),
+                                new DriveToDistance(m_driveSubsystem, 1.33),
+                                new ParallelDeadlineGroup(new WaitCommand(3),
+                                                new ShootIndexer(
+                                                                m_indexerSubsystem)),
+                                new ToggleTurretLock(m_turretSubsystem),
+                                new DriveToDistance(m_driveSubsystem, 2));
         }
-
 
 }

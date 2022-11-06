@@ -29,10 +29,8 @@ public class Status {
     }
     
     public enum ClimberStatus {
-        kBottom,
-        kGoingUp,
-        kGoingDown,
-        kTop
+        kClimbing, 
+        kStopped
     }
 
     public enum IndexerStatus {
@@ -100,5 +98,14 @@ public class Status {
 
     public static IndexerStatus getIndexerStatus() {
         return IndexerStatus.valueOf(checkStatus(StatusConstants.kIndexer, "kStopped"));
+    }
+
+    /* CLIMBER */
+    public static void logClimbStatus(ClimberStatus status) {
+        logStatus(StatusConstants.kClimber, status.name());
+    }
+
+    public static ClimberStatus getClimbStatus() {
+        return ClimberStatus.valueOf(checkStatus(StatusConstants.kClimber, "kStopped"));
     }
 }

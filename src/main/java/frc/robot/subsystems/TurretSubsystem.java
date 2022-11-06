@@ -15,12 +15,16 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.RobotMap;
 import frc.robot.Constants.TurretConstants;
+import frc.robot.status.Status;
+import frc.robot.status.Status.ClimberStatus;
 
 public class TurretSubsystem extends SubsystemBase {
 
   private CANSparkMax m_turretMotor;
 
   private RelativeEncoder m_encoder;
+
+  private boolean locked = false;
 
   public TurretSubsystem() {
     m_turretMotor =
@@ -36,10 +40,19 @@ public class TurretSubsystem extends SubsystemBase {
   }
 
   public void runTurret(double speed) {
-    MathUtil.clamp(speed, -TurretConstants.kMaxSpeed,
-        TurretConstants.kMaxSpeed);
-    System.out.println("Turret Speed: " + speed);
-    m_turretMotor.set(speed);
+    if (!locked) {
+      MathUtil.clamp(speed, -TurretConstants.kMaxSpeed,
+          TurretConstants.kMaxSpeed);
+      m_turretMotor.set(speed);
+    }
+  }
+
+  public void setLocked(boolean isLocked) {
+    this.locked = isLocked;
+  }
+
+  public boolean isLocked() {
+    return locked;
   }
 
   public double getCurrentPosition() {
@@ -53,5 +66,6 @@ public class TurretSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     SmartDashboard.putNumber("Turret Dist", m_encoder.getPosition());
+    SmartDashboard.putBoolean("Turet Locked", isLocked());
   }
 }
