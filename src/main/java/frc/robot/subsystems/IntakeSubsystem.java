@@ -11,23 +11,18 @@ import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants;
 
 public class IntakeSubsystem extends SubsystemBase {
 
   DoubleSolenoid left;
   DoubleSolenoid right;
-
   CANSparkMax m_motor;
 
-  /** Creates a new IntakeSubsystem. */
   public IntakeSubsystem() {
     left = new DoubleSolenoid(15, PneumaticsModuleType.REVPH, 15, 14); // port numbers are random
     right = new DoubleSolenoid(15, PneumaticsModuleType.REVPH, 12, 13);
     left.set(DoubleSolenoid.Value.kReverse); // setting as default
     right.set(DoubleSolenoid.Value.kReverse);
-
-    // TODO add 9 to robot map
     m_motor = new CANSparkMax(9, CANSparkMaxLowLevel.MotorType.kBrushless);
   }
 
@@ -42,5 +37,11 @@ public class IntakeSubsystem extends SubsystemBase {
 
   public boolean isExtended() {
     return right.get() == Value.kForward;
+  }
+
+  public void periodic() {
+    if(!isExtended()) {
+      setMotor(0);
+    }
   }
 }

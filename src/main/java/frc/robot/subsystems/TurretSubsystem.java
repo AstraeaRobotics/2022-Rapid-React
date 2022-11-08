@@ -8,15 +8,15 @@ package frc.robot.subsystems;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.RelativeEncoder;
+import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMax.SoftLimitDirection;
 
 import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.RobotMap;
 import frc.robot.Constants.TurretConstants;
-import frc.robot.status.Status;
-import frc.robot.status.Status.ClimberStatus;
 
 public class TurretSubsystem extends SubsystemBase {
 
@@ -67,5 +67,11 @@ public class TurretSubsystem extends SubsystemBase {
   public void periodic() {
     SmartDashboard.putNumber("Turret Dist", m_encoder.getPosition());
     SmartDashboard.putBoolean("Turet Locked", isLocked());
+
+    if(DriverStation.isDisabled()) {
+      m_turretMotor.setIdleMode(IdleMode.kCoast);
+    } else {
+      m_turretMotor.setIdleMode(IdleMode.kBrake);
+    }
   }
 }

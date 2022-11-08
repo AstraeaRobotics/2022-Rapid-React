@@ -4,7 +4,6 @@
 
 package frc.robot.subsystems;
 
-
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
@@ -13,25 +12,12 @@ import frc.robot.Constants;
 import frc.robot.status.Status;
 import frc.robot.status.Status.IntakeStatus;
 
-import edu.wpi.first.networktables.NetworkTableEntry;
-import edu.wpi.first.networktables.NetworkTableInstance;
-
-import edu.wpi.first.wpilibj.I2C;
-import edu.wpi.first.wpilibj.I2C.Port;
-import com.revrobotics.ColorSensorV3;
-
-
 public class IndexerSubsystem extends SubsystemBase {
-  /** Creates a new IndexerSubsystem. */
-  CANSparkMax belt =
-      new CANSparkMax(Constants.RobotMap.kIndexerBelt, MotorType.kBrushless);
-  CANSparkMax transition = new CANSparkMax(
-      Constants.RobotMap.kIndexerTransition, MotorType.kBrushless);
 
-  private ColorSensorV3 onboardSensor;
+  CANSparkMax belt = new CANSparkMax(Constants.RobotMap.kIndexerBelt, MotorType.kBrushless);
+  CANSparkMax transition = new CANSparkMax(Constants.RobotMap.kIndexerTransition, MotorType.kBrushless);
 
   public IndexerSubsystem() {
-    onboardSensor = new ColorSensorV3(Port.kOnboard);
     belt.setInverted(true);
   }
 
@@ -43,56 +29,8 @@ public class IndexerSubsystem extends SubsystemBase {
     transition.set(speed);
   }
 
-  /*
-   * @param sensor upper or lower sensor
-   * 
-   * @param ballNumber 0 for lower ball, 1 for upper ball
-   */
-  private void getDetectedColor(int sensorID, int ballNumber) {
-    double[] colorEntry = NetworkTableInstance.getDefault().getTable("")
-        .getEntry("rawcolor" + sensorID)
-        .getDoubleArray(new double[] {0, 0, 0, 0});
-
-    double red = colorEntry[0]; // Prevent errors with calling entries that don't exist, which there
-                                // are 4
-    double blue = colorEntry[2];
-
-    if (getProximity(sensorID) < Constants.Indexer.kProximityThreshold) {
-      Status.logBallStatus(ballNumber, Status.BallStatus.kEmpty);
-    } else if (red > blue) {
-      Status.logBallStatus(ballNumber, Status.BallStatus.kRed);
-    } else if (red < blue) {
-      Status.logBallStatus(ballNumber, Status.BallStatus.kBlue);
-    } else {
-      Status.logBallStatus(ballNumber, Status.BallStatus.kEmpty);
-    }
-  }
-
-  private void getDetectedColorRio(int ballNumber) {
-    int red = onboardSensor.getRed();
-    int blue = onboardSensor.getBlue();
-    int proximity = onboardSensor.getProximity();
-
-    if (proximity < Constants.Indexer.kProximityThreshold) {
-      Status.logBallStatus(ballNumber, Status.BallStatus.kEmpty);
-    } else if (red > blue) {
-      Status.logBallStatus(ballNumber, Status.BallStatus.kRed);
-    } else if (red < blue) {
-      Status.logBallStatus(ballNumber, Status.BallStatus.kBlue);
-    } else {
-      Status.logBallStatus(ballNumber, Status.BallStatus.kEmpty);
-    }
-  }
-
-  public double getProximity(int sensorID) {
-    return NetworkTableInstance.getDefault().getTable("")
-        .getEntry("proximity" + sensorID).getDouble(0);
-  }
-
   @Override
   public void periodic() {
-    getDetectedColorRio(0);
-    getDetectedColor(1, 1);
     if (Status.getIntakeStatus() == IntakeStatus.kExtended) {
       transition.set(Constants.Indexer.kTransitionSpeed);
     } else {

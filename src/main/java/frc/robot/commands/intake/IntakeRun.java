@@ -17,10 +17,8 @@ public class IntakeRun extends CommandBase {
   public IntakeRun(IntakeSubsystem system) {
     m_IntakeSubsystem = system;
     addRequirements(m_IntakeSubsystem);
-    // Use addRequirements() here to declare subsystem dependencies.
   }
 
-  // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
     if (m_IntakeSubsystem.isExtended()) {
@@ -31,5 +29,10 @@ public class IntakeRun extends CommandBase {
 
       m_IntakeSubsystem.setMotor(0);
     }
+  }
+
+  @Override
+  public void end(boolean interrupted) {
+    m_IntakeSubsystem.setMotor(0);
   }
 }

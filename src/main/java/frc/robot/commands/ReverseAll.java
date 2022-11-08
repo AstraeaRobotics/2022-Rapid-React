@@ -6,7 +6,6 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import frc.robot.commands.indexer.ReverseIndexer;
-import frc.robot.commands.intake.IntakeRun;
 import frc.robot.commands.intake.ReverseIntake;
 import frc.robot.subsystems.IndexerSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
@@ -16,9 +15,10 @@ import frc.robot.subsystems.IntakeSubsystem;
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class ReverseAll extends ParallelCommandGroup {
   /** Creates a new ReverseAll. */
-  public ReverseAll(IntakeSubsystem intakeSubsystem,
-      IndexerSubsystem indexerSubsystem) {
-    addCommands(new ReverseIntake(intakeSubsystem),
-        new ReverseIndexer(indexerSubsystem));
+  public ReverseAll(IntakeSubsystem intakeSubsystem, IndexerSubsystem indexerSubsystem) {
+    addCommands(
+      new ReverseIntake(intakeSubsystem),
+      new ReverseIndexer(indexerSubsystem)
+    );
   }
 }

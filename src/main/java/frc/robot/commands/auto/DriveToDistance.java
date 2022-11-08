@@ -12,22 +12,27 @@ public class DriveToDistance extends CommandBase {
 
   private final DriveSubsystem m_DriveSubsystem;
   private double distanceMeters;
+  private final boolean reverse;
 
-  public DriveToDistance(DriveSubsystem driveSubsystem, double distanceMeters) {
+  public DriveToDistance(DriveSubsystem driveSubsystem, double distanceMeters, boolean reverse) {
     addRequirements(driveSubsystem);
     this.m_DriveSubsystem = driveSubsystem;
     this.distanceMeters = distanceMeters;
+    this.reverse = reverse;
   }
 
   @Override
   public void initialize() {
-
-    distanceMeters += m_DriveSubsystem.getEncoderPosition();
+    m_DriveSubsystem.resetEncoders();
   }
 
   @Override
   public void execute() {
-    m_DriveSubsystem.tankDrive(.6, .6);
+    if(reverse) {
+      m_DriveSubsystem.tankDrive(.6, .6);
+    } else {
+      m_DriveSubsystem.tankDrive(-.6, -.6);
+    }
   }
 
   @Override
@@ -37,6 +42,6 @@ public class DriveToDistance extends CommandBase {
 
   @Override
   public boolean isFinished() {
-    return m_DriveSubsystem.getEncoderPosition() > Math.abs(distanceMeters);
+    return Math.abs(m_DriveSubsystem.getEncoderPosition()) > Math.abs(distanceMeters);
   }
 }

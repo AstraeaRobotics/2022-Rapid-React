@@ -86,7 +86,7 @@ public final class Constants {
         public static final String kClimber = "climber";
     }
     public static final class TurretConstants {
-        public static final double kVisionThreshold = 5;
+        public static final double kVisionThreshold = 2;
 
         public static final double kMaxSpeed = 0.2;
         public static final double kMaxManualSpeed = 0.5;

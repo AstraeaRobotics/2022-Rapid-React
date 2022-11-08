@@ -8,6 +8,8 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj.AddressableLED;
 import edu.wpi.first.wpilibj.AddressableLEDBuffer;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.simulation.AddressableLEDSim;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.LEDConstants;
@@ -23,6 +25,7 @@ public class LEDSubsystem extends SubsystemBase {
 
   private final AddressableLED m_led;
   private final AddressableLEDBuffer m_ledBuffer;
+  private final AddressableLEDSim m_ledSim;
 
   private long m_previousTimeFlash = 0;
 
@@ -30,11 +33,17 @@ public class LEDSubsystem extends SubsystemBase {
   private int currentTrailIndex = 0;
 
   public LEDSubsystem() {
-    m_led = new AddressableLED(LEDConstants.kPwmPort);
-    m_ledBuffer = new AddressableLEDBuffer(LEDConstants.kLength);
+    m_led = new AddressableLED(1);
+    m_ledBuffer = new AddressableLEDBuffer(288);
     m_led.setLength(m_ledBuffer.getLength());
     m_led.setData(m_ledBuffer);
     m_led.start();
+    m_ledSim = new AddressableLEDSim(m_led);
+    Shuffleboard.getTab("Dashboard").addRaw("Addressable Led", this::getLedData).withWidget("Addressable LED");
+  }
+
+  private byte[] getLedData() {
+    return m_ledSim.getData();
   }
 
   public void setIsEnabled(boolean enabled) {
@@ -92,22 +101,19 @@ public class LEDSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
 
-    if (!enabled) {
-      glow(0, 0, 0);
-      m_led.setData(m_ledBuffer);
-      return;
-    }
-
-    if (DriverStation.isDisabled()) {
+    if(!DriverStation.isDSAttached()) {
       rainbow();
-      if (Status.getIntakeStatus() == IntakeStatus.kExtended) {
-        flash(255, 0, 0);
-      } else {
-        flash(0, 0, 255);
+    } else {
+      if(DriverStation.isDisabled()) {
+        glow(255,0,0);
+      } else if (DriverStation.isEnabled()) {
+        flash(0,0,255);
+
+        if(Status.getIntakeStatus() == IntakeStatus.kExtended) {
+          flash(255,0,0);
+        }
       }
-
     }
-
     m_led.setData(m_ledBuffer);
   }
 }

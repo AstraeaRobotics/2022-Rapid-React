@@ -26,6 +26,7 @@ import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
@@ -50,17 +51,12 @@ public class DriveSubsystem extends SubsystemBase {
   private CANSparkMax m_leftMotor2 = new CANSparkMax(RobotMap.kLeftDriveCAN2, MotorType.kBrushless);
   private CANSparkMax m_leftMotor3 = new CANSparkMax(RobotMap.kLeftDriveCAN3, MotorType.kBrushless);
 
-  private CANSparkMax m_rightMotor1 =
-      new CANSparkMax(RobotMap.kRightDriveCAN1, MotorType.kBrushless);
-  private CANSparkMax m_rightMotor2 =
-      new CANSparkMax(RobotMap.kRightDriveCAN2, MotorType.kBrushless);
-  private CANSparkMax m_rightMotor3 =
-      new CANSparkMax(RobotMap.kRightDriveCAN3, MotorType.kBrushless);
+  private CANSparkMax m_rightMotor1 = new CANSparkMax(RobotMap.kRightDriveCAN1, MotorType.kBrushless);
+  private CANSparkMax m_rightMotor2 = new CANSparkMax(RobotMap.kRightDriveCAN2, MotorType.kBrushless);
+  private CANSparkMax m_rightMotor3 = new CANSparkMax(RobotMap.kRightDriveCAN3, MotorType.kBrushless);
 
-  private MotorControllerGroup m_leftMotors =
-      new MotorControllerGroup(m_leftMotor1, m_leftMotor2, m_leftMotor3);
-  private MotorControllerGroup m_rightMotors =
-      new MotorControllerGroup(m_rightMotor1, m_rightMotor2, m_rightMotor3);
+  private MotorControllerGroup m_leftMotors = new MotorControllerGroup(m_leftMotor1, m_leftMotor2, m_leftMotor3);
+  private MotorControllerGroup m_rightMotors = new MotorControllerGroup(m_rightMotor1, m_rightMotor2, m_rightMotor3);
 
   private RelativeEncoder m_leftEncoder1 = m_leftMotor1.getEncoder();
   private RelativeEncoder m_leftEncoder2 = m_leftMotor2.getEncoder();
@@ -242,6 +238,7 @@ public class DriveSubsystem extends SubsystemBase {
             gyro.getRotation2d(), m_leftEncoder1.getPosition(), m_rightEncoder1.getPosition());
     m_field.setRobotPose(m_pose);
     log();
+    setBrake(DriverStation.isEnabled());
   }
 
   @Override
