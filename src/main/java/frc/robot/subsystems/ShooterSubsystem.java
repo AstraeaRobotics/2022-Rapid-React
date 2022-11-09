@@ -9,6 +9,8 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.TalonFXFeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
+
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.RobotMap;
 import frc.robot.Constants.Shooter;
@@ -82,5 +84,7 @@ public class ShooterSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     runMotors();
+    SmartDashboard.putNumber("flywheel", flywheel.getSelectedSensorVelocity());
+    SmartDashboard.putNumber("feeder", feeder.getSelectedSensorVelocity());
   }
 }

@@ -11,6 +11,7 @@ import frc.robot.commands.indexer.ShootIndexer;
 import frc.robot.commands.ReverseAll;
 import frc.robot.commands.auto.TwoBall;
 import frc.robot.commands.climber.RunClimber;
+import frc.robot.commands.drive.AutoAim;
 import frc.robot.commands.drive.SimDrive;
 import frc.robot.commands.intake.IntakeRun;
 import frc.robot.commands.intake.ToggleIntake;
@@ -39,6 +40,7 @@ public class RobotContainer {
         private static final JoystickButton m_l1_button = new JoystickButton(driverGamepad, PS4Controller.Button.kL1.value);
         private static final JoystickButton m_r1_button = new JoystickButton(driverGamepad, PS4Controller.Button.kR1.value);
         private final JoystickButton m_driver_PS_Button = new JoystickButton(driverGamepad, PS4Controller.Button.kPS.value);
+        private final JoystickButton m_driver_Touchpad = new JoystickButton(driverGamepad, PS4Controller.Button.kTouchpad.value);
 
         /* OPERATOR BUTTONS */
         private static final JoystickButton m_operator_r2_button = new JoystickButton(operatorGamepad, PS4Controller.Button.kR2.value);
@@ -70,6 +72,7 @@ public class RobotContainer {
                 m_l1_button.whileHeld(new ManualTurret(m_turretSubsystem, -Constants.TurretConstants.kMaxManualSpeed));
                 m_r1_button.whileHeld(new ManualTurret(m_turretSubsystem, Constants.TurretConstants.kMaxManualSpeed));
                 m_driver_PS_Button.whenPressed(new ToggleTurretLock(m_turretSubsystem));
+                m_driver_Touchpad.whileHeld(new AutoAim(m_driveSubsystem));
 
                 /* OPERATOR CONTROLS */
                 m_operator_l2_button.whileHeld(new RunClimber(m_climberSubsystem, -Constants.Climber.kElevatorSpeed));
