@@ -4,53 +4,45 @@
 
 package frc.robot.commands.drive;
 
+import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.util.Limelight;
 
 public class AutoAim extends CommandBase {
-  /** Creates a new AutoAim. */
 
   DriveSubsystem m_driveSubsystem;
   double y_offset;
-  boolean close;
+  private double kP = .2;
 
-  public AutoAim(DriveSubsystem m_driveSubsystem) {
-
-    this.m_driveSubsystem = m_driveSubsystem;
-
+  public AutoAim(DriveSubsystem drive) {
+    this.m_driveSubsystem = drive;
   }
 
-  // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    close = false;
     y_offset = Limelight.getTy();
   }
 
-  // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
     y_offset = Limelight.getTy();
-
-    if (y_offset > 1) {
-      m_driveSubsystem.tankDrive(0.7, 0.7);
-    } else if (y_offset < -1) {
-      m_driveSubsystem.tankDrive(-0.7, -0.7);
+    double y_adjust = kP * y_offset;
+    y_adjust = MathUtil.clamp(y_adjust, .5, 1);
+    SmartDashboard.putNumber("y_adjust", y_adjust);
+    if(Math.abs(y_offset) > 1) {
+      SmartDashboard.putBoolean("y aligned", false);
+      m_driveSubsystem.tankDrive(Math.signum(y_offset) * y_adjust, Math.signum(y_offset) * y_adjust);
     } else {
-      close = true;
+      SmartDashboard.putBoolean("y aligned", true);
+      m_driveSubsystem.tankDrive(0, 0);
     }
   }
 
-  // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
     m_driveSubsystem.tankDrive(0, 0);
   }
 
-  // Returns true when the command should end.
-  @Override
-  public boolean isFinished() {
-    return close;
-  }
 }

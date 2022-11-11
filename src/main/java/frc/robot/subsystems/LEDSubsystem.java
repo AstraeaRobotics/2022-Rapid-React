@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.LEDConstants;
 import frc.robot.status.Status;
+import frc.robot.status.Status.IndexerStatus;
 import frc.robot.status.Status.IntakeStatus;
 
 public class LEDSubsystem extends SubsystemBase {
@@ -103,17 +104,26 @@ public class LEDSubsystem extends SubsystemBase {
 
     if(!DriverStation.isDSAttached()) {
       rainbow();
+      m_led.setData(m_ledBuffer);
+      return;
     } else {
       if(DriverStation.isDisabled()) {
         glow(255,0,0);
+        m_led.setData(m_ledBuffer);
       } else if (DriverStation.isEnabled()) {
-        flash(0,0,255);
-
+        if(Status.getIndexerStatus() == IndexerStatus.kShooting) {
+          flash(0,255,0);
+          m_led.setData(m_ledBuffer);
+          return;
+        }
         if(Status.getIntakeStatus() == IntakeStatus.kExtended) {
           flash(255,0,0);
+          m_led.setData(m_ledBuffer);
+          return;
         }
+        flash(0,0,255);
+        m_led.setData(m_ledBuffer);
       }
     }
-    m_led.setData(m_ledBuffer);
   }
 }

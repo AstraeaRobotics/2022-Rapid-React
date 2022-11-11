@@ -37,5 +37,6 @@ public class ShootIndexer extends CommandBase {
   public void end(boolean interrupted) {
     m_indexerSubsystem.spinBelt(0.0);
     m_indexerSubsystem.spinTransition(0.0);
+    Status.logIndexerStatus(Status.IndexerStatus.kStopped);
   }
 }

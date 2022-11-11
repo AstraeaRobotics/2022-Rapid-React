@@ -129,8 +129,12 @@ public class DriveSubsystem extends SubsystemBase {
     m_drive = new DifferentialDrive(m_leftMotors, m_rightMotors);
 
     ShuffleboardTab driveTab = Shuffleboard.getTab("Dashboard");
-    driveTab.add("Gyro", gyro).withWidget(BuiltInWidgets.kGyro);
-    driveTab.add("Field View", m_field).withWidget("Field");
+    driveTab.add("Field View", m_field).withWidget("Field").withSize(5, 3).withPosition(0, 0);
+    driveTab.add("Differential Drive", m_drive).withSize(3, 3).withPosition(0, 3);
+    driveTab.add("Gyro", gyro).withWidget(BuiltInWidgets.kGyro).withSize(2, 2).withPosition(3, 4);
+
+    ShuffleboardTab testTab = Shuffleboard.getTab("Testing");
+    testTab.add("Wheel Speeds", this).withSize(3, 2).withPosition(0, 0);
   }
 
   /**

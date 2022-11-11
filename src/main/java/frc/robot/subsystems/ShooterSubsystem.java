@@ -10,6 +10,9 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.TalonFXFeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 
+import edu.wpi.first.util.sendable.SendableBuilder;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.RobotMap;
@@ -49,6 +52,27 @@ public class ShooterSubsystem extends SubsystemBase {
         Shooter.kTimeoutMs);
     flywheel.config_kD(Shooter.kPIDLoopIDx, Shooter.kGains_VelocitkD,
         Shooter.kTimeoutMs);
+
+        ShuffleboardTab dashboard = Shuffleboard.getTab("Dashboard");
+        dashboard.add("Shooter Status", this).withSize(3, 2).withPosition(10, 0);
+        
+  }
+
+  @Override
+  public void initSendable(SendableBuilder builder) {
+    builder.setSmartDashboardType("Shooter State");
+    builder.addStringProperty("Feeder Percentage", this::getFeederOutputPercent, null);
+    builder.addStringProperty("Flywheel Percentage", this::getFlywheelOutputPercent, null);
+    builder.addDoubleProperty("Feeder Velocity", feeder::getSelectedSensorVelocity, null);
+    builder.addDoubleProperty("Flywheel Velocity", flywheel::getSelectedSensorVelocity, null);
+  }
+
+  private String getFeederOutputPercent() {
+    return feeder.getMotorOutputPercent() * 100 + "%";
+  }
+
+  private String getFlywheelOutputPercent() {
+    return flywheel.getMotorOutputPercent() * 100 + "%";
   }
 
   public void stopMotors() {

@@ -7,8 +7,14 @@ package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel;
+
+import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -17,6 +23,7 @@ public class IntakeSubsystem extends SubsystemBase {
   DoubleSolenoid left;
   DoubleSolenoid right;
   CANSparkMax m_motor;
+  NetworkTableEntry m_intakeEntry;
 
   public IntakeSubsystem() {
     left = new DoubleSolenoid(15, PneumaticsModuleType.REVPH, 15, 14); // port numbers are random
@@ -24,11 +31,19 @@ public class IntakeSubsystem extends SubsystemBase {
     left.set(DoubleSolenoid.Value.kReverse); // setting as default
     right.set(DoubleSolenoid.Value.kReverse);
     m_motor = new CANSparkMax(9, CANSparkMaxLowLevel.MotorType.kBrushless);
+    ShuffleboardTab driveTab = Shuffleboard.getTab("Dashboard");
+    m_intakeEntry = driveTab.add("Intake Status", isExtended()).withSize(3, 1).withPosition(10, 2).getEntry();
+    // driveTab.getLayout("Intake Status", BuiltInLayouts.kGrid).withSize(3, 1).withPosition(10, 2).withProperties(Map.of("Label position", "HIDDEN"));
+
+    ShuffleboardTab testTab = Shuffleboard.getTab("Testing");
+    testTab.add("Intake Status", this);
+    testTab.getLayout("Intake Status", BuiltInLayouts.kGrid).withSize(1, 2).withPosition(3, 0);
   }
 
   public void toggleIntake() {
     left.toggle();
     right.toggle();
+    m_intakeEntry.setBoolean(isExtended());
   }
 
   public void setMotor(double speed) {
@@ -39,9 +54,20 @@ public class IntakeSubsystem extends SubsystemBase {
     return right.get() == Value.kForward;
   }
 
+  public boolean isExtendedLeft() {
+    return left.get() == Value.kForward;
+  }
+
   public void periodic() {
     if(!isExtended()) {
       setMotor(0);
     }
+  }
+  
+  @Override
+  public void initSendable(SendableBuilder builder) {
+    builder.setSmartDashboardType("Intake State");
+    builder.addBooleanProperty("Left", this::isExtendedLeft, null);
+    builder.addBooleanProperty("Right", this::isExtended, null);
   }
 }
