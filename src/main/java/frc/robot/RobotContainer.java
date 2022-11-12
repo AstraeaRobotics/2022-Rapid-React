@@ -16,6 +16,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.indexer.ShootIndexer;
 import frc.robot.commands.ReverseAll;
+import frc.robot.commands.auto.OneBall;
 import frc.robot.commands.auto.TwoBall;
 import frc.robot.commands.climber.RunClimber;
 import frc.robot.commands.drive.AutoAim;
@@ -92,7 +93,8 @@ public class RobotContainer {
         }
 
         public Command getAutonomousCommand() {
-                return new TwoBall(m_driveSubsystem, m_turretSubsystem, m_indexerSubsystem, m_intakeSubsystem);
+                // return new TwoBall(m_driveSubsystem, m_turretSubsystem, m_indexerSubsystem, m_intakeSubsystem);
+                return new OneBall(m_turretSubsystem, m_driveSubsystem, m_indexerSubsystem);
         }
 
         public void startCamStream() {

@@ -28,7 +28,8 @@ public class ClimberSubsystem extends SubsystemBase {
     m_limitSwitch = new DigitalInput(1);
     m_encoder = m_climberMotor.getEncoder();
     m_encoder.setPosition(0);
-    setSoftLimits();
+    // setSoftLimits();
+    disableSoftLimits();
     m_climbSpeed = Climber.kElevatorSpeed;
     m_climberMotor.setIdleMode(IdleMode.kBrake);
   }
