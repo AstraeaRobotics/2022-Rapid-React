@@ -17,23 +17,17 @@ import frc.robot.subsystems.IndexerSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.TurretSubsystem;
 
-// NOTE:  Consider using this command inline, rather than writing a subclass.  For more
+// NOTE: Consider using this command inline, rather than writing a subclass. For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class TwoBall extends SequentialCommandGroup {
   /** Creates a new TwoBall. */
-  public TwoBall(DriveSubsystem drive, TurretSubsystem turret, IndexerSubsystem indexer, IntakeSubsystem intake) {
-    addCommands(
-      new ToggleTurretLock(turret),
-      new ToggleIntake(intake), 
-      new ParallelDeadlineGroup(
-        new DriveToDistance(drive, 1, false),
-        new IntakeRun(intake)
-      ),
-      new ToggleIntake(intake),
-      new WaitCommand(2),
-      new TurnToAngle(180, drive),
-      new DriveToDistance(drive, 1, false)
-    );
+  public TwoBall(DriveSubsystem drive, TurretSubsystem turret,
+      IndexerSubsystem indexer, IntakeSubsystem intake) {
+    addCommands(new ToggleTurretLock(turret), new ToggleIntake(intake),
+        new ParallelDeadlineGroup(new DriveToDistance(drive, 1, false),
+            new IntakeRun(intake)),
+        new ToggleIntake(intake), new WaitCommand(2),
+        new TurnToAngle(180, drive), new DriveToDistance(drive, 1, false));
   }
 }

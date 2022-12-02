@@ -17,8 +17,10 @@
       "/LiveWindow/Ungrouped/PIDController[4]": "PIDController",
       "/LiveWindow/Ungrouped/Scheduler": "Scheduler",
       "/LiveWindow/Ungrouped/navX-Sensor[4]": "Gyro",
+      "/Shuffleboard/Dashboard/Differential Drive": "DifferentialDrive",
       "/Shuffleboard/Dashboard/Field View": "Field2d",
       "/Shuffleboard/Dashboard/Gyro": "Gyro",
+      "/Shuffleboard/Testing/Wheel Speeds": "Subsystem",
       "/SmartDashboard/Scheduler": "Scheduler"
     },
     "windows": {

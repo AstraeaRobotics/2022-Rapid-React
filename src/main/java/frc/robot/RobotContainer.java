@@ -18,6 +18,7 @@ import frc.robot.commands.indexer.ShootIndexer;
 import frc.robot.commands.ReverseAll;
 import frc.robot.commands.auto.OneBall;
 import frc.robot.commands.auto.TwoBall;
+import frc.robot.commands.auto.ThreeBall;
 import frc.robot.commands.climber.RunClimber;
 import frc.robot.commands.drive.AutoAim;
 import frc.robot.commands.drive.SimDrive;
@@ -94,18 +95,19 @@ public class RobotContainer {
 
         public Command getAutonomousCommand() {
                 // return new TwoBall(m_driveSubsystem, m_turretSubsystem, m_indexerSubsystem, m_intakeSubsystem);
-                return new OneBall(m_turretSubsystem, m_driveSubsystem, m_indexerSubsystem);
+                // return new OneBall(m_turretSubsystem, m_driveSubsystem, m_indexerSubsystem);
+                return new ThreeBall(m_driveSubsystem);
         }
 
         public void startCamStream() {
                 ShuffleboardTab dash = Shuffleboard.getTab("Dashboard");
             
-                CameraServer.startAutomaticCapture();
-                dash.add("Camera", CameraServer.getServer().getSource()).withWidget(BuiltInWidgets.kCameraStream)
-                            .withSize(5, 3).withPosition(5, 3).withProperties(Map.of("Show Crosshair", false, "Show Controls", false));
-                HttpCamera limelight = new HttpCamera("limelight", "http://limelight.local:5801/stream.mjpg");
-                dash.add("Limelight", limelight).withWidget(BuiltInWidgets.kCameraStream)
-                            .withSize(5, 3).withPosition(5, 0).withProperties(Map.of("Show Crosshair", true, "Show Controls", false));
+                // CameraServer.startAutomaticCapture();
+                // dash.add("Camera", CameraServer.getServer().getSource()).withWidget(BuiltInWidgets.kCameraStream)
+                //             .withSize(5, 3).withPosition(5, 3).withProperties(Map.of("Show Crosshair", false, "Show Controls", false));
+                // HttpCamera limelight = new HttpCamera("limelight", "http://limelight.local:5801/stream.mjpg");
+                // dash.add("Limelight", limelight).withWidget(BuiltInWidgets.kCameraStream)
+                //             .withSize(5, 3).withPosition(5, 0).withProperties(Map.of("Show Crosshair", true, "Show Controls", false));
               }
 
 }

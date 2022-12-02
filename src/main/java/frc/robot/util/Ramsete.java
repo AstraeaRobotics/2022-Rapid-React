@@ -1,11 +1,8 @@
 /********************************************************************************
-*                                                                               *
-*   Copyright (c) Astraea Robotics, FIRST, and other WPILib contributors        *
-*                                                                               *
-*   Open Source Software; you can modify and/or share it under the terms of     *
-*   the license file in the root directory of this project.                     *
-*                                                                               *
-********************************************************************************/
+ * * Copyright (c) Astraea Robotics, FIRST, and other WPILib contributors * * Open Source Software;
+ * you can modify and/or share it under the terms of * the license file in the root directory of
+ * this project. * *
+ ********************************************************************************/
 package frc.robot.util;
 
 import edu.wpi.first.math.controller.RamseteController;
@@ -15,18 +12,13 @@ import frc.robot.subsystems.DriveSubsystem;
 
 public class Ramsete {
 
-  public static RamseteCommand createRamseteCommand(
-      Trajectory trajectory, DriveSubsystem driveSubsystem, boolean setPose) {
-    return new RamseteCommand(
-        trajectory,
-        driveSubsystem::getPose,
-        new RamseteController(2, 0.7),
-        driveSubsystem.getFeedforward(),
-        driveSubsystem.getKinematics(),
-        driveSubsystem::getSpeeds,
+  public static RamseteCommand createRamseteCommand(Trajectory trajectory,
+      DriveSubsystem driveSubsystem) {
+    return new RamseteCommand(trajectory, driveSubsystem::getPose,
+        new RamseteController(2, 0.7), driveSubsystem.getFeedforward(),
+        driveSubsystem.getKinematics(), driveSubsystem::getSpeeds,
         driveSubsystem.getLeftPIDController(),
-        driveSubsystem.getRightPIDController(),
-        driveSubsystem::setOutput,
+        driveSubsystem.getRightPIDController(), driveSubsystem::setOutput,
         driveSubsystem);
   }
 }
