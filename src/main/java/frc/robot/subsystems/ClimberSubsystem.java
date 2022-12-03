@@ -67,4 +67,8 @@ public class ClimberSubsystem extends SubsystemBase {
   public void stop() {
     setSpeed(0);
   }
+
+  public double getDistance() {
+    return m_encoder.getPosition();
+  }
 }

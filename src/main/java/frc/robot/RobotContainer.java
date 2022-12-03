@@ -19,6 +19,7 @@ import frc.robot.commands.ReverseAll;
 import frc.robot.commands.auto.OneBall;
 import frc.robot.commands.auto.TwoBall;
 import frc.robot.commands.climber.RunClimber;
+import frc.robot.commands.climber.Precision;
 import frc.robot.commands.drive.AutoAim;
 import frc.robot.commands.drive.SimDrive;
 import frc.robot.commands.intake.IntakeRun;
@@ -84,8 +85,9 @@ public class RobotContainer {
                 m_driver_Touchpad.whileHeld(new AutoAim(m_driveSubsystem));
 
                 /* OPERATOR CONTROLS */
-                m_operator_l2_button.whileHeld(new RunClimber(m_climberSubsystem, -Constants.Climber.kElevatorSpeed));
-                m_operator_r2_button.whileHeld(new RunClimber(m_climberSubsystem, Constants.Climber.kElevatorSpeed));
+                // m_operator_l2_button.whileHeld(new RunClimber(m_climberSubsystem, -Constants.Climber.kElevatorSpeed));
+                // m_operator_r2_button.whileHeld(new RunClimber(m_climberSubsystem, Constants.Climber.kElevatorSpeed));
+                m_operator_r2_button.whileHeld(new Precision(m_climberSubsystem, 0.5));
                 m_operator_squareButton.whenPressed(new ToggleIntake(m_intakeSubsystem));
                 m_operator_circle_button.whileHeld(new ReverseAll(m_intakeSubsystem, m_indexerSubsystem));
                 m_operator_triangle_button.whileHeld(new RecalibrateTurret(m_turretSubsystem));
